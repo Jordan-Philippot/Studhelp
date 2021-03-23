@@ -1,0 +1,285 @@
+.register {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    .illustration-block {
+        background: linear-gradient(137deg, $purple, $white);
+        height: 100vh;
+        .illustration-login {
+            margin-top: 45vh; /* poussé de la moitié de hauteur de viewport */
+            transform: translateY(-50%); /* tiré de la moitié de sa propre hauteur */
+            width: 35vw;
+        }
+        .logo {
+            position: relative;
+            top: 5%;
+            left: 5%;
+            text-decoration: none;
+            img {
+                width: 130px;
+                height: 100%;
+            }
+            span {
+                color: $white;
+                font-family: "Filson Pro Bold", sans-serif;
+                font-size: 30px;
+                margin-top: 10px;
+            }
+        }
+    }
+    .login-block {
+        margin-top: 50vh;
+        transform: translateY(-50%);
+        h3 {
+            font-size: 32px;
+            font-weight: 600;
+            color: $white;
+            font-family: "Filson Pro", sans-serif;
+        }
+        p {
+            font-family: "Open Sans", sans-serif;
+            font-size: 14px;
+            color: $white;
+        }
+        label {
+            font-family: "Filson Pro", sans-serif;
+            font-size: 14px;
+            color: $white;
+            margin-top: 10px;
+            margin-bottom: 8px;
+        }
+        input {
+            background: #83868c1a;
+            border-radius: 4px;
+            height: 40px;
+            border: none;
+            width: 100%;
+            font-family: "Filson Pro", sans-serif;
+            font-weight: bold;
+            padding-left: 15px;
+            font-size: 16px;
+            color: $white;
+            &:focus,
+            &:active {
+                box-shadow: 0 0 2px $darkblue;
+                outline: none !important;
+            }
+        }
+        #student,
+        #association {
+            width: 15px;
+            margin-left: 10px;
+            margin-right: 50px;
+            &:checked {
+                color: blue;
+                background-color: blue;
+            }
+        }
+        .login-btn {
+            font-family: "Filson Pro", sans-serif;
+            border: none;
+            font-size: 16px;
+            border-radius: 8px;
+            height: 52px;
+            color: $white;
+            background-color: $blue;
+            width: 100%;
+            margin-top: 30px;
+            &:hover,
+            &:focus {
+                background-color: #467aff;
+                text-decoration: none;
+                color: $white;
+            }
+        }
+        a {
+            margin-top: 35px;
+            display: block;
+            font-family: "Open Sans", sans-serif;
+            color: $white;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            padding-bottom: 5px;
+            font-weight: bold;
+            &:hover {
+                text-decoration: underline;
+                text-underline-offset: 5px;
+            }
+        }
+        .overflow-scroll {
+            overflow: scroll;
+        }
+        .btn-danger {
+            margin-top: 0;
+            margin-left: 30px;
+            height: 50px;
+            width: 150px;
+        }
+
+        // Show or hide Password
+        .showPassword {
+            margin-left: -35px;
+            margin-top: 12px;
+            color: $lightgrey;
+        }
+
+        .googleLogin {
+            width: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@media screen and (max-width: 1599.98px) {
+    .register {
+        .login-block {
+            h3 {
+                margin-top: 70px;
+                font-size: 28px;
+            }
+            p {
+                font-size: 12px;
+            }
+            label {
+                font-size: 12px;
+            }
+        }
+    }
+}
+@media screen and (max-width: 1465px) {
+    .register {
+        .login-block {
+            .switch {
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1199.98px) {
+    .register {
+        .login-block {
+            h3 {
+                margin-top: 70px;
+                font-size: 26px;
+            }
+            p {
+                font-size: 10px;
+            }
+            label {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    .register {
+        height: auto;
+        overflow: unset;
+        overflow-x: hidden;
+
+        .illustration-block {
+            height: 40vh;
+            .illustration-login {
+                margin-top: 0; /* poussé de la moitié de hauteur de viewport */
+                transform: unset; /* tiré de la moitié de sa propre hauteur */
+                width: auto;
+                height: 36vh;
+                // transform: scaleX(-1);
+            }
+            .logo {
+                left: 55%;
+            }
+        }
+        .login-block {
+            margin-top: 8vh;
+            transform: unset;
+            h3 {
+                font-size: 28px;
+            }
+            .login-btn {
+                height: 45px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 991.98px) and (max-height: 450px) {
+    .register {
+        .illustration-block {
+            height: 50vh;
+            .illustration-login {
+                width: 30vw;
+                height: auto;
+            }
+
+            .logo {
+                top: 8%;
+                left: 45%;
+                flex-direction: row-reverse;
+                width: 50%;
+                img {
+                    width: 60px;
+                    height: 100%;
+                    transform: scaleX(-1);
+                }
+                span {
+                    font-size: 20px;
+                    margin-top: auto;
+                    font-weight: bold;
+                    margin-right: 10px;
+                }
+            }
+        }
+        .agreeText {
+            label,
+            a {
+                font-size: 10px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+    .register {
+        .illustration-block {
+            .illustration-login {
+                margin-top: 10vh;
+                height: 50vw;
+                width: auto;
+            }
+            .logo {
+                top: 8%;
+                left: 40%;
+                flex-direction: row-reverse;
+                width: 50%;
+                img {
+                    width: 60px;
+                    height: 100%;
+                    transform: scaleX(-1);
+                }
+                span {
+                    font-size: 20px;
+                    margin-top: auto;
+                    font-weight: bold;
+                    margin-right: 10px;
+                }
+            }
+        }
+        .login-block {
+            h3 {
+                font-size: 24px;
+            }
+            .agreeText {
+                label,
+                a {
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+}

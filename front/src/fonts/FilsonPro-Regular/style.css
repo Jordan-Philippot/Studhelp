@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Filson Pro';
+    src: local('Filson Pro Regular'), local('Filson-Pro-Regular'),
+        url('FilsonPro-Regular.woff2') format('woff2'),
+        url('FilsonPro-Regular.woff') format('woff'),
+        url('FilsonPro-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }

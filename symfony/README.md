@@ -41,6 +41,8 @@
 
 
 
+## Google Auth Client
+#### composer require google/apiclient:"^2.7"
 
 
 

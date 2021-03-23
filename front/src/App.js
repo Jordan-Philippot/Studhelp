@@ -1,25 +1,78 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-function App() {
+// All stylesheets
+import './styles/App.scss';
+// Axios 
+import { checkUser } from './services/user'
+// Gsap
+import gsap, { CSSPlugin } from 'gsap';
+// Sections
+import Header from "./components/sections/Header";
+import Footer from "./components/sections/Footer";
+// Home
+import Home from "./components/home/Home.js";
+// Registration
+import Login from "./components/registration/Login";
+import Register from "./components/registration/Register";
+
+
+// User 
+import Profile from "./components/user/profile/Profile";
+
+export default function App() {
+  const [location, setLocation] = useState('')
+  const [token, setToken] = useState([])
+
+  gsap.registerPlugin(CSSPlugin);
+
+  // check if user is already logged
+  useEffect(() => {
+    checkUser(setToken);
+  }, []);
+
+  // Listener url pathname and Check token 
+  useEffect(() => {
+    setLocation(window.location.pathname)
+  }, [location]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Router>
+
+        <Header token={token} />
+
+        <Switch>
+
+          {/* Home */}
+          <Route exact path="/">
+            <Home token={token} />
+          </Route>
+
+          {/* Login */}
+          <Route exact path="/login">
+            < Login token={token} />
+          </Route>
+
+          {/* Register */}
+          <Route exact path="/register">
+            <Register token={token} />
+          </Route>
+
+
+          {/* User */}
+          <Route exact path="/profile">
+            <Profile token={token} />
+          </Route>
+
+        </Switch>
+
+        {/* We show footer if url pathname not Registration page */}
+        {!location.match(/login/) && !location.match(/register/) &&
+          <Footer token={token} />
+        }
+
+      </Router>
+    </div >
   );
 }
-
-export default App;

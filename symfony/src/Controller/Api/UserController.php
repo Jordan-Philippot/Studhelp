@@ -20,33 +20,41 @@ class UserController extends AbstractController
     public function user()
     {
         $user = $this->getUser();
+
         return new JsonResponse(['user' => $user->getEmail()]);
     }
 
-      /**
+    /**
      * @Route("api/register", name="api_register_user")
      */
     public function register(Request $request, UserPasswordEncoderInterface $encoder, UserRepository $userRepository)
     {
         $errors = [];
 
-        // GET data
+        // get data
         $data = json_decode($request->getContent(), true);
-
-        $email = $data['email'];
-        $password = $data['password'];
         $firstname = $data['firstname'];
         $lastname = $data['lastname'];
-        $city = $data['city'];
-        $school = $data['school'];
+        $password = $data['password'];
+        $email = $data['email'];
+        // $city = $data['city'];
+        // $phone = $data['phone'];
+        // $school = $data['school'];
+        // $age = $data['age'];
         $type = $data['type'];
-        $phone = $data['phone'];
-        $age = $data['age'];
+        $agree = $data['agree'];
 
+
+
+        foreach ($data as $key => $value) {
+            if (empty($value) || !$value) {
+                $errors[$key] = 'Veuillez remplir ce champs';
+            }
+        }
         // Agree terms
-        // if (!$data['agree'] || empty($data['agree'] || $data['agree'] != true)) {
-        //     $errors['agree'] = "Veuillez indiquer que vous avez lu et accepté les conditions générales";
-        // }
+        if (!$agree || empty($agree) || $agree != true) {
+            $errors['agree'] = "Veuillez remplir ce champss";
+        }
 
         // Check double email
         $checkEmail = $userRepository->findOneBy(
@@ -57,14 +65,118 @@ class UserController extends AbstractController
         // Create new User and check data
         $user = new User();
 
-        if (empty($password) || !$password) {
-            $errors['password'] = "Veuillez renseigner un mot de passe";
+        if ($checkEmail) {
+            $errors['email'] = "Email déjà existant";
+        } elseif (!empty($lastname) && !preg_match('/^[\w\-.]+@([\w-]+\.)+[\w-]{2,6}$/', $email)) {
+            $errors['email'] = "Veuillez renseigner un Email valide";
+        }
+
+        // if (!empty($firstname) && !preg_match('/^[A-Za-z]+[ \-\']?[[A-Za-z]+[ \-\']?]*[A-Za-z]+$/', $firstname)) {
+        //     $errors['firstname'] = "Veuillez renseigner un prénom valide";
+        // }
+
+        // if (!empty($lastname) && !preg_match('/^[A-Za-z]+[ \-\']?[[A-Za-z]+[ \-\']?]*[A-Za-z]+$/', $lastname)) {
+        //     $errors['lastname'] = "Veuillez renseigner un nom valide";
+        // }
+
+        // if (!is_numeric($phone)) {
+        //     $errors['phone'] = "Veuillez renseigner uniquement des chiffres";
+        // }
+
+        $user->setRoles(["ROLE_USER"]);
+
+        // If errors array is empty, set Informations & insert new User || or return errors
+        if (empty($errors)) {
+            $user->setPassword($encoder->encodePassword($user, $password));
+            $user->setEmail(htmlspecialchars($email));
+            $user->setType(htmlspecialchars($type));
+            // $user->setFirstname(htmlspecialchars($firstname));
+            // $user->setLastname(htmlspecialchars($lastname));
+            // $user->setCity($city);
+            // $user->setSchool($school);
+            // $user->setPhone($phone);
+            // $user->setAge($age);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->json([
+                'User' => $user->getEmail()
+            ]);
         } else {
+            return $this->json([
+                'errors' => $errors
+            ]);
+        }
+    }
+
+
+    /**
+     * @Route("api/auth/profile", name="api_auth_profile")
+     */
+    public function getProfile()
+    {
+        $user = $this->getUser();
+        // List informations about Profile User
+        $profile = [
+            'firstname' => $user->getFirstname(),
+            'lastname' => $user->getLastname(),
+            'email' => $user->getEmail(),
+            'age' => $user->getAge(),
+            'school' => $user->getSchool(),
+            'city' => $user->getCity(),
+            'type' => $user->getType(),
+            'phone' => $user->getPhone()
+        ];
+
+        return new JsonResponse(['profile' => $profile]);
+    }
+
+    /**
+     * @Route("api/auth/setprofile", name="api_auth_set_profile")
+     */
+    public function setProfile(Request $request, UserPasswordEncoderInterface $encoder,  UserRepository $userRepository)
+    {
+        $errors = [];
+
+        // GET data
+        $data = json_decode($request->getContent(), true);
+
+        $email = $data['email'];
+        $password = $data['password'];
+        $firstname = $data['firstname'];
+        $lastname = $data['lastname'];
+        $type = $data['type'];
+        $phone = $data['phone'];
+        $age = $data['age'];
+        $school = $data['school'];
+
+
+        // Check double email
+        $checkEmail = $userRepository->findOneBy(
+            array('email' => $email),
+            array('id' => 'DESC')
+        );
+
+        if ($checkEmail) {
+            $thismail = $checkEmail->getEmail();
+        } else {
+            $changeEmail = true;
+        }
+
+        // Retrieve User
+        $user = $this->getUser();
+
+        if (strlen($password) > 0 && strlen($password) < 5) {
+            $errors['password'] = "Votre nouveau mot de passe doit comporter au moins 5 caractère";
+        } elseif (!empty($password) && $password) {
             $user->setPassword($encoder->encodePassword($user, $password));
         }
 
-        if ($checkEmail) {
-            $errors['email'] = "Email déjà existant";
+        if (isset($thismail)) {
+            if ($thismail !== $user->getEmail()) {
+                $errors['email'] = "Email déjà existant";
+            }
         } elseif (!preg_match('/^[\w\-.]+@([\w-]+\.)+[\w-]{2,6}$/', $email)) {
             $errors['email'] = "Veuillez renseigner un Email valide";
         } elseif (empty($email) || !$email) {
@@ -73,7 +185,7 @@ class UserController extends AbstractController
             $user->setEmail(htmlspecialchars($email));
         }
 
-        if (!preg_match('/^[A-Za-z]+[ \-\']?[[A-Za-z]+[ \-\']?]*[A-Za-z]+$/', $firstname)) {
+        if (!is_string($firstname)) {
             $errors['firstname'] = "Veuillez renseigner un prénom valide";
         } elseif (empty($firstname) || !$firstname) {
             $errors['firstname'] = "Veuillez renseigner votre Prénom";
@@ -81,7 +193,7 @@ class UserController extends AbstractController
             $user->setFirstname(htmlspecialchars($firstname));
         }
 
-        if (!preg_match('/^[A-Za-z]+[ \-\']?[[A-Za-z]+[ \-\']?]*[A-Za-z]+$/', $lastname)) {
+        if (!is_string($lastname)) {
             $errors['lastname'] = "Veuillez renseigner un nom valide";
         } elseif (empty($lastname) || !$lastname) {
             $errors['lastname'] = "Veuillez renseigner votre Nom";
@@ -89,46 +201,53 @@ class UserController extends AbstractController
             $user->setLastname(htmlspecialchars($lastname));
         }
 
-        if (empty($city) || !$city) {
-            $errors['city'] = "Veuillez renseigner votre ville";
+        if (!is_string($type)) {
+            $errors['type'] = "Veuillez renseigner un type valide";
+        } elseif (empty($type) || !$type) {
+            $errors['type'] = "Veuillez renseigner votre type";
         } else {
-            $user->setCity($city);
+            $user->setType(htmlspecialchars($type));
         }
 
-        if (empty($school) || !$school) {
-            $errors['school'] = "Veuillez renseigner votre établissement scolaire ou le nom de votre association";
+        if (!is_string($school)) {
+            $errors['school'] = "Veuillez renseigner une organisation valide";
+        } elseif (empty($school) || !$school) {
+            $errors['school'] = "Veuillez renseigner votre organisation";
         } else {
-            $user->setSchool($school);
+            $user->setSchool(htmlspecialchars($school));
         }
 
-        if (empty($type) || !$type) {
-            $errors['type'] = "Veuillez préciser si vous êtes étudiant ou une association";
+        if (!is_numeric($phone)) {
+            $errors['phone'] = "Veuillez renseigner un numéro valide";
+        } elseif (empty($phone) || !$phone) {
+            $errors['phone'] = "Veuillez renseigner votre numéro";
         } else {
-            $user->setType($type);
+            $user->setPhone(htmlspecialchars($school));
         }
 
-        if (empty($phone) || !$phone) {
-            $errors['phone'] = "Veuillez renseigner votre N° de téléphone";
+        if (!is_numeric($age)) {
+            $errors['age'] = "Veuillez renseigner un age valide";
+        } elseif (empty($age) || !$age) {
+            $errors['age'] = "Veuillez renseigner votre age";
         } else {
-            $user->setPhone($phone);
+            $user->setAge(htmlspecialchars($age));
         }
 
-        if (empty($age) || !$age) {
-            $errors['age'] = "Veuillez renseigner votre âge";
-        } else {
-            $user->setAge($age);
-        }
-
-        $user->setRoles(["ROLE_USER"]);
-        // If errors array is empty, insert new User
-        // or return errors
+        // If errors array is empty, insert new User ||  or return errors
         if (empty($errors)) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            return $this->json([
-                'User' => $user->getEmail()
-            ]);
+            if (isset($changeEmail) && $changeEmail) {
+                return $this->json([
+                    'profile' => 'success',
+                    'email' => 'change'
+                ]);
+            } else {
+                return $this->json([
+                    'profile' => 'success'
+                ]);
+            }
         } else {
             return $this->json([
                 'errors' => $errors

@@ -74,4 +74,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 # Installed Package
 
-### npm i react-router-dom gsap sass --save 
+### npm i react-router-dom gsap sass axios react-responsive react-burger-menu --save
+
+## Google login 
+### npm i react-google-login
+
+### Text Loop animation
+#### npm install react-text-loop

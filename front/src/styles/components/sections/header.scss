@@ -1,0 +1,152 @@
+.header {
+    /* Position of burger button */
+    .bm-burger-button {
+        position: fixed;
+        width: 40px;
+        height: 15px;
+        top: 6%;
+        left: 6%;
+    }
+    /* Bars button */
+    .bm-burger-bars {
+        background: $blue;
+        border-radius: 5px;
+    }
+    /* Menu on display */
+    .bm-menu {
+        background: rgba(19, 20, 23, 255);
+        padding: 0 0 0 0;
+        font-size: 1.15em;
+        height: 100vh;
+        overflow: scroll;
+        background-color: #010101;
+        box-shadow: 0 0 30px 1px rgba(255, 255, 255, 0.3);
+    }
+    /* One item */
+    .menu-item {
+        padding: 25px 0 50px 15%;
+        text-decoration: none;
+        color: $white;
+        height: 30px;
+        font-size: 16px;
+        font-family: "Filson Pro", sans-serif;
+        text-align: left;
+        display: flex;
+        svg {
+            width: 24px;
+            height: auto;
+            fill: white;
+            margin-right: 20px;
+            margin-top: -4px;
+        }
+
+        .logo-mini {
+            width: 80px;
+            height: auto;
+            margin-right: 10px;
+        }
+        &:hover {
+            background-color: #0084ff;
+            b,
+            svg {
+                color: $white;
+                fill: $white;
+            }
+        }
+        // Title & logo
+        &:nth-child(1) {
+            padding-bottom: unset;
+            text-align: left;
+            font-size: 24px;
+            color: $white;
+            font-family: "Filson Pro Bold", sans-serif;
+
+            img {
+                margin-top: -12px;
+            }
+            &:hover {
+                background-color: unset;
+                b {
+                    color: $white;
+                }
+            }
+        }
+        &:not(:nth-child(1)) {
+            padding: 25px 0 50px 18%;
+        }
+        &:nth-child(2) {
+            margin-top: 15vh;
+        }
+    }
+    // Espace perso
+    .clientArea-title {
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-family: "Filson Pro Bold", sans-serif;
+        margin-top: 25px;
+        text-decoration: underline;
+        text-decoration-color: $blue;
+        text-underline-offset: 7px;
+        text-decoration-thickness: 2px;
+        margin-bottom: 10px;
+        &:hover {
+            background-color: unset;
+            cursor: pointer;
+        }
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 991.98px) and (max-height: 450px) {
+    .header {
+        /* Position of burger button */
+        .bm-burger-button {
+            top: 10%;
+            left: 8%;
+        }
+        /* One item */
+        .menu-item {
+            font-size: 14px;
+
+            svg {
+                width: 22px;
+            }
+
+            .logo-mini {
+                width: 60px;
+            }
+
+            &:nth-child(1) {
+                font-size: 18px;
+                color: $white;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+    .header {
+        /* Position of burger button */
+        .bm-burger-button {
+            top: 6%;
+            left: 10%;
+        }
+        /* One item */
+        .menu-item {
+            font-size: 14px;
+
+            svg {
+                width: 22px;
+            }
+
+            .logo-mini {
+                width: 60px;
+            }
+
+            &:nth-child(1) {
+                font-size: 18px;
+                color: $white;
+            }
+        }
+    }
+}

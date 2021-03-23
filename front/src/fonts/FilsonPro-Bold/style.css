@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Filson Pro';
+    src: local('Filson Pro Bold'), local('Filson-Pro-Bold'),
+        url('FilsonPro-Bold.woff2') format('woff2'),
+        url('FilsonPro-Bold.woff') format('woff'),
+        url('FilsonPro-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
