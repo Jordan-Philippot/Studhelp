@@ -22,15 +22,15 @@
 }
 
 // Popup notif
-.success-popup,
-.success-popupBilling {
+.successLogin-popup,
+.successRegister-popup {
     display: none;
     position: fixed;
     top: 0;
     left: 20vw;
     z-index: 1000;
     width: 60vw;
-    background-color: #7d65f7;
+    background-color: #0e0e52;
     font-family: "Filson Pro Bold", sans-serif;
     padding: 20px 0;
     font-size: 16px;
@@ -54,7 +54,8 @@
     }
 }
 
-$btn: "yellow" #e6aa05 , "blue" #118df3 , "purple" #6247e9, "darkblue" #28518a;
+// Buttons
+$btn: "yellow" #e6aa05, "blue" #118df3, "purple" #6247e9, "darkblue" #28518a;
 
 @each $name, $color in $btn {
     .btn-#{$name}Full {
@@ -63,7 +64,7 @@ $btn: "yellow" #e6aa05 , "blue" #118df3 , "purple" #6247e9, "darkblue" #28518a;
         font-size: 16px;
         padding: 10px 40px;
         border: 1px solid transparent;
-
+        border-radius: 4px;
         &:hover {
             background-color: transparent;
             color: #{$color};
@@ -77,6 +78,8 @@ $btn: "yellow" #e6aa05 , "blue" #118df3 , "purple" #6247e9, "darkblue" #28518a;
         font-size: 16px;
         padding: 10px 40px;
         font-family: "Filson Pro Bold", sans-serif;
+        border-radius: 4px;
+
         &:hover {
             background-color: #{$color};
             color: white;
@@ -86,8 +89,25 @@ $btn: "yellow" #e6aa05 , "blue" #118df3 , "purple" #6247e9, "darkblue" #28518a;
     .text-#{$name} {
         color: #{$color};
         font-family: "Filson Pro Bold", sans-serif;
-        &:hover{
+        &:hover {
             color: #{$color};
+        }
+    }
+}
+
+li {
+    list-style-type: none;
+    text-align: left;
+
+    a {
+        text-decoration: none;
+        color: $white;
+        font-family: "Filson Pro Bold", sans-serif;
+        font-size: 14px;
+        text-align: left;
+        &:hover {
+            text-decoration: underline;
+            color: white;
         }
     }
 }

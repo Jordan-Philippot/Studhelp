@@ -3,7 +3,7 @@
     height: 100vh;
     overflow: hidden;
     .illustration-block {
-        background: linear-gradient(137deg, $purple, $white);
+        background: linear-gradient(137deg, $blue, $white);
         height: 100vh;
         .illustration-login {
             margin-top: 45vh; /* poussé de la moitié de hauteur de viewport */
@@ -41,30 +41,7 @@
             font-size: 14px;
             color: $white;
         }
-        label {
-            font-family: "Filson Pro", sans-serif;
-            font-size: 14px;
-            color: $white;
-            margin-top: 10px;
-            margin-bottom: 8px;
-        }
-        input {
-            background: #83868c1a;
-            border-radius: 4px;
-            height: 40px;
-            border: none;
-            width: 100%;
-            font-family: "Filson Pro", sans-serif;
-            font-weight: bold;
-            padding-left: 15px;
-            font-size: 16px;
-            color: $white;
-            &:focus,
-            &:active {
-                box-shadow: 0 0 2px $darkblue;
-                outline: none !important;
-            }
-        }
+        
         #student,
         #association {
             width: 15px;
@@ -117,17 +94,17 @@
             width: 150px;
         }
 
-        // Show or hide Password
-        .showPassword {
-            margin-left: -35px;
-            margin-top: 12px;
-            color: $lightgrey;
-        }
+      
 
         .googleLogin {
             width: auto;
             margin-top: 10px;
             margin-bottom: 20px;
+        }
+        .linkRegistration{
+            margin-left: auto;
+            margin-right: auto;
+            width: 100px;
         }
     }
 }

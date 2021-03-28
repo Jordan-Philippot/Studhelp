@@ -458,6 +458,9 @@
     "symfony/proxy-manager-bridge": {
         "version": "v5.2.3"
     },
+    "symfony/psr-http-message-bridge": {
+        "version": "v2.1.0"
+    },
     "symfony/routing": {
         "version": "5.1",
         "recipe": {

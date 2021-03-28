@@ -52,7 +52,7 @@ export default function Register(props) {
     useEffect(() => {
         if (loginResponse.token) {
             localStorage.setItem('studhelp', loginResponse.token)
-            window.location.href = '/?register=success'
+            window.location.href = '/?registration=register'
         }
     }, [loginResponse])
 
@@ -79,7 +79,7 @@ export default function Register(props) {
         console.log(successGoogle.data)
         if (successGoogle.data) {
             localStorage.setItem('studhelp', successGoogle.data.token)
-            window.location.href = '/?register=success'
+            window.location.href = '/?registration=success'
         }
     }, [successGoogle])
     
@@ -154,7 +154,7 @@ export default function Register(props) {
                         <button className="login-btn" onClick={handleRegister}>Créer un compte</button>
                     </div>
 
-                    <a href="/login">Se connecter</a>
+                    <a className="linkRegistration"  href="/login">Se connecter</a>
 
                     <GoogleLogin
                         clientId="534386804784-eqjhmmep5fmm96hovnn5kp8h6e2g5f6f.apps.googleusercontent.com"
@@ -174,7 +174,7 @@ export default function Register(props) {
                         <span>Studhelp</span>
                     </a>
                     {/* Illustration */}
-                    <img className="illustration-login" src={HelpYou} alt="Men under wave" />
+                    <img className="illustration-login" src={HelpYou} alt="Student in meditation" />
                 </div>
             </div>
 

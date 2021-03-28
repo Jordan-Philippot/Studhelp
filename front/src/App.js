@@ -15,6 +15,8 @@ import Home from "./components/home/Home.js";
 // Registration
 import Login from "./components/registration/Login";
 import Register from "./components/registration/Register";
+// Events
+import Events from "./components/events/Events";
 
 
 // User 
@@ -63,6 +65,10 @@ export default function App() {
           {/* User */}
           <Route exact path="/profile">
             <Profile token={token} />
+          </Route>
+
+          <Route exact path="/events">
+            <Events token={token} />
           </Route>
 
         </Switch>

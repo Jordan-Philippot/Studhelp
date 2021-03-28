@@ -63,7 +63,7 @@ export default function Login(props) {
         console.log(successGoogle.data)
         if (successGoogle.data) {
             localStorage.setItem('studhelp', successGoogle.data.token)
-            window.location.href = '/?register=success'
+            window.location.href = '/?registration=login'
         }
     }, [successGoogle])
 

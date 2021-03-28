@@ -1,0 +1,35 @@
+// Forms
+label {
+    font-family: "Filson Pro", sans-serif;
+    font-size: 14px;
+    color: $white;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+input {
+    background: #83868c23;
+    border-radius: 4px;
+    height: 40px;
+    border: none;
+    width: 100%;
+    font-family: "Filson Pro", sans-serif;
+    font-weight: bold;
+    padding-left: 15px;
+    font-size: 16px;
+    color: white;
+    &:focus,
+    &:active {
+        box-shadow: 0 0 2px $darkblue;
+        outline: none !important;
+    }
+    &::placeholder {
+        color: rgb(255, 255, 255);
+    }
+}
+
+// Show or hide Password
+.showPassword {
+    margin-left: -35px;
+    margin-top: 12px;
+    color: $lightgrey;
+}

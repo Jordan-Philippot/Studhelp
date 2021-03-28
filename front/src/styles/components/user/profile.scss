@@ -1,0 +1,72 @@
+.profile {
+    width: 100vw;
+    height: auto;
+    // background-color: #fafcff;
+    padding-top: 10vh;
+    overflow-x: hidden;
+
+    .profileForm {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 10;
+        padding-top: 50px;
+    }
+    h1 {
+        font-family: "Filson Pro Bold", sans-serif;
+        font-size: 32px;
+        color: white;
+        margin-bottom: 30px;
+    }
+    .catch-phrase {
+        font-family: "Open Sans", sans-serif;
+        color: #cfcfcf;
+        font-size: 18px;
+    }
+
+    .illustration {
+        // display: none;
+        width: 40vw;
+        position: absolute;
+        top: 20%;
+        right: 10%;
+        z-index: 100;
+        // background: rgba(255, 255, 255, 0.2);
+        // box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        // filter: blur(2px);
+        border-radius: 10px;
+        // border: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 10;
+        img {
+            width: 100%;
+        }
+    }
+
+
+    .exclamationPoint {
+        stroke: $white;
+        width: 22px;
+        height: 22px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 5px;
+    }
+
+    button {
+        width: 100%;
+    }
+    label {
+        text-align: left;
+        margin-top: 15px;
+    }
+    .type {
+        input {
+            width: 15px;
+            margin-left: 15px;
+            margin-right: 45px;
+        }
+    }
+}

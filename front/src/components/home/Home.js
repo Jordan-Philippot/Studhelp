@@ -7,6 +7,7 @@ import TextLoop from "react-text-loop";
 
 import { TimelineMax } from 'gsap';
 import PopupRegister from '../popup/SuccessRegister'
+import PopupLogin from '../popup/SuccessLogin'
 
 // import IllustrationHome from '../../images/Home/vector-creator.png'
 export default function Home(props) {
@@ -18,27 +19,33 @@ export default function Home(props) {
     let query = useQuery();
     // const history = useHistory();
 
-    const [successSubscrib, setSuccessSubscrib] = useState(query.get("register") ? query.get("register") : null)
+    const [successSubscrib, setSuccessSubscrib] = useState(query.get("registration") ? query.get("registration") : null)
     const [load, setLoad] = useState(false)
 
     useEffect(() => {
         if (!load) {
             setLoad(true)
             let tl = new TimelineMax();
-            tl.fromTo('.home', 3, { background: "linear-gradient(135deg, #010101 85%,  #6247e9)" }, { background: "linear-gradient(135deg, #010101 60%, #6247e9)" });
+            // tl.fromTo('.home', 3, { background: "linear-gradient(135deg, #010101 85%,  #6247e9)" }, { background: "linear-gradient(135deg, #010101 60%, #6247e9)" });
         }
     }, [load])
 
     useEffect(() => {
-        if (successSubscrib === "success") {
+        if (successSubscrib === "register") {
             const tl = new TimelineMax();
-            tl.fromTo('.success-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
-            tl.to('.success-popup', 2, { top: '-500', display: 'none', delay: 5 });
+            tl.fromTo('.successRegister-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
+            tl.to('.successRegister-popup', 2, { top: '-500', display: 'none', delay: 5 });
+            // history.push('/')
+            setSuccessSubscrib(null);
+        } else if (successSubscrib === "login") {
+            const tl = new TimelineMax();
+            tl.fromTo('.successLogin-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
+            tl.to('.successLogin-popup', 2, { top: '-500', display: 'none', delay: 5 });
             // history.push('/')
             setSuccessSubscrib(null);
         } else {
             const tl = new TimelineMax();
-            tl.set('.success-popup', { top: '-500', display: 'none' });
+            tl.set('.successLogin-popup, .successRegister-popup', { top: '-500', display: 'none' });
         }
         // eslint-disable-next-line
     }, []);
@@ -50,24 +57,25 @@ export default function Home(props) {
             <div className="row justify-content-center">
 
                 <div className="col-xl-5 presentation-block">
-
-                    <h1>Créer par et pour les étudiants, nous souhaitons soutenir leur quotidien:
+                    <div className="z-100">
+                        <h1>Créer par et pour les étudiants, nous souhaitons soutenir leur quotidien:
                         <TextLoop>
-                            <span>Divertissement</span>
-                            <span>Action associative</span>
-                            <span>Soutien scolaire</span>
-                            <span>Échange entre étudiants</span>
-                            <span>Ce dont tu as besoin</span>
-                            <span>Soutien psychologique</span>
-                        </TextLoop>{" "}</h1>
-                    <p>
-                        Trouve les évènements près de chez toi en fonction de tes besoins, ou créer le!
+                                <span>Divertissement</span>
+                                <span>Action associative</span>
+                                <span>Soutien scolaire</span>
+                                <span>Échange entre étudiants</span>
+                                <span>Ce dont tu as besoin</span>
+                                <span>Soutien psychologique</span>
+                            </TextLoop>{" "}</h1>
+                        <p>
+                            Trouve les évènements près de chez toi en fonction de tes besoins, ou créer le!
                         <br></br>
                         Nous travaillons également avec les associations! <br></br>Pour plus d'informations, tu peux contacter notre équipe <b>ici</b>.
                     </p>
 
 
-                    <button className="btn btn-yellowOut">Découvrir les évènements</button>
+                        <button className="btn btn-yellowOut">Découvrir les évènements</button>
+                    </div>
 
                 </div>
 
@@ -76,7 +84,17 @@ export default function Home(props) {
                 </div>
             </div>
 
+            <div className="drops">
+                <div className="drop drop-1"></div>
+                <div className="drop drop-2"></div>
+                <div className="drop drop-3"></div>
+                <div className="drop drop-4"></div>
+                <div className="drop drop-5"></div>
+            </div>
+            
+            
             <PopupRegister />
+            <PopupLogin />
         </div>
     )
 }

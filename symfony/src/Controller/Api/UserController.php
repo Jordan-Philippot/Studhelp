@@ -25,93 +25,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("api/register", name="api_register_user")
-     */
-    public function register(Request $request, UserPasswordEncoderInterface $encoder, UserRepository $userRepository)
-    {
-        $errors = [];
-
-        // get data
-        $data = json_decode($request->getContent(), true);
-        $firstname = $data['firstname'];
-        $lastname = $data['lastname'];
-        $password = $data['password'];
-        $email = $data['email'];
-        // $city = $data['city'];
-        // $phone = $data['phone'];
-        // $school = $data['school'];
-        // $age = $data['age'];
-        $type = $data['type'];
-        $agree = $data['agree'];
-
-
-
-        foreach ($data as $key => $value) {
-            if (empty($value) || !$value) {
-                $errors[$key] = 'Veuillez remplir ce champs';
-            }
-        }
-        // Agree terms
-        if (!$agree || empty($agree) || $agree != true) {
-            $errors['agree'] = "Veuillez remplir ce champss";
-        }
-
-        // Check double email
-        $checkEmail = $userRepository->findOneBy(
-            array('email' => $email),
-            array('id' => 'DESC')
-        );
-
-        // Create new User and check data
-        $user = new User();
-
-        if ($checkEmail) {
-            $errors['email'] = "Email déjà existant";
-        } elseif (!empty($lastname) && !preg_match('/^[\w\-.]+@([\w-]+\.)+[\w-]{2,6}$/', $email)) {
-            $errors['email'] = "Veuillez renseigner un Email valide";
-        }
-
-        // if (!empty($firstname) && !preg_match('/^[A-Za-z]+[ \-\']?[[A-Za-z]+[ \-\']?]*[A-Za-z]+$/', $firstname)) {
-        //     $errors['firstname'] = "Veuillez renseigner un prénom valide";
-        // }
-
-        // if (!empty($lastname) && !preg_match('/^[A-Za-z]+[ \-\']?[[A-Za-z]+[ \-\']?]*[A-Za-z]+$/', $lastname)) {
-        //     $errors['lastname'] = "Veuillez renseigner un nom valide";
-        // }
-
-        // if (!is_numeric($phone)) {
-        //     $errors['phone'] = "Veuillez renseigner uniquement des chiffres";
-        // }
-
-        $user->setRoles(["ROLE_USER"]);
-
-        // If errors array is empty, set Informations & insert new User || or return errors
-        if (empty($errors)) {
-            $user->setPassword($encoder->encodePassword($user, $password));
-            $user->setEmail(htmlspecialchars($email));
-            $user->setType(htmlspecialchars($type));
-            // $user->setFirstname(htmlspecialchars($firstname));
-            // $user->setLastname(htmlspecialchars($lastname));
-            // $user->setCity($city);
-            // $user->setSchool($school);
-            // $user->setPhone($phone);
-            // $user->setAge($age);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-            return $this->json([
-                'User' => $user->getEmail()
-            ]);
-        } else {
-            return $this->json([
-                'errors' => $errors
-            ]);
-        }
-    }
-
-
-    /**
      * @Route("api/auth/profile", name="api_auth_profile")
      */
     public function getProfile()
@@ -177,7 +90,7 @@ class UserController extends AbstractController
             if ($thismail !== $user->getEmail()) {
                 $errors['email'] = "Email déjà existant";
             }
-        } elseif (!preg_match('/^[\w\-.]+@([\w-]+\.)+[\w-]{2,6}$/', $email)) {
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = "Veuillez renseigner un Email valide";
         } elseif (empty($email) || !$email) {
             $errors['email'] = "Veuillez renseigner un Email";
@@ -222,7 +135,7 @@ class UserController extends AbstractController
         } elseif (empty($phone) || !$phone) {
             $errors['phone'] = "Veuillez renseigner votre numéro";
         } else {
-            $user->setPhone(htmlspecialchars($school));
+            $user->setPhone(htmlspecialchars($phone));
         }
 
         if (!is_numeric($age)) {
