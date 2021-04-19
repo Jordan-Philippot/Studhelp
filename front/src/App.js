@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // All stylesheets
 import './styles/App.scss';
@@ -17,6 +18,8 @@ import Login from "./components/registration/Login";
 import Register from "./components/registration/Register";
 // Events
 import Events from "./components/events/Events";
+// Associations
+import Associations from "./components/associations/Associations";
 
 
 // User 
@@ -45,36 +48,50 @@ export default function App() {
         <Header token={token} />
 
         <Switch>
+          <HelmetProvider>
 
-          {/* Home */}
-          <Route exact path="/">
-            <Home token={token} />
-          </Route>
+            {/* Home */}
+            <Route exact path="/">
+              <Helmet title="Stud'help | Accueil" />
+              <Home token={token} />
+            </Route>
 
-          {/* Login */}
-          <Route exact path="/login">
-            < Login token={token} />
-          </Route>
+            {/* Login */}
+            <Route exact path="/connexion">
+              <Helmet title="Stud'help | Connexion" />
+              <Login token={token} />
+            </Route>
 
-          {/* Register */}
-          <Route exact path="/register">
-            <Register token={token} />
-          </Route>
+            {/* Register */}
+            <Route exact path="/inscription">
+              <Helmet title="Stud'help | Inscription" />
+              <Register token={token} />
+            </Route>
 
 
-          {/* User */}
-          <Route exact path="/profile">
-            <Profile token={token} />
-          </Route>
+            {/* User */}
+            <Route exact path="/profil">
+              <Helmet title="Stud'help | Profil" />
+              <Profile token={token} />
+            </Route>
 
-          <Route exact path="/events">
-            <Events token={token} />
-          </Route>
+            {/* Events */}
+            <Route exact path="/evenements">
+              <Helmet title="Stud'help | Évènements" />
+              <Events token={token} />
+            </Route>
 
+            {/* Associations */}
+            <Route exact path="/associations">
+              <Helmet title="Stud'help | Associations" />
+              <Associations token={token} />
+            </Route>
+
+          </HelmetProvider>
         </Switch>
 
         {/* We show footer if url pathname not Registration page */}
-        {!location.match(/login/) && !location.match(/register/) &&
+        {!location.match(/connexion/) && !location.match(/inscription/) &&
           <Footer token={token} />
         }
 

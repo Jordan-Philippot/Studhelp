@@ -154,7 +154,7 @@ export default function Register(props) {
                         <button className="login-btn" onClick={handleRegister}>Créer un compte</button>
                     </div>
 
-                    <a className="linkRegistration"  href="/login">Se connecter</a>
+                    <a className="linkRegistration"  href="/connexion">Se connecter</a>
 
                     <GoogleLogin
                         clientId="534386804784-eqjhmmep5fmm96hovnn5kp8h6e2g5f6f.apps.googleusercontent.com"

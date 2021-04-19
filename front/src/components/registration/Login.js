@@ -113,7 +113,7 @@ export default function Login(props) {
                     </div>
 
 
-                    <a className="" href="/register">S'inscrire</a>
+                    <a className="" href="/inscription">S'inscrire</a>
 
                     <GoogleLogin
                         clientId="534386804784-eqjhmmep5fmm96hovnn5kp8h6e2g5f6f.apps.googleusercontent.com"

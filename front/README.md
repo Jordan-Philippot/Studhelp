@@ -83,8 +83,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 #### npm install react-text-loop
 
 ## Change head with react helmet
-#### npm i react-helmet
+#### npm i react-helmet-async
 
 
 ## npm i react-geocode -> manque compte de factu actif
 npm i @react-google-maps/api
+
+
+## npm i --save react-select

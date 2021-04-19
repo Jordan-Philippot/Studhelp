@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import IllustrationHome from '../../images/vector-creator7.png'
 // import Illustration from '../../images/tel7.png'
 
@@ -11,6 +11,7 @@ import PopupLogin from '../popup/SuccessLogin'
 
 // import IllustrationHome from '../../images/Home/vector-creator.png'
 export default function Home(props) {
+    const history = useHistory()
 
     // Get params 
     function useQuery() {
@@ -32,16 +33,16 @@ export default function Home(props) {
 
     useEffect(() => {
         if (successSubscrib === "register") {
+            history.push('/')
             const tl = new TimelineMax();
             tl.fromTo('.successRegister-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
             tl.to('.successRegister-popup', 2, { top: '-500', display: 'none', delay: 5 });
-            // history.push('/')
             setSuccessSubscrib(null);
         } else if (successSubscrib === "login") {
+            history.push('/')
             const tl = new TimelineMax();
             tl.fromTo('.successLogin-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
             tl.to('.successLogin-popup', 2, { top: '-500', display: 'none', delay: 5 });
-            // history.push('/')
             setSuccessSubscrib(null);
         } else {
             const tl = new TimelineMax();
@@ -50,38 +51,43 @@ export default function Home(props) {
         // eslint-disable-next-line
     }, []);
 
+
+
+
     return (
         <div className="home">
             {/* <img className="illustration" src={Illustration} alt="Students happy illustration" /> */}
 
             <div className="row justify-content-center">
 
-                <div className="col-xl-5 presentation-block">
+                <div className=" col-xl-5 presentation-block">
                     <div className="z-100">
                         <h1>Créer par et pour les étudiants, nous souhaitons soutenir leur quotidien:
-                        <TextLoop>
+                            <br></br>
+                            <TextLoop>
                                 <span>Divertissement</span>
                                 <span>Action associative</span>
                                 <span>Soutien scolaire</span>
                                 <span>Échange entre étudiants</span>
                                 <span>Ce dont tu as besoin</span>
                                 <span>Soutien psychologique</span>
-                            </TextLoop>{" "}</h1>
+                            </TextLoop>{" "}
+                        </h1>
                         <p>
                             Trouve les évènements près de chez toi en fonction de tes besoins, ou créer le!
-                        <br></br>
-                        Nous travaillons également avec les associations! <br></br>Pour plus d'informations, tu peux contacter notre équipe <b>ici</b>.
-                    </p>
+                            <br></br>Nous travaillons également avec les associations!
+                            <br></br>Pour plus d'informations, tu peux contacter notre équipe <b>ici</b>.
+                        </p>
 
-
-                        <button className="btn btn-yellowOut">Découvrir les évènements</button>
+                        <button className="btn btn-yellowOut" onClick={() => history.push('/evenements')}>Découvrir les évènements</button>
                     </div>
-
                 </div>
+
 
                 <div className="col-xl-5">
                     <img className="illustrationHome" src={IllustrationHome} alt="Students happy illustration" />
                 </div>
+
             </div>
 
             <div className="drops">
@@ -91,8 +97,8 @@ export default function Home(props) {
                 <div className="drop drop-4"></div>
                 <div className="drop drop-5"></div>
             </div>
-            
-            
+
+
             <PopupRegister />
             <PopupLogin />
         </div>
