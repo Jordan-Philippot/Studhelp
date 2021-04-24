@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useHistory } from "react-router-dom";
-import IllustrationHome from '../../images/vector-creator7.png'
-// import Illustration from '../../images/tel7.png'
 
 import TextLoop from "react-text-loop";
-
 import { TimelineMax } from 'gsap';
+
 import PopupRegister from '../popup/SuccessRegister'
 import PopupLogin from '../popup/SuccessLogin'
+import HowItWorks from './HowItWorks'
+import Title from '../Title'
 
-// import IllustrationHome from '../../images/Home/vector-creator.png'
+import IllustrationHome from '../../images/Home/support_solid.png'
+
+
 export default function Home(props) {
     const history = useHistory()
 
@@ -35,13 +37,13 @@ export default function Home(props) {
         if (successSubscrib === "register") {
             history.push('/')
             const tl = new TimelineMax();
-            tl.fromTo('.successRegister-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
+            tl.fromTo('.successRegister-popup', 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
             tl.to('.successRegister-popup', 2, { top: '-500', display: 'none', delay: 5 });
             setSuccessSubscrib(null);
         } else if (successSubscrib === "login") {
             history.push('/')
             const tl = new TimelineMax();
-            tl.fromTo('.successLogin-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
+            tl.fromTo('.successLogin-popup', 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
             tl.to('.successLogin-popup', 2, { top: '-500', display: 'none', delay: 5 });
             setSuccessSubscrib(null);
         } else {
@@ -55,14 +57,18 @@ export default function Home(props) {
 
 
     return (
-        <div className="home">
-            {/* <img className="illustration" src={Illustration} alt="Students happy illustration" /> */}
+        <div className="home container-fluid">
 
-            <div className="row justify-content-center">
+            <div className="homepage">
 
-                <div className=" col-xl-5 presentation-block">
-                    <div className="z-100">
-                        <h1>Créer par et pour les étudiants, nous souhaitons soutenir leur quotidien:
+                <Title title={"Stud'help"} />
+
+
+                <div className="row justify-content-center">
+                    {/* Catch phrase & Cta */}
+                    <div className="col-10 col-sm-10 col-md-9 col-lg-8 col-xl-6 flex-direction-column presentation-block">
+
+                        <h2>Créer par et pour les étudiants, nous souhaitons soutenir leur quotidien:
                             <br></br>
                             <TextLoop>
                                 <span>Divertissement</span>
@@ -72,31 +78,26 @@ export default function Home(props) {
                                 <span>Ce dont tu as besoin</span>
                                 <span>Soutien psychologique</span>
                             </TextLoop>{" "}
-                        </h1>
-                        <p>
+                        </h2>
+
+                        <h3>
                             Trouve les évènements près de chez toi en fonction de tes besoins, ou créer le!
                             <br></br>Nous travaillons également avec les associations!
                             <br></br>Pour plus d'informations, tu peux contacter notre équipe <b>ici</b>.
-                        </p>
+                        </h3>
 
-                        <button className="btn btn-yellowOut" onClick={() => history.push('/evenements')}>Découvrir les évènements</button>
+                        <button className="btn btn-orangeOut" onClick={() => history.push('/evenements')}>Découvrir les évènements</button>
+
                     </div>
-                </div>
+                    {/* End catch phrase */}
 
-
-                <div className="col-xl-5">
-                    <img className="illustrationHome" src={IllustrationHome} alt="Students happy illustration" />
+                    <img src={IllustrationHome} alt="work wave" className="illustration-home col-10 col-sm-8 col-md-9 col-lg-5 col-xl-5" />
                 </div>
 
             </div>
+            <HowItWorks />
 
-            <div className="drops">
-                <div className="drop drop-1"></div>
-                <div className="drop drop-2"></div>
-                <div className="drop drop-3"></div>
-                <div className="drop drop-4"></div>
-                <div className="drop drop-5"></div>
-            </div>
+
 
 
             <PopupRegister />

@@ -1,95 +1,124 @@
 .home {
-    height: 100vh;
-    width: 100vw;
-    // background-image: url('../../../images/vector-creator7.png');
-    // background-size: 100%;
-    .illustrationHome {
-        width: 35vw;
-        height: auto;
-        margin-top: 27vh;
-        position: relative;
-        display: block;
-        // display: none;
-    }
-    .presentation-block {
-        margin-top: 50vh;
-        transform: translateY(-50%);
-        text-align: left;
-        h1 {
-            font-family: "Filson Pro Bold", cursive;
-            font-size: 42px;
-            span {
-                color: $yellow;
-                font-weight: bold;
+    color: white;
+    position: relative;
+    .homepage {
+        color: white;
+        height: 100vh;
+        .presentation-block {
+            margin-top: auto;
+            font-family: "Filson Pro", sans-serif;
+            h2 {
+                font-family: "Filson Pro Bold", sans-serif;
+                font-size: 40px;
+                color: $white;
+                text-align: left;
+                span {
+                    color: $orange;
+                    font-weight: bold;
+                }
+            }
+            h3 {
+                color: $white;
+                font-size: 16px;
+                margin-top: 30px;
+                text-align: left;
+
+                b {
+                    color: $orange;
+                    cursor: pointer;
+                    font-family: "Filson Pro Bold", sans-serif;
+                }
+            }
+            button {
+                display: block;
+                margin-right: auto;
+                margin-top: 35px;
             }
         }
-        p {
-            font-family: "Filson Pro";
-            padding-right: 100px;
-            font-size: 16px;
-            margin-top: 20px;
-            b {
-                color: $yellow;
-                cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 1199.98px) {
+    .home {
+        .homepage {
+            h1 {
+                font-size: 32px;
+                font-family: "Filson Pro Bold", sans-serif;
+                margin-bottom: 5vh;
+            }
+            .presentation-block {
+                h2 {
+                    font-size: 36px;
+                }
+                h3 {
+                    font-size: 16px;
+                }
+                button {
+                    background-color: $orange;
+                    color: white;
+                }
             }
         }
+    }
+}
 
-        button {
-            margin-top: 25px;
-            margin-right: 20px;
+@media screen and (max-width: 991.98px) {
+    .home {
+        .homepage {
+            h1 {
+                font-size: 30px;
+                margin-bottom: 10vh;
+            }
+            .presentation-block {
+                h2 {
+                    font-size: 28px;
+                }
+                h3 {
+                    font-size: 14px;
+                }
+            }
+            .illustration-home {
+                margin-top: 5vh;
+            }
         }
     }
-
-    .drop {
-        position: absolute;
-        transition: all 0.2s ease;
-        filter: blur(250px);
-        border-radius: 50%;
-        z-index: -1;
-
-        &-1 {
-            height: 120px;
-            width: 120px;
-            top: -10px;
-            right: -20px;
-            background-color: rgba(0, 217, 255, 1);
+}
+@media screen and (min-width: 576px) and (max-width: 991.98px) and (max-height: 450px) {
+    .home {
+        .homepage {
+            height: auto;
+            h1 {
+                font-size: 20px;
+            }
+            .logo {
+                width: 100px;
+            }
+            .presentation-block {
+                h2 {
+                    font-size: 20px;
+                }
+            }
+          
         }
-
-        // &-2 {
-        //     height: 20vw;
-        //     width: 20vw;
-        //     bottom: 27vh;
-        //     right: 33vw;
-        //     background-color: rgba(0, 217, 255, 0.8);
-        // }
-
-        // &-3 {
-        //     height: 30vw;
-        //     width: 30vw;
-        //     top: 20vh;
-        //     right: 10vw;
-        //     background-color: rgba(0, 217, 255, 0.8);
-        // }
-
-        // &-4 {
-        //     height: 220px;
-        //     width: 220px;
-        //     bottom: 50px;
-        //     right: 50px;
-        //     background-color: rgba(0, 204, 255, 0.5);
-
-        //     &:hover {
-        //         transform: translate(5px, -5px);
-        //     }
-        // }
-
-        &-5 {
-            height: 60px;
-            width: 60px;
-            bottom: 170px;
-            left: 90px;
+    }
+}
+@media screen and (max-width: 575.98px) {
+    .home {
+        .homepage {
+            .logo {
+                width: 100px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            .presentation-block {
+                h2 {
+                    font-size: 20px;
+                }
+                h3 {
+                    font-size: 13px;
+                }
+            }
         }
-
-      
     }
 }

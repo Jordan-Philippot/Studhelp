@@ -37,12 +37,12 @@ class AssociationRepository extends ServiceEntityRepository
     */
 
 
-    public function findOneBySomeField($value): ?Association
+    public function findBySearch($value)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.titre LIKE :searchTerm OR a.titre_court LIKE :searchTerm OR a.adresse_siege LIKE :searchTerm OR a.description LIKE :searchTerm')
-            ->setParameter('searchTerm', $value)
+            ->andWhere('a.titre LIKE :searchTerm OR a.adresse_siege LIKE :searchTerm OR a.description LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $value . '%')
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
     }
 }

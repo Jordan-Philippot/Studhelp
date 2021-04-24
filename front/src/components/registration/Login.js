@@ -30,7 +30,7 @@ export default function Login(props) {
     useEffect(() => {
         if (response.token) {
             localStorage.setItem('studhelp', response.token)
-            window.location.href = '/'
+            window.location.href = '/?registration=login'
         }
     }, [response])
 

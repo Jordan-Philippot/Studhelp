@@ -1,0 +1,43 @@
+// Popup notif
+.successLogin-popup,
+.successRegister-popup {
+    display: none;
+    position: fixed;
+    top: 30vh;
+    left: 30vw;
+    z-index: 1000;
+    width: 40vw;
+    background-color: #ff7700e5;
+    font-family: "Filson Pro Bold", sans-serif;
+    font-size: 22px;
+    color: white;
+    
+    border-radius: 8px;
+    flex-direction: row;
+    padding: 10vh 0;
+    // svg {
+    //     margin-right: 15px;
+    //     margin-top: auto;
+    //     margin-bottom: auto;
+    //     path {
+    //         fill: white;
+    //     }
+    // }
+    p {
+        display: block;
+        margin: auto;
+        width: auto;
+        
+    }
+}
+
+
+@media screen and (max-width: 767.98px) {
+    // If success, we show popup "Connection success"
+    .success-popup,
+    .success-popupBilling {
+        left: 0;
+        width: 103vw;
+        padding: 20px;
+    }
+}

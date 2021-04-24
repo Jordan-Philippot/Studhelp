@@ -1,9 +1,10 @@
 .register {
+    position: relative;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
     .illustration-block {
-        background: linear-gradient(137deg, $blue, $white);
+        background: linear-gradient(45deg, #00d5ff 25%, #1da5ff);
         height: 100vh;
         .illustration-login {
             margin-top: 45vh; /* poussé de la moitié de hauteur de viewport */
@@ -41,7 +42,7 @@
             font-size: 14px;
             color: $white;
         }
-        
+
         #student,
         #association {
             width: 15px;
@@ -69,6 +70,10 @@
                 color: $white;
             }
         }
+        button {
+            margin-top: 25px;
+            width: 100%;
+        }
         a {
             margin-top: 35px;
             display: block;
@@ -94,14 +99,12 @@
             width: 150px;
         }
 
-      
-
         .googleLogin {
             width: auto;
             margin-top: 10px;
             margin-bottom: 20px;
         }
-        .linkRegistration{
+        .linkRegistration {
             margin-left: auto;
             margin-right: auto;
             width: 100px;
@@ -174,6 +177,7 @@
         }
         .login-block {
             margin-top: 8vh;
+            margin-bottom: 8vh;
             transform: unset;
             h3 {
                 font-size: 28px;
@@ -212,10 +216,14 @@
                 }
             }
         }
-        .agreeText {
-            label,
-            a {
-                font-size: 10px;
+        .login-block {
+            margin-bottom: 10vh;
+
+            .agreeText {
+                label,
+                a {
+                    font-size: 10px;
+                }
             }
         }
     }
@@ -248,6 +256,7 @@
             }
         }
         .login-block {
+            margin-bottom: 10vh;
             h3 {
                 font-size: 24px;
             }

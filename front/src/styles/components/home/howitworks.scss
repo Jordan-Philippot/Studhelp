@@ -1,0 +1,119 @@
+.howItWorks {
+    h3 {
+        font-family: "Filson Pro", sans-serif;
+        font-size: 50px;
+        margin: 0 auto 15vh auto;
+    }
+    .explain-block {
+        margin-top: 15vh;
+        align-items: center;
+        &:last-child{
+            margin-bottom: 25vh;
+        }
+        .explain-picture {
+            width: 100%;
+            height: 100%;
+        }
+        .explain-text {
+            h4 {
+                text-align: left;
+                font-family: "Filson Pro", sans-serif;
+                color: white;
+                font-size: 28px;
+                font-weight: bold;
+                text-align: left;
+            }
+            .describe-explain {
+                text-align: left;
+                font-size: 16px;
+                font-family: "Open Sans", sans-serif;
+                color: $white;
+            }
+            .text-blue {
+                font-family: "Filson Pro", sans-serif;
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .howItWorks {
+        .explain-block {
+            .explain-text {
+                h4 {
+                    font-size: 24px;
+                    padding-right: unset;
+                }
+                .describe-explain {
+                    font-size: 14px;
+                    padding-right: unset;
+                }
+                .text-blue {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1199.98px) {
+    .howItWorks {
+        .explain-block {
+            .explain-text {
+                h4 {
+                    font-size: 22px;
+                }
+                .describe-explain {
+                    font-size: 12px;
+                }
+                .text-blue {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    .howItWorks {
+        h3 {
+            font-size: 36px;
+            margin: 0 auto 10vh auto;
+        }
+        .explain-block {
+            margin-top: 7vh;
+            align-items: unset;
+            .explain-text {
+                margin-top: 4vh;
+                h4 {
+                    font-size: 22px;
+                }
+                .describe-explain {
+                    font-size: 12px;
+                }
+                .text-blue {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+    .howItWorks {
+        h3 {
+            font-size: 26px;
+        }
+        .explain-block {
+            margin-top: 8vh;
+
+            .explain-text {
+                padding-top: 50px;
+                h4 {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}

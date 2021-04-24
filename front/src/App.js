@@ -6,8 +6,6 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './styles/App.scss';
 // Axios 
 import { checkUser } from './services/user'
-// Gsap
-import gsap, { CSSPlugin } from 'gsap';
 // Sections
 import Header from "./components/sections/Header";
 import Footer from "./components/sections/Footer";
@@ -18,6 +16,9 @@ import Login from "./components/registration/Login";
 import Register from "./components/registration/Register";
 // Events
 import Events from "./components/events/Events";
+import OneEvent from "./components/events/OneEvent";
+import MyEvents from "./components/events/MyEvents";
+
 // Associations
 import Associations from "./components/associations/Associations";
 
@@ -28,8 +29,6 @@ import Profile from "./components/user/profile/Profile";
 export default function App() {
   const [location, setLocation] = useState('')
   const [token, setToken] = useState([])
-
-  gsap.registerPlugin(CSSPlugin);
 
   // check if user is already logged
   useEffect(() => {
@@ -43,7 +42,15 @@ export default function App() {
 
   return (
     <div className="App">
+
       <Router>
+        <div>
+          <div className="drop drop-1"></div>
+          <div className="drop drop-2"></div>
+          <div className="drop drop-3"></div>
+          <div className="drop drop-4"></div>
+          <div className="drop drop-5"></div>
+        </div>
 
         <Header token={token} />
 
@@ -81,6 +88,16 @@ export default function App() {
               <Events token={token} />
             </Route>
 
+            <Route exact path="/evenement/:id">
+              <Helmet title="Stud'help | Évènement" />
+              <OneEvent token={token} />
+            </Route>
+
+            <Route exact path="/mes_evenements">
+              <Helmet title="Stud'help | Mes évènements" />
+              <MyEvents token={token} />
+            </Route>
+
             {/* Associations */}
             <Route exact path="/associations">
               <Helmet title="Stud'help | Associations" />
@@ -91,9 +108,9 @@ export default function App() {
         </Switch>
 
         {/* We show footer if url pathname not Registration page */}
-        {!location.match(/connexion/) && !location.match(/inscription/) &&
+        {/* {!location.match(/connexion/) && !location.match(/inscription/) && */}
           <Footer token={token} />
-        }
+        {/* } */}
 
       </Router>
     </div >

@@ -16,7 +16,7 @@ use Symfony\Component\HttpClient\HttpClient;
 class AssociationController extends AbstractController
 {
     /**
-     * @Route("/api/getassociations", name="api_get_association")
+     * @Route("/api/associations", name="api_get_association")
      */
     public function getAssociations(Request $request, AssociationRepository $associationRepository)
     {
@@ -24,15 +24,23 @@ class AssociationController extends AbstractController
         $latitude = floatval($data['lat']);
         $longitude = floatval($data['lng']);
         $perimeter = intval($data['perimeter']);
+        $searchBar = $data['searchBar'];
 
         $nearMe = [];
-        $allAssociations = $associationRepository->findAll();
+
+        if ($searchBar !== '' && strlen($searchBar) > 0) {
+            $allAssociations = $associationRepository->findBySearch($searchBar);
+            dump($allAssociations);
+        } else {
+            $allAssociations = $associationRepository->findAll();
+        }
 
         $latitudeFrom = $latitude;
         $longitudeFrom = $longitude;
 
         // We check distance between user and each association ( search is in front)
         foreach ($allAssociations as $assoc) {
+
             $latitudeTo = $assoc->getLatitude();
             $longitudeTo = $assoc->getLongitude();
 
@@ -55,11 +63,34 @@ class AssociationController extends AbstractController
             }
         }
 
-
         return new JsonResponse([
             'nearMe' => $nearMe,
         ]);
     }
+
+
+
+    /**
+     * @Route("/api/association/{id}", name="api_post_events")
+     */
+    public function getAssociation(AssociationRepository $associationRepository, $id)
+    {
+        $errors = [];
+        $associationEntity = $associationRepository->findOneBy(['id' => $id]);
+
+        if ($associationEntity == null) {
+            $association = null;
+        } else {
+            $association = [
+                "title" => $associationEntity->getTitre()
+            ];
+        }
+
+        return $this->json([
+            'success' => $association
+        ]);
+    }
+
 
 
     /**
@@ -120,62 +151,39 @@ class AssociationController extends AbstractController
             // Insert all Associations
             $dateCreation = new DateTime($key['date_creation']);
             $dateDerniereDeclaration = new DateTime($key['date_derniere_declaration']);
-            $dateDeclarationDissolution = new DateTime($key['date_declaration_dissolution']);
 
-            $dateCreation->format('Y-m-d H:i:s');
-            $dateDerniereDeclaration->format('Y-m-d H:i:s');
-            $dateDeclarationDissolution->format('Y-m-d H:i:s');
+            if ($key['date_declaration_dissolution'] == null) {
+                $dateCreation->format('Y-m-d H:i:s');
+                $dateDerniereDeclaration->format('Y-m-d H:i:s');
 
-            $newAssociation = new Association();
-            $newAssociation->setIdAssociation($key['id_association']);
-            $newAssociation->setSiret($key['siret']);
-            $newAssociation->setDateCreation($dateCreation);
-            $newAssociation->setDateDerniereDeclaration($dateDerniereDeclaration);
-            $newAssociation->setDateDeclarationDissolution($dateDeclarationDissolution);
-            $newAssociation->setTitre($key['titre']);
-            $newAssociation->setTitreCourt($key['titre_court']);
-            $newAssociation->setDescription($key['objet']);
-            $newAssociation->setAdresseSiege($addressDb);
-            $newAssociation->setSiteWeb($key['site_web']);
-            $newAssociation->setCreatedAt(new DateTime($key['created_at']));
-            $newAssociation->setUpdatedAt(new DateTime($key['updated_at']));
+                $newAssociation = new Association();
+                $newAssociation->setIdAssociation($key['id_association']);
+                $newAssociation->setSiret($key['siret']);
+                $newAssociation->setDateCreation($dateCreation);
+                $newAssociation->setDateDerniereDeclaration($dateDerniereDeclaration);
+                $newAssociation->setTitre($key['titre']);
+                $newAssociation->setTitreCourt($key['titre_court']);
+                $newAssociation->setDescription($key['objet']);
+                $newAssociation->setAdresseSiege($addressDb);
+                $newAssociation->setSiteWeb($key['site_web']);
+                $newAssociation->setCreatedAt(new DateTime($key['created_at']));
+                $newAssociation->setUpdatedAt(new DateTime($key['updated_at']));
 
 
-            // Get distance between user and association
-            foreach ($coords['results'] as $key) {
-                $httpClient = HttpClient::create();
-                $responseDistance = $httpClient->request(
-                    'GET',
-                    'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' . $latitude . ',' . $longitude . '&destinations=' . $key['geometry']['location']['lat'] . ',' . $key['geometry']['location']['lng'] . '&key=AIzaSyAkWtxL2EU0hLe9fQXv7umLECdugu8DJdU',
-                );
-
-                $newAssociation->setLatitude($key['geometry']['location']['lat']);
-                $newAssociation->setLongitude($key['geometry']['location']['lng']);
-
-                $distance = $responseDistance->toArray();
-                foreach ($distance['rows'] as $key) {
-                    foreach ($key['elements'] as $key) {
-                        if (isset($key['distance']['text'])) {
-                            $miles = (int) filter_var($key['distance']['text'], FILTER_SANITIZE_NUMBER_INT);
-                            $kilometers = $miles * 1.609;
-                            if ($kilometers <= 20) {
-                                $nearMe[] = $currentAssoc;
-                            }
-                        };
-                    }
+                // Get distance between user and association
+                foreach ($coords['results'] as $key) {
+                    $newAssociation->setLatitude($key['geometry']['location']['lat']);
+                    $newAssociation->setLongitude($key['geometry']['location']['lng']);
                 }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newAssociation);
+                $em->flush();
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($newAssociation);
-            $em->flush();
-            // = $coords['results'];
         }
 
         return new JsonResponse([
-            'nearMe' => "top",
-            // 'distance' => $allDistance,
-            // 'miles' => $miles
-            // 'coords' => $allCoords
+            'nearMe' => "ok"
         ]);
     }
+
 }

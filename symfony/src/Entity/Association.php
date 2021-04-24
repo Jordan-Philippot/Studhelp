@@ -37,10 +37,6 @@ class Association
      */
     private $date_derniere_declaration;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $date_declaration_dissolution;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -136,18 +132,6 @@ class Association
     public function setDateDerniereDeclaration(\DateTimeInterface $date_derniere_declaration): self
     {
         $this->date_derniere_declaration = $date_derniere_declaration;
-
-        return $this;
-    }
-
-    public function getDateDeclarationDissolution(): ?\DateTimeInterface
-    {
-        return $this->date_declaration_dissolution;
-    }
-
-    public function setDateDeclarationDissolution(\DateTimeInterface $date_declaration_dissolution): self
-    {
-        $this->date_declaration_dissolution = $date_declaration_dissolution;
 
         return $this;
     }

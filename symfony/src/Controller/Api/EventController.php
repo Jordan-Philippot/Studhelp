@@ -8,6 +8,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EventRepository;
+use App\Entity\Event;
+
+use Symfony\Component\HttpClient\HttpClient;
+
 
 class EventController extends AbstractController
 {
@@ -20,38 +24,176 @@ class EventController extends AbstractController
         $latitude = floatval($data['lat']);
         $longitude = floatval($data['lng']);
         $perimeter = intval($data['perimeter']);
+        $searchBar = $data['searchBar'];
 
         $nearMe = [];
-        $allEvents = $eventRepository->findAll();
+
+        if ($searchBar !== '' && strlen($searchBar) > 0) {
+            $allEvents = $eventRepository->findBySearch($searchBar);
+            dump($allEvents);
+        } else {
+            $allEvents = $eventRepository->findAll();
+        }
 
         $latitudeFrom = $latitude;
         $longitudeFrom = $longitude;
 
-        if ($perimeter > 0) {
-            foreach ($allEvents as $event) {
-                $latitudeTo = $event->getLatitude();
-                $longitudeTo = $event->getLongitude();
-                
-                //Calculate distance from latitude and longitude
-                $theta = $longitudeFrom - $longitudeTo;
-                $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
-                $dist = acos($dist);
-                $dist = rad2deg($dist);
-                $miles = $dist * 60 * 1.1515;
-                $distance = ($miles * 1.609344);
+        // We check distance between user and each association ( search is in front)
+        foreach ($allEvents as $event) {
 
-                if ($distance <= $perimeter) {
-                    $nearMe[] = $event;
-                }
+            $latitudeTo = $event->getLatitude();
+            $longitudeTo = $event->getLongitude();
+
+            //Calculate distance from latitude and longitude
+            $theta = $longitudeFrom - $longitudeTo;
+            $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
+            $dist = acos($dist);
+            $dist = rad2deg($dist);
+            $miles = $dist * 60 * 1.1515;
+            $distance = ($miles * 1.609344);
+
+            if ($distance <= $perimeter) {
+                $nearMe[] = [
+                    "id" => $event->getId(),
+                    "admin" => $event->getAdmin(),
+                    "type" => $event->gettype(),
+                    "title" => $event->getTitle(),
+                    "description" => $event->getDescription(),
+                    "startedAt" => $event->getStartedAt(),
+                    "duration" => $event->getDuration(),
+                    "organisation" => $event->getOrganisation(),
+                    "location" => $event->getLocation(),
+                ];
             }
-        }else{
-
         }
-
-        dump($nearMe);
-
         return new JsonResponse([
             'nearMe' => $nearMe,
+        ]);
+    }
+
+
+    /**
+     * @Route("/api/event", name="api_post_events")
+     */
+    public function insertEvent(Request $request, EventRepository $eventRepository)
+    {
+        $errors = [];
+
+        $data = json_decode($request->getContent(), true);
+        $user = $this->getUser();
+
+        $event = new Event;
+        $event->setAdmin($user->getId());
+
+        $event->setType($data['type']);
+        $event->setTitle($data['title']);
+        $event->setDescription($data['description']);
+        $event->setStartedAt($data['startedAt']);
+        $event->setDuration($data['duration']);
+        $event->setOrganisation($data['organisation']);
+        $event->setLocation($data['location']);
+
+
+        // Get latitude & longitude from Google Apo
+        $httpClient = HttpClient::create();
+        $responseCoords = $httpClient->request(
+            'GET',
+            "https://maps.googleapis.com/maps/api/geocode/json?address=" . $data['location'] . "&key=AIzaSyAkWtxL2EU0hLe9fQXv7umLECdugu8DJdU",
+        );
+        $coords = $responseCoords->toArray();
+
+        foreach ($coords['results'] as $key) {
+            $event->setLatitude($key['geometry']['location']['lat']);
+            $event->setLongitude($key['geometry']['location']['lng']);
+        }
+
+        if (empty($errors)) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
+            return $this->json([
+                'success' => $event
+            ]);
+        } else {
+            return $this->json([
+                'errors' => $errors
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/api/event/{id}", name="api_get_event")
+     */
+    public function getEvent(EventRepository $eventRepository, $id)
+    {
+        $eventEntity = $eventRepository->findOneBy(['id' => $id]);
+
+        if ($eventEntity == null) {
+            $event = null;
+        } else {
+            $event = [
+                "title" => $eventEntity->getTitle()
+            ];
+        }
+
+        return $this->json([
+            'event' => $event
+        ]);
+    }
+
+    /**
+     * @Route("/api/event/remove/{id}", name="api_post_events")
+     */
+    public function removeEvent(EventRepository $eventRepository, $id)
+    {
+        $errors = [];
+        $user = $this->getUser();
+
+        $eventEntity = $eventRepository->findOneBy(['id' => $id]);
+        if ($eventEntity !== null) {
+            if ($eventEntity->getAdmin()->getId() == $user->getId()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($eventEntity);
+                $em->flush();
+                $success = true;
+            }
+        } else {
+            $success = false;
+        }
+
+
+        return $this->json([
+            'success' => $success
+        ]);
+    }
+
+    /**
+     * @Route("/api/auth/eventsByUser", name="api_auth_events_by_user")
+     */
+    public function eventByUser(EventRepository $eventRepository)
+    {
+        $user = $this->getUser();
+        $eventsByUser = $eventRepository->findBy(['admin' => $user->getId()]);
+        dump($eventsByUser);
+        $myEvents = [];
+        if ($eventsByUser !== null) {
+            foreach ($eventsByUser as $event) {
+                $myEvents[] = [
+                    "id" => $event->getId(),
+                    "admin" => $event->getAdmin()->getId(),
+                    "type" => $event->gettype(),
+                    "title" => $event->getTitle(),
+                    "description" => $event->getDescription(),
+                    "startedAt" => $event->getStartedAt(),
+                    "duration" => $event->getDuration(),
+                    "organisation" => $event->getOrganisation(),
+                    "location" => $event->getLocation(),
+                ];
+            }
+        }
+
+        return $this->json([
+            'myevents' => $myEvents
         ]);
     }
 }

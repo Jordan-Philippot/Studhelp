@@ -1,13 +1,54 @@
 footer {
-    box-shadow: 0 -10px 5px 1px #00e1ff49;
+    position: relative;
+    overflow: hidden;
     width: 100vw;
     height: auto;
-    background-color: #0066fff1;
-    margin-top: 20vh;
+    background-color: $turquoise;
+    // border-top: 1px solid rgb(255, 255, 255);
     backdrop-filter: blur(15px);
     padding: 30px 15px 30px 15px;
-    img {
-        width: 24px;
-        height: 24px;
+    *{
+        z-index: 1;
+
+    }
+    svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .logo {
+        img {
+            width: 70px;
+            height: auto;
+            margin-left: -10px;
+        }
+        a {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+    a {
+        font-size: 14px;
+    }
+ 
+}
+
+@media screen and (max-width: 1199.98px) {
+}
+
+@media screen and (max-width: 991.98px) {
+    footer {
+        a {
+            font-size: 12px;
+        }
+    }
+}
+@media screen and (min-width: 576px) and (max-width: 991.98px) and (max-height: 450px) {
+}
+@media screen and (max-width: 575.98px) {
+    footer {
+        a {
+            font-size: 11px;
+        }
     }
 }

@@ -36,15 +36,12 @@ class EventRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Event
+    public function findBySearch($value)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.title LIKE :searchTerm OR a.type LIKE :searchTerm OR a.description LIKE :searchTerm OR a.organisation LIKE :searchTerm OR a.location LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $value . '%')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

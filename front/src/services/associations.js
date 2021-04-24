@@ -13,20 +13,22 @@ const headers = {
 };
 
 // Get Profile
-export async function getAssocs(setResponse, latitude, longitude, perimeter) {
+export async function getAssocs(setResponse, setLoading, latitude, longitude, perimeter, searchBar) {
     await axios({
         method: "POST",
-        url: url + "getassociations",
+        url: url + "associations",
         headers: headers,
         data: {
             'lat': latitude,
             'lng': longitude,
-            'perimeter': perimeter
+            'perimeter': perimeter,
+            "searchBar" : searchBar
         }
     })
         .then((response) => {
             if (response) {
                 setResponse(response.data.nearMe)
+                setLoading(false)
             } else {
                 setResponse(false)
             }
