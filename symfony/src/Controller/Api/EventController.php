@@ -23,8 +23,9 @@ class EventController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $latitude = floatval($data['lat']);
         $longitude = floatval($data['lng']);
-        $perimeter = intval($data['perimeter']);
+        $perimeter = $data['perimeter'];
         $searchBar = $data['searchBar'];
+        $orderBy = $data['orderBy'];
 
         $nearMe = [];
 
@@ -63,9 +64,18 @@ class EventController extends AbstractController
                     "duration" => $event->getDuration(),
                     "organisation" => $event->getOrganisation(),
                     "location" => $event->getLocation(),
+                    "distance" => round($distance, 1)
                 ];
             }
         }
+
+        if (isset($orderBy) && ($orderBy == 'title' || $orderBy == 'distance')) {
+            $orderBy  = array_column($nearMe, $orderBy);
+            // Trie les données par distance ou titre croissant
+            // Ajoute tableau en tant que dernier paramètre, pour trier par la clé commune
+            array_multisort($orderBy, SORT_ASC, $nearMe);
+        }
+        
         return new JsonResponse([
             'nearMe' => $nearMe,
         ]);
@@ -73,7 +83,7 @@ class EventController extends AbstractController
 
 
     /**
-     * @Route("/api/event", name="api_post_events")
+     * @Route("/api/event", name="api_post_event")
      */
     public function insertEvent(Request $request, EventRepository $eventRepository)
     {
@@ -132,7 +142,15 @@ class EventController extends AbstractController
             $event = null;
         } else {
             $event = [
-                "title" => $eventEntity->getTitle()
+                "id" => $eventEntity->getId(),
+                "admin" => $eventEntity->getAdmin()->getEmail(),
+                "type" => $eventEntity->gettype(),
+                "title" => $eventEntity->getTitle(),
+                "description" => $eventEntity->getDescription(),
+                "startedAt" => $eventEntity->getStartedAt(),
+                "duration" => $eventEntity->getDuration(),
+                "organisation" => $eventEntity->getOrganisation(),
+                "location" => $eventEntity->getLocation(),
             ];
         }
 
@@ -142,7 +160,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/api/event/remove/{id}", name="api_post_events")
+     * @Route("/api/event/remove/{id}", name="api_remove_event")
      */
     public function removeEvent(EventRepository $eventRepository, $id)
     {

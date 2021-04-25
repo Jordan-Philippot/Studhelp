@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { loginUser, GoogleAuth } from '../../services/registration.js'
 import { GoogleLogin } from 'react-google-login';
-import Party from '../../images/party.png'
+import Party from '../../images/User/Register/party.png'
 import Logo from '../../images/hat.png'
 
 export default function Login(props) {

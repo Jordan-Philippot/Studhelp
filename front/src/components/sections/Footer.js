@@ -12,13 +12,13 @@ export default function Footer(props) {
         history.push('/connexion')
     }
 
-    useEffect(() => {
-        const tl = new TimelineMax();
-        // console.log(window.location)
-        if (window.location.pathname === "/connexion" || window.location.pathname === "/inscription") {
-            tl.set(".dropOrange", { backgroundColor: "#118df3" })
-        }
-    }, [])
+    // useEffect(() => {
+    //     const tl = new TimelineMax();
+    //     // console.log(window.location)
+    //     if (window.location.pathname === "/connexion" || window.location.pathname === "/inscription") {
+    //         tl.set(".dropOrange", { backgroundColor: "#118df3" })
+    //     }
+    // }, [])
     return (
         <footer >
             <div className="d-flex row justify-content-center">

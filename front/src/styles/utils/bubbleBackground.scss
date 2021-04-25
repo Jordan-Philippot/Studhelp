@@ -6,13 +6,14 @@
     background-color: $turquoise;
     border-radius: 50%;
 
+    // Right top 
     &-1 {
         height: 90vh;
         width: 80vw;
         top: 50px;
         right: -27vw;
     }
-
+    // Left
     &-2 {
         height: 50vh;
         width: 40vw;
@@ -20,19 +21,19 @@
         left: -20vw;
     }
 
+    // Corner left top
     &-3 {
         height: 20vw;
         width: 20vw;
         top: -10vh;
         left: -10vw;
     }
+    // Bottom right
     &-5 {
         bottom: 0px;
         left: 35%;
-        // transform: translate(-50%, -50%);
         height: 40vh;
         width: 50vw;
-        // border-radius: 1500px 1500px 0 0;
     }
 }
 
@@ -47,7 +48,7 @@
     position: absolute;
     transition: all 0.2s ease;
     z-index: 0;
-    background-color: $orange;
+    background-color: $blue;
     border-radius: 50%;
 
     &-1 {
@@ -98,16 +99,16 @@
         &-3 {
             height: 15vw;
             width: 30vw;
-            top: -10vw;
-            right: 15vw;
+            top: -5vw;
+            left: 15vw;
         }
-
         &-5 {
-            height: 0;
-            width: 0;
-            bottom: 170px;
-            left: 90px;
+            bottom: 100px;
+            left: 35%;
+            height: 40vw;
+            width: 50vw;
         }
+      
     }
 }
 
@@ -128,10 +129,16 @@
         }
 
         &-3 {
-            height: 20vh;
+            height: 20vw;
             width: 30vw;
-            top: -15vh;
-            right: 15vw;
+            top: -10vw;
+            left: -5vw;
+        }
+        &-5 {
+            bottom: 150px;
+            left: 35%;
+            height: 40vw;
+            width: 50vw;
         }
     }
 }
@@ -152,15 +159,36 @@
         }
 
         &-3 {
-            height: 30vh;
-            width: 20vw;
-            top: -15vh;
-            right: 25vw;
+            height: 20vw;
+            width: 30vw;
+            top: -10vw;
+            left: -5vw;
+        }
+        &-5 {
+            bottom: 150px;
+            left: 35%;
+            height: 40vw;
+            width: 50vw;
         }
     }
 }
 
 @media screen and (max-width: 767.98px) {
+    .drop{
+
+        &-3 {
+            height: 35vw;
+            width: 35vw;
+            top: -10vw;
+            left: -5vw;
+        }
+        &-5 {
+            bottom: 200px;
+            left: 35%;
+            height: 50vw;
+            width: 60vw;
+        }
+    }
 }
 
 @media screen and (max-width: 575.98px) {
@@ -180,17 +208,17 @@
         }
 
         &-3 {
-            height: 20vh;
-            width: 30vw;
-            top: -15vh;
-            right: 15vw;
+            height: 40vw;
+            width: 40vw;
+            top: -9vw;
+            left: -9vw;
         }
 
         &-5 {
-            height: 0;
-            width: 0;
-            bottom: 170px;
-            left: 90px;
+            bottom: 250px;
+            left: 45%;
+            height: 70vw;
+            width: 80vw;
         }
     }
 }

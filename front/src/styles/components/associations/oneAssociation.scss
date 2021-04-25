@@ -1,48 +1,11 @@
-.associations {
+.oneAssociation {
     min-height: 100vh;
-    .pagination {
-        margin-left: auto;
-        margin-right: auto;
-        width: auto;
-        margin-bottom: 15vh;
-        margin-top: 50px;
-        .pagination__link {
-            font-size: 22px;
-            margin: 0 5px 0 5px;
-            color: white;
-        }
-        .pagination__link--active {
-            color: $turquoise;
-        }
-        li {
-            margin: 0 5px 0 5px;
-            color: $greyfont;
-            a {
-                font-size: 22px;
-            }
-        }
-    }
-
-    .custom-select {
-        font-size: 18px;
-        margin-top: 20px;
-    }
-    .searchBar {
-        background-color: white;
-        height: 55px;
-        border-radius: 50px;
-        color: rgb(61, 61, 61);
-        margin-top: 20px;
-        &::placeholder{
-            font-size: 16px;
-            color: rgb(100, 100, 100);
-        }
-    }
 
     .description-page {
         margin: 10vh 0;
-        .search-illustration {
+        .rocket-illustration {
             width: 100%;
+            margin-top: -80px;
         }
         p {
             font-family: "Filson Pro", sans-serif;
@@ -55,10 +18,8 @@
             color: white;
         }
         i {
-            a {
-                // text-decoration: none;
-                color: $white;
-            }
+            color: $white;
+            cursor: pointer;
             font-size: 18px;
         }
     }
@@ -69,17 +30,34 @@
         -webkit-backdrop-filter: blur(15px);
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 40px 5% 25px 5%;
-        margin-right: 30px;
+        padding: 60px 5% 40px 5%;
         margin-bottom: 30px;
         color: white;
+        position: relative;
+        margin-bottom: 15vh;
+        .hr {
+            border-right: 2px solid rgb(0, 204, 255);
+        }
+
         h4 {
-            font-size: 18px;
+            font-size: 22px;
             min-height: 70px;
             font-weight: bold;
+            margin-bottom: 30px;
         }
-        .address {
-            height: 40px;
+        .association-description {
+            font-family: "Filson Pro", sans-serif;
+            font-size: 16px;
+            color: $greyfont;
+        }
+        .right-side {
+            margin-top: auto;
+            margin-bottom: auto;
+            padding-left: 50px;
+        }
+        .information {
+            height: 60px;
+            text-align: left;
             svg {
                 width: 20px;
                 fill: $turquoise;
@@ -90,24 +68,18 @@
                 font-family: "Filson Pro", sans-serif;
                 font-style: italic;
                 font-size: 16px;
-                text-transform: capitalize;
-                color: $greyfont;
+                text-transform: lowercase;
+                color: white;
             }
-        }
-
-        button {
-            margin-top: 40px;
-            border-radius: 50px;
-            width: 100%;
         }
     }
 }
 
 @media screen and (max-width: 1599.98px) {
-    .associations {
+    .oneAssociation {
         .description-page {
             p {
-                font-size: 15px;
+                font-size: 18px;
             }
             i {
                 font-size: 16px;
@@ -115,27 +87,28 @@
         }
 
         .association-component {
-            h4 {
-                font-size: 16px;
+            .right-side {
+                padding-left: 20px;
             }
-            .address {
-                height: 40px;
-                p {
-                    font-size: 15px;
-                }
+            h4 {
+                font-size: 20px;
+            }
+            .information {
+                min-height: 60px;
+                height: auto;
             }
         }
     }
 }
 
 @media screen and (max-width: 1199.98px) {
-    .associations {
+    .oneAssociation {
         .description-page {
-            .search-illustration {
+            .rocket-illustration {
                 width: 110%;
             }
             p {
-                font-size: 14px;
+                font-size: 16px;
             }
             i {
                 font-size: 15px;
@@ -144,23 +117,22 @@
 
         .association-component {
             h4 {
-                font-size: 14px;
+                font-size: 18px;
             }
-            .address {
+            .association-description {
+                font-size: 15px;
+            }
+            .information {
                 p {
-                    font-size: 14px;
+                    font-size: 16px;
                 }
             }
-        }
-        button {
-            background-color: $turquoise;
-            color: white;
         }
     }
 }
 
 @media screen and (max-width: 991.98px) {
-    .associations {
+    .oneAssociation {
         .description-page {
             p {
                 font-size: 13px;
@@ -169,25 +141,31 @@
                 font-size: 13px;
             }
         }
-
         .association-component {
+            .hr {
+                border-right: unset;
+                border-top: 2px solid rgb(0, 204, 255);
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px;
+            }
             h4 {
                 font-size: 13px;
+                margin-bottom: 0;
             }
-            .address {
-                p {
-                    font-size: 13px;
-                }
+            .right-side {
+                margin-top: 40px;
             }
         }
     }
 }
 
 @media screen and (max-width: 767.98px) {
-    .associations {
+    .oneAssociation {
         .description-page {
             margin: 5vh 0;
-            .search-illustration {
+            .rocket-illustration {
                 width: 100%;
                 background-color: $turquoise;
                 border-radius: 50%;
@@ -202,11 +180,13 @@
         }
 
         .association-component {
-            margin-right: 0;
             h4 {
                 font-size: 16px;
             }
-            .address {
+            .association-description {
+                font-size: 14px;
+            }
+            .information {
                 p {
                     font-size: 16px;
                 }
@@ -216,48 +196,15 @@
 }
 
 @media screen and (min-width: 576px) and (max-width: 991.98px) and (max-height: 450px) {
-    .associations {
-      
-        .pagination {
-            .pagination__link {
-                font-size: 15px;
-            }
-            li {
-                a {
-                    font-size: 15px;
-                }
-            }
-        }
-
+    .oneAssociation {
         .description-page {
-          margin: 50px 0;
+            margin: 50px 0;
         }
     }
 }
 
 @media screen and (max-width: 575.98px) {
-    .associations {
-
-        .pagination {
-            .pagination__link {
-                font-size: 14px;
-            }
-            li {
-                a {
-                    font-size: 14px;
-                }
-            }
-        }
-
-        .custom-select {
-            font-size: 16px;
-        }
-        .searchBar {
-            &::placeholder{
-                font-size: 14px;
-            }
-        }
-        
+    .oneAssociation {
         .description-page {
             p {
                 font-size: 13px;
@@ -273,12 +220,15 @@
             h4 {
                 font-size: 13px;
             }
-            .address {
+            .association-description {
+                font-size: 12px;
+            }
+            .information {
                 p {
                     font-size: 13px;
                 }
             }
-            button{
+            button {
                 font-size: 15px;
             }
         }

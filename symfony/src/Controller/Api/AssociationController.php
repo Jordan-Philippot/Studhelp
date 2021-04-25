@@ -16,15 +16,16 @@ use Symfony\Component\HttpClient\HttpClient;
 class AssociationController extends AbstractController
 {
     /**
-     * @Route("/api/associations", name="api_get_association")
+     * @Route("/api/associations", name="api_get_associations")
      */
     public function getAssociations(Request $request, AssociationRepository $associationRepository)
     {
         $data = json_decode($request->getContent(), true);
         $latitude = floatval($data['lat']);
         $longitude = floatval($data['lng']);
-        $perimeter = intval($data['perimeter']);
+        $perimeter = $data['perimeter'];
         $searchBar = $data['searchBar'];
+        $orderBy = $data['orderBy'];
 
         $nearMe = [];
 
@@ -54,13 +55,22 @@ class AssociationController extends AbstractController
 
             if ($distance <= $perimeter) {
                 $nearMe[] = [
+                    "id" => $assoc->getId(),
                     "title" => $assoc->getTitre(),
                     "titleShort" => $assoc->getTitreCourt(),
                     "description" => $assoc->getDescription(),
                     "address" => $assoc->getAdresseSiege(),
                     "website" => $assoc->getSiteWeb(),
+                    "distance" => round($distance, 1)
                 ];
             }
+        }
+        
+        if (isset($orderBy) && ($orderBy == 'title' || $orderBy == 'distance')) {
+            $orderBy  = array_column($nearMe, $orderBy);
+            // Trie les données par distance ou titre croissant
+            // Ajoute tableau en tant que dernier paramètre, pour trier par la clé commune
+            array_multisort($orderBy, SORT_ASC, $nearMe);
         }
 
         return new JsonResponse([
@@ -71,25 +81,33 @@ class AssociationController extends AbstractController
 
 
     /**
-     * @Route("/api/association/{id}", name="api_post_events")
+     * @Route("/api/association/{id}", name="api_get_association")
      */
     public function getAssociation(AssociationRepository $associationRepository, $id)
     {
-        $errors = [];
         $associationEntity = $associationRepository->findOneBy(['id' => $id]);
 
         if ($associationEntity == null) {
             $association = null;
         } else {
             $association = [
-                "title" => $associationEntity->getTitre()
+                "id" => $associationEntity->getId(),
+                "title" => $associationEntity->getTitre(),
+                "description" => $associationEntity->getDescription(),
+                "titleShort" => $associationEntity->getTitreCourt(),
+                "address" => $associationEntity->getAdresseSiege(),
+                "website" => $associationEntity->getSiteWeb(),
+                "siret" => $associationEntity->getSiret(),
+                "createdDate" => date_format($associationEntity->getDateCreation(), 'Y-m-d'),
             ];
         }
 
         return $this->json([
-            'success' => $association
+            'assoc' => $association
         ]);
     }
+
+
 
 
 
@@ -185,5 +203,4 @@ class AssociationController extends AbstractController
             'nearMe' => "ok"
         ]);
     }
-
 }

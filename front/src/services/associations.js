@@ -13,7 +13,7 @@ const headers = {
 };
 
 // Get Profile
-export async function getAssocs(setResponse, setLoading, latitude, longitude, perimeter, searchBar) {
+export async function getAssocs(setResponse, setLoading, latitude, longitude, perimeter, searchBar, orderBy) {
     await axios({
         method: "POST",
         url: url + "associations",
@@ -22,13 +22,31 @@ export async function getAssocs(setResponse, setLoading, latitude, longitude, pe
             'lat': latitude,
             'lng': longitude,
             'perimeter': perimeter,
-            "searchBar" : searchBar
+            "searchBar" : searchBar,
+            "orderBy": orderBy
         }
     })
         .then((response) => {
             if (response) {
                 setResponse(response.data.nearMe)
                 setLoading(false)
+            } else {
+                setResponse(false)
+            }
+        }, (err) => {
+            setResponse(err)
+        });
+}
+
+// Get One Assoc by Id
+export async function getAssoc(setResponse, id) {
+    await axios({
+        url: url + "association/" + id,
+        headers: headers
+    })
+        .then((response) => {
+            if (response.data) {
+                setResponse(response.data.assoc)
             } else {
                 setResponse(false)
             }

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { loginUser, registerUser, GoogleAuth } from '../../services/registration.js'
 import { GoogleLogin } from 'react-google-login';
-import HelpYou from '../../images/Home/illustration_home.png'
+import HelpYou from '../../images/User/Register/illustration_home.png'
 import Logo from '../../images/hat.png'
 
 export default function Register(props) {

@@ -13,7 +13,7 @@ const headers = {
 };
 
 // Get Events
-export async function getEvents(setResponse, setLoading, latitude, longitude, perimeter, searchBar) {
+export async function getEvents(setResponse, setLoading, latitude, longitude, perimeter, searchBar, orderBy) {
     await axios({
         method: "POST",
         url: url + "events",
@@ -22,7 +22,8 @@ export async function getEvents(setResponse, setLoading, latitude, longitude, pe
             'lat': latitude,
             'lng': longitude,
             'perimeter': perimeter,
-            "searchBar": searchBar
+            "searchBar": searchBar,
+            "orderBy": orderBy
         }
     })
         .then((response) => {
@@ -37,7 +38,7 @@ export async function getEvents(setResponse, setLoading, latitude, longitude, pe
         });
 }
 
-// Get One Event
+// Get One Event by Id
 export async function getEvent(setResponse, id) {
     await axios({
         url: url + "event/" + id,

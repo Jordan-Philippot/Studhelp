@@ -17,6 +17,7 @@
 
 // User
 @import "./components/associations/associations.scss";
+@import "./components/associations/oneAssociation.scss";
 
 body {
     margin: 0;
@@ -39,4 +40,5 @@ code {
     overflow-x: hidden;
     font-size: calc(10px + 2vmin);
     position: relative;
+    display: none;
 }

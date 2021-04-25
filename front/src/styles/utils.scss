@@ -4,6 +4,7 @@
 @import "./utils/bootstrap.scss";
 @import "./utils/bubbleBackground.scss";
 @import "./utils/popup.scss";
+@import "./utils/loader1.scss";
 
 // Title h1 top
 .logo {
@@ -14,6 +15,16 @@ h1 {
     font-size: 40px;
     font-family: "Filson Pro Bold", sans-serif;
     margin-bottom: 8vh;
+}
+.geolocalisation-none{
+    color: $orange;
+    font-size: 26px;
+    font-family: "Filson Pro Bold", sans-serif;
+    margin-top: 15vh;
+    background-color: $orange;
+    color: white;
+    border-radius: 15px;
+    padding: 50px;
 }
 
 @media screen and (max-width: 1199.98px) {

@@ -4,6 +4,8 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // All stylesheets
 import './styles/App.scss';
+// Gsap Animations
+import gsap, { CSSPlugin } from 'gsap';
 // Axios 
 import { checkUser } from './services/user'
 // Sections
@@ -25,8 +27,14 @@ import Associations from "./components/associations/Associations";
 
 // User 
 import Profile from "./components/user/profile/Profile";
+import OneAssociation from './components/associations/OneAssociation';
+
+
+// Loader 
+import Loader from './components/loader/Loader';
 
 export default function App() {
+  const [load, setLoad] = useState(false)
   const [location, setLocation] = useState('')
   const [token, setToken] = useState([])
 
@@ -40,10 +48,25 @@ export default function App() {
     setLocation(window.location.pathname)
   }, [location]);
 
-  return (
-    <div className="App">
+  gsap.registerPlugin(CSSPlugin);
 
-      <Router>
+  // Animation loader aliz
+  useEffect(() => {
+    var tl = gsap.timeline({ repeat: 0, yoyo: false });
+    if (!load) {
+      setLoad(true)
+      tl.to('.loader', { css: { display: 'none' } }, 0.);
+      tl.to('.App', { css: { display: 'block' } }, 0.5);
+    }
+  }, [load])
+
+  return (
+    <Router>
+
+      <Loader />
+
+      <div className="App">
+
         <div>
           <div className="drop drop-1"></div>
           <div className="drop drop-2"></div>
@@ -104,15 +127,20 @@ export default function App() {
               <Associations token={token} />
             </Route>
 
+            <Route exact path="/association/:id">
+              <Helmet title="Stud'help | Association" />
+              <OneAssociation token={token} />
+            </Route>
+
           </HelmetProvider>
         </Switch>
 
         {/* We show footer if url pathname not Registration page */}
         {/* {!location.match(/connexion/) && !location.match(/inscription/) && */}
-          <Footer token={token} />
+        <Footer token={token} />
         {/* } */}
 
-      </Router>
-    </div >
+      </div >
+    </Router>
   );
 }
