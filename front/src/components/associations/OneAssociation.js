@@ -23,7 +23,7 @@ export default function OneAssociation() {
             <div className="row justify-content-center description-page">
                 <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4">
                     <p>
-                        Voici l'association que tu as choisi<br></br><br></br>
+                        Voici l'association que tu as choisis<br></br><br></br>
                         Nous n'avons pas accès aux moyens de contact des associations, mais nous esperons que tu as y trouveras ton bonheur!
                         <br></br><br></br>
                         Et sinon pour revenir à la page précédente, <i onClick={() => history.goBack()}>c'est ici</i> !
