@@ -1,0 +1,60 @@
+
+// _________________________Inter________________________________
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap");
+
+// Headings 
+$headings: h1 24, h2 20, h3 16, h4 14, h5 12;
+@each $name, $size in $headings {
+  #{$name} {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: $size;
+    line-height: 150%;
+    letter-spacing: -0.01em;
+  }
+}
+
+// Large Text
+$sizes: 48, 36, 28;
+@each $size in $sizes {
+  .large-#{$size} {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: #{$size}px;
+    line-height: 150%;
+    color: $dark70;
+  }
+}
+
+// Title
+$sizes: 20, 16, 14, 12, 10, 9;
+@each $size in $sizes {
+  .title-#{$size} {
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: #{$size}px;
+    line-height: 150%;
+    color: $dark70;
+  }
+}
+
+
+// _________________________Manrope________________________________
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+// Text Title
+$sizes: 48, 36, 28, 24, 20, 16, 14, 12, 10, 9;
+@each $size in $sizes {
+  .text-#{$size} {
+    font-family: "Manrope", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: #{$size}px;
+    line-height: 150%;
+    color: $dark70;
+  }
+}

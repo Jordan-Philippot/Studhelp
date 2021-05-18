@@ -5,7 +5,7 @@
 * {
     .text-error {
         font-family: "Filson Pro", sans-serif;
-        color: rgb(255, 0, 0);
+        color: $red;
         font-size: 10px;
         font-weight: bold;
         margin: 0;
@@ -15,6 +15,8 @@
     }
 }
 
+// font: italic 1.2em "Fira Sans", serif;
+//styleName: Headings/Headings 1;
 
 
 li {

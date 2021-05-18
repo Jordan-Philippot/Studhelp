@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = "http://localhost:8000/api/";
+const url = toString(process.env.REACT_APP_API_ENDPOINT);
 
 const headersAuth = {
     'Access-Control-Allow-Origin': '*',
