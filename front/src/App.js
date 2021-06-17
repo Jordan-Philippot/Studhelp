@@ -68,12 +68,12 @@ export default function App() {
         return window.location.href = "/login"
       }
     } else if (location.match(/connexion/) || location.match(/inscription/)) {
-      if (token.user === true) {
+      if (token.user) {
         return window.location.href = "/"
       }
     }
   }, [location, token])
-
+console.log(token)
   return (
     <Router>
 

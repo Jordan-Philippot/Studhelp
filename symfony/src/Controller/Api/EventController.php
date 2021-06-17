@@ -166,7 +166,6 @@ class EventController extends AbstractController
         ]);
     }
 
-    // This is function for insert event directly from postman 
     /**
      * @Route("/api/auth/event", name="api_auth_post_event")
      */

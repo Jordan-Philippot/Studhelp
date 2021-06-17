@@ -10,6 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use DateTime;
 use App\Repository\UserRepository;
+use App\Repository\EventRepository;
+
 use App\Entity\User;
 
 class UserController extends AbstractController
@@ -166,5 +168,104 @@ class UserController extends AbstractController
                 'errors' => $errors
             ]);
         }
+    }
+
+
+    /**
+     * @Route("api/auth/addParticipation", name="api_auth_add_participation")
+     */
+    public function addParticipation(Request $request, EventRepository $eventRepository)
+    {
+        $errors = [];
+
+        // GET data
+        $data = json_decode($request->getContent(), true);
+        // Retrieve User
+        $user = $this->getUser();
+
+        // find Event
+        $event = $eventRepository->findOneBy(
+            array('id' => $data['eventId'])
+        );
+
+        foreach ($event->getParticipants() as $key) {
+            if ($user->getId() == $key->getId()) {
+                $errors['user'] = "Tu es déjà inscris à cet évènement!";
+            }
+        }
+
+        if (empty($event) || !isset($event)) {
+            $errors['event'] = "Désolé, aucun évènement n'as été trouvé";
+        }
+
+        // If errors array is empty, insert new User ||  or return errors
+        if (empty($errors)) {
+            $user->addParticipantsEvent($event);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->json([
+                'success' => 'success'
+            ]);
+        } else {
+            return $this->json([
+                'errors' => $errors
+            ]);
+        }
+    }
+
+    /**
+     * @Route("api/auth/getParticipants", name="api_auth_get_participants")
+     */
+    public function getParticipants(Request $request, EventRepository $eventRepository)
+    {
+        // GET data
+        $data = json_decode($request->getContent(), true);
+        // Retrieve User
+        $user = $this->getUser();
+
+        // find Event
+        $event = $eventRepository->findOneBy(
+            array('id' => $data['eventId'])
+        );
+        $participate = false;
+        
+        foreach ($event->getParticipants() as $key) {
+            if ($user->getId() == $key->getId()) {
+                $participate = true;
+            }
+        }
+
+        return $this->json([
+            'participate' => $participate
+        ]);
+    }
+
+    /**
+     * @Route("api/auth/removeParticipant", name="api_auth_remove_participant")
+     */
+    public function removeParticipant(Request $request, EventRepository $eventRepository)
+    {
+        // GET data
+        $data = json_decode($request->getContent(), true);
+        // Retrieve User
+        $user = $this->getUser();
+
+        // find Event
+        $event = $eventRepository->findOneBy(
+            array('id' => $data['eventId'])
+        );
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        $event->removeParticipant($user);
+        $em->persist($event);
+        $em->flush();
+
+        return $this->json([
+            'remove' => true
+        ]);
     }
 }

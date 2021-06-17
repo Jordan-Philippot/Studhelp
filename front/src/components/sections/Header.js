@@ -31,7 +31,7 @@ export default function Header(props) {
             tl.fromTo('#' + successSubscrib, 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
             tl.to('#' + successSubscrib, 2, { top: '-500', display: 'none', delay: 5 });
             setSuccessSubscrib(null);
-        } else if (successEvent === "delete" || successEvent === "create" || successEvent === "updateEvent") {
+        } else if (successEvent === "delete" || successEvent === "create" || successEvent === "updateEvent" || successEvent === "addParticipation" || successEvent === "removeParticipation") {
             history.push('/espace-client/mes-evenements')
             const tl = new TimelineMax();
             tl.fromTo('#' + successEvent, 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
@@ -49,7 +49,6 @@ export default function Header(props) {
         }
         // eslint-disable-next-line
     }, [history, location]);
-
 
     return (
         <div className="header">
@@ -159,6 +158,18 @@ export default function Header(props) {
             <Popup
                 id="updateEvent"
                 text="Votre évènement à été modifié avec succès."
+            />
+
+            {/* Popup success add Participation */}
+            <Popup
+                id="addParticipation"
+                text="Votre participation à été prise en compte."
+            />
+
+            {/* Popup success add Participation */}
+            <Popup
+                id="removeParticipation"
+                text="Votre participation à été supprimé avec succès."
             />
 
 

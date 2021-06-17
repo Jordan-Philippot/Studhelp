@@ -1,20 +1,56 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useHistory } from "react-router-dom";
 import { getEvent } from '../../services/events'
+import { addParticipation, getParticipants, removeParticipant } from '../../services/user'
+
 import Illustration from '../../images/Associations/product_launch.png'
 import Title from '../Title'
 import dateFormat from 'dateformat';
 
-export default function OneEvent() {
+export default function OneEvent(props) {
     const [event, setEvent] = useState([])
+
+    const [responseParticipation, setResponseParticipation] = useState('')
+    const [errorsParticipation, setErrorsParticipation] = useState([])
+    const [isParticipate, setIsParticipate] = useState(false)
+    const [isRemove, setIsRemove] = useState(false)
+
     const history = useHistory()
     let { id } = useParams();
 
     useEffect(() => {
         getEvent(setEvent, id)
+        getParticipants(id, setIsParticipate)
         // eslint-disable-next-line
     }, [])
 
+    const data = {
+        'eventId': id
+    }
+    const addParticipationtUser = () => {
+        if (!props.token.user) {
+            window.location.href = "/connexion"
+        } else {
+            addParticipation(data, setResponseParticipation, setErrorsParticipation)
+        }
+    }
+
+    useEffect(() => {
+        if (responseParticipation === "success") {
+            window.location.href = "/evenements?event=addParticipation"
+        }
+    }, [responseParticipation])
+
+    const handleRemoveParticipant = () => {
+        removeParticipant(data, setIsRemove)
+    }
+
+    useEffect(() => {
+        console.log(isRemove)
+        if (isRemove) {
+            window.location.href = "/evenements/" + id + "?event=removeParticipation"
+        }
+    }, [isRemove])
     return (
         <div className="oneAssociation">
 
@@ -47,9 +83,20 @@ export default function OneEvent() {
                                 <h4>{event.title}</h4>
                                 <p className="association-description">{event.description}</p>
                                 <div className="d-flex ">
-                                    <button className="offset-1 col-4 btn-orangeFull">Participer</button>
+                                    {(() => {
+                                        if (isParticipate) {
+                                            return <button className="offset-1 col-4 btn-redFull" onClick={handleRemoveParticipant}>Me désinscrire</button>
+                                        } else {
+                                            return <button className="offset-1 col-4 btn-orangeFull" onClick={addParticipationtUser}>Participer</button>
+                                        }
+                                    })()}
+
+
                                     <button className="offset-1 col-4 btn-turquoiseFull">Rejoindre le tchat</button>
                                 </div>
+
+                                {errorsParticipation.event && <div className="text-error mt-5">{errorsParticipation.event}</div>}
+                                {errorsParticipation.user && <div className="text-error mt-5">{errorsParticipation.user}</div>}
                             </div>
 
                             <div className="col-1 hr"></div>

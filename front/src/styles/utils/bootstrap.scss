@@ -36,7 +36,7 @@ li {
 }
 
 // Buttons
-$btn: "orange" #ff7700, "red" #ff3c00, "turquoise" #00d5ff, "purple" #6247e9, "darkblue" #28518a;
+$btn: "orange" #ff7700, "red" #ff3c00, "turquoise" #00d5ff, "purple" #6247e9, "darkblue" #bdd5f7, "green" #43c16e;
 
 @each $name, $color in $btn {
     .btn-#{$name}Full {
