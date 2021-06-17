@@ -39,10 +39,9 @@ export default function MyOneEvent() {
 
     useEffect(() => {
         if (responseRemove) {
-            history.push("/espace-client/mes-evenements?event=delete")
+            window.location.href = '/espace-client/mes-evenements?event=delete'
         }
     }, [responseRemove])
-    console.log(responseRemove)
     
 
     return (
@@ -77,7 +76,7 @@ export default function MyOneEvent() {
                                 <h4>{event.title}</h4>
                                 <p className="association-description">{event.description}</p>
                                 <div className="d-flex mt-5">
-                                    <button className="offset-1 col-4 btn-orangeFull">Modifier</button>
+                                    <button className="offset-1 col-4 btn-orangeFull" onClick={() => window.location.href='/espace-client/modifier-evenement/' + event.id}>Modifier</button>
                                     <button className="offset-1 col-4 btn-redOut" onClick={removeMyEvent}>Supprimer</button>
                                 </div>
                             </div>

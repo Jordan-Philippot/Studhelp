@@ -90,11 +90,30 @@ export async function removeEvent(setResponse, id) {
 }
 
 
-// Get Events
+// Create new Event
 export async function newEvent(data, setResponse, setErrors) {
     await axios({
         method: "POST",
         url: url + "auth/event",
+        headers: headersAuth,
+        data: data
+    })
+        .then((response) => {
+            if (response.data.errors) {
+                setErrors(response.data.errors)
+            } else {
+                setResponse(response.data.success)
+            }
+        }, (err) => {
+            setResponse(err)
+        });
+}
+
+// Update my Event
+export async function updateMyEvent(data, setResponse, setErrors) {
+    await axios({
+        method: "POST",
+        url: url + "auth/updateEvent",
         headers: headersAuth,
         data: data
     })

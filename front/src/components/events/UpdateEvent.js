@@ -1,66 +1,100 @@
-import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { newEvent } from '../../services/events.js'
+import React, { useState, useEffect } from 'react'
+import { useParams } from "react-router-dom";
+
+import { getEvent, updateMyEvent } from '../../services/events.js'
+import { TimelineMax } from 'gsap'
 import DateTimePicker from 'react-datetime-picker';
 
-import Illustration from '../../images/Home/process_outline.png'
-import Humaaans from './../../images/User/Profile/Humaaans.png'
-import Humaaans2 from './../../images/User/Profile/Humaaans2.png'
+import Illustration from '../../images/User/Profile/workspace_solid.png'
+import Humaaans from '../../images/User/Profile/Humaaans.png'
+import Humaaans2 from '../../images/User/Profile/Humaaans2.png'
 
-import Title from '../Title'
+import Title from './../Title'
 
-export default function NewEvent() {
-    // Data
-    const [title, setTitle] = useState("")
+export default function UpdateEvent() {
+    let { id } = useParams();
+
+    const [myEvent, setMyEvent] = useState([])
+
+    // My event informations form 
     const [type, setType] = useState("")
+    const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [startedAt, setStartedAt] = useState("")
+    const [startedAt, setStartedAt] = useState(null)
     const [duration, setDuration] = useState("")
     const [organisation, setOrganisation] = useState("")
     const [location, setLocation] = useState("")
 
-    // Response 
-    const [response, setResponse] = useState([])
-    const [errors, setErrors] = useState([])
 
-    const history = useHistory()
+    const [errors, setErrors] = useState([])
+    const [success, setSuccess] = useState("")
 
 
     const data = {
-        "title": title,
+        "id": id,
         "type": type,
+        "title": title,
         "description": description,
         "startedAt": startedAt,
         "duration": duration,
         "organisation": organisation,
-        "location": location,
+        "location": location
     }
 
-    const createEvent = () => {
-        newEvent(data, setResponse, setErrors)
-    }
-
+    // Get profile
     useEffect(() => {
-        if (response === "success") {
-            window.location.href = '/espace-client/mes-evenements?event=create'
-        }
-    }, [response])
+        getEvent(setMyEvent, id)
+    }, [])
 
-    console.log(startedAt)
+
+    // put event in input
+    useEffect(() => {
+        if (myEvent) {
+            setType(myEvent.type)
+            setTitle(myEvent.title)
+            setDescription(myEvent.description)
+            setStartedAt(myEvent.startedAt)
+            setDuration(myEvent.duration)
+            setOrganisation(myEvent.organisation)
+            setLocation(myEvent.location)
+        }
+    }, [myEvent])
+
+    // A rajouter !!! existe plus success popup -> successProfile
+    useEffect(() => {
+        if (success === "success") {
+            setSuccess("")
+            window.location.href = '/espace-client/mes-evenements?event=updateEvent'
+        }
+        // eslint-disable-next-line
+    }, [success])
+
+    const HandleUpdateEvent = () => {
+        updateMyEvent(data,setSuccess, setErrors)
+    }
+
     return (
         <div className="profile">
+
+
+
             <img className="humaaans" src={Humaaans} alt="caracter standing" />
             <img className="humaaans2" src={Humaaans2} alt="caracter standing" />
 
-            <Title title="Créer un Évènement" />
+            <Title title={"Modifier mon Évènement"} />
 
             <div className="row justify-content-center mt-5">
                 <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4">
                     <p>
-                        Créer ton propre évènement et invite les personnes de ton choix !<br></br><br></br>
-                        Libe à toi de choisir le type de ton évènement, l'adresse ou encore la date (hier ne sera pas accepté &#128540;)
-                        <br></br><br></br>
-                        Et sinon pour revenir à la page précédente, <i onClick={() => history.goBack()}>c'est ici</i> !
+                        Modifie à tout moment les informations de ton évènement dans cet espace.<br></br>
+                        Tu souhaites modifier la date ou encore l'endroit? Aucun soucis, tout les participants recevront une notification &#128521;
+                    </p>
+
+
+                    <p> <i> Stud'help s'engage à n'exploiter aucune données à des fins commerciales et n'utilise aucun traceur.</i><br></br>
+                        Tes informations sont uniquement utilisées par Stud'help pour que d'autres utilisateurs
+                        puissent intéragir avec toi.<br></br><br></br>
+                        Pour toute question, le <b>support</b> reste disponible 7j/7.
                     </p>
                 </div>
                 <div className="col-8 col-sm-5 col-md-5 col-lg-5 offset-xl-1 col-xl-4">
@@ -81,7 +115,7 @@ export default function NewEvent() {
                                 <input type="text"
                                     name="title"
                                     id="title"
-                                    value={title}
+                                    value={title || ""}
                                     required
                                     maxLength="255"
                                     minLength="3"
@@ -95,7 +129,7 @@ export default function NewEvent() {
                                 <input type="textarea"
                                     name="description"
                                     id="description"
-                                    value={description}
+                                    value={description || ""}
                                     required
                                     maxLength="255"
                                     minLength="3"
@@ -109,7 +143,7 @@ export default function NewEvent() {
                                 <input type="text"
                                     name="type"
                                     id="type"
-                                    value={type}
+                                    value={type || ""}
                                     required
                                     maxLength="255"
                                     minLength="3"
@@ -126,7 +160,7 @@ export default function NewEvent() {
                                         name="duration"
                                         id="duration"
                                         maxLength="5"
-                                        value={duration}
+                                        value={duration || ""}
                                         required
                                         onChange={(e) => setDuration(e.target.value)}
                                     />
@@ -137,7 +171,7 @@ export default function NewEvent() {
                                     <input type="text"
                                         name="organisation"
                                         id="organisation"
-                                        value={organisation}
+                                        value={organisation || ""}
                                         maxLength="255"
                                         required
                                         onChange={(e) => setOrganisation(e.target.value)}
@@ -153,8 +187,7 @@ export default function NewEvent() {
                                     name={"startedAt"}
                                     id="startedAt"
                                     className={"dateTimePicker"}
-                                    // format={"commence le d-MM-y  à hh:mm"}
-                                    value={startedAt}
+                                    value={startedAt || ""}
                                     required={true}
                                     minDate={new Date()}
                                     onChange={(e) => setStartedAt(e)}
@@ -168,7 +201,7 @@ export default function NewEvent() {
                                 <input type="text"
                                     name="location"
                                     id="location"
-                                    value={location}
+                                    value={location || ""}
                                     required
                                     maxLength="255"
                                     minLength="3"
@@ -178,7 +211,7 @@ export default function NewEvent() {
                             </div>
 
 
-                            <button className="btn-turquoiseOut my-5" onClick={createEvent}>Créer</button>
+                            <button className="btn-turquoiseOut my-5" onClick={HandleUpdateEvent}>Modifier</button>
 
                         </div>
 
@@ -187,6 +220,5 @@ export default function NewEvent() {
             </div>
 
         </div >
-
     )
 }

@@ -30,6 +30,7 @@ import Profile from "./components/user/profile/Profile";
 import MyEvents from "./components/events/MyEvents";
 import NewEvent from "./components/events/NewEvent";
 import MyOneEvent from "./components/events/MyOneEvent";
+import UpdateEvent from "./components/events/UpdateEvent";
 
 
 
@@ -158,6 +159,11 @@ export default function App() {
               <NewEvent />
             </Route>
           
+            <Route exact path="/espace-client/modifier-evenement/:id">
+              <Helmet title="Stud'help | Modifier mon évènement" />
+              <UpdateEvent />
+            </Route>
+            
           </HelmetProvider>
         </Switch>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-// import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { getProfile, setUserProfile } from '../../../services/user.js'
 import { TimelineMax } from 'gsap'
@@ -9,7 +9,6 @@ import Humaaans from '../../../images/User/Profile/Humaaans.png'
 import Humaaans2 from '../../../images/User/Profile/Humaaans2.png'
 
 import Title from '../../Title'
-import Popup from '../../popup/Popup'
 
 export default function Profile(props) {
     const input = useRef();
@@ -32,7 +31,7 @@ export default function Profile(props) {
     const [errorsprofile, setErrorsprofile] = useState([])
     const [successprofile, setSuccessprofile] = useState("")
 
-    // const history = useHistory();
+    const history = useHistory();
 
     const data = {
         "firstname": firstname,
@@ -72,28 +71,19 @@ export default function Profile(props) {
 
     // A rajouter !!! existe plus success popup -> successProfile
     useEffect(() => {
-        if (successprofile === "success") {
-            const tl = new TimelineMax();
-            tl.fromTo('#changeProfile', 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
-            tl.to('#changeProfile', 2, { top: '-500', display: 'none', delay: 5 });
+        if (successprofile === "success" || successprofile === "email") {
             setSuccessprofile("")
-
-        } else if (successprofile === "email") {
-            const tl = new TimelineMax();
-            tl.fromTo('#changeProfile', 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
-            tl.to('#changeProfile', 2, { top: '-500', display: 'none', delay: 5 });
-
-            localStorage.removeItem('studhelp')
-            window.location.reload();
-            setSuccessprofile("")
-        } else {
-            const tl = new TimelineMax();
-            tl.set('#changeProfile', { top: '-500', display: 'none' });
+            if (successprofile === "email") {
+                localStorage.removeItem('studhelp')
+                window.location.href = '/?user=changeProfile'
+                window.location.reload();
+            } else {
+                window.location.href = '/espace-client/profil?user=changeProfile'
+            }
         }
         // eslint-disable-next-line
     }, [successprofile])
 
-console.log(successprofile, profile)
     // Show or hide password
     const showPassword = () => {
         if (input.current.type === "password") {
@@ -109,13 +99,9 @@ console.log(successprofile, profile)
 
     return (
         <div className="profile">
-            
-              {/* Popup success */}
-              <Popup
-                id="changeProfile"
-                text="Votre profil à été modifié avec succès."
-            />
-            
+
+
+
             <img className="humaaans" src={Humaaans} alt="caracter standing" />
             <img className="humaaans2" src={Humaaans2} alt="caracter standing" />
 

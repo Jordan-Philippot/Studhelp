@@ -183,30 +183,30 @@ class EventController extends AbstractController
         $now = new DateTime();
         dump($data);
         foreach ($data as $key => $value) {
-            if ($key !== "startedAt") {
-                if (empty($value)) {
-                    $errors[$key] = "Veuillez remplir ce champ.";
-                } elseif (!is_string($value)) {
+            if (empty($value)) {
+                $errors[$key] = "Veuillez remplir ce champ.";
+            }
+
+            if ($key !== "startedAt" && $key !== "duration") {
+                if (!is_string($value)) {
                     $errors[$key] = "Veuillez insérer uniquement du texte.";
                 } elseif (strlen($value) > 255) {
                     $errors[$key] = "Veuillez insérer 255 caractère maximum.";
                 }
             } elseif ($key == "startedAt") {
-                if (empty($value)) {
-                    $errors[$key] = "Veuillez remplir ce champ.";
-                } elseif (strtotime($value) === false) {
+                if (strtotime($value) === false) {
                     $errors[$key] = "Veuillez insérer une date valide.";
                 } elseif ($value > $now) {
                     $errors[$key] = "Veuillez insérer une date futur.";
                 }
-            } else {
-                if (empty($value)) {
-                    $errors[$key] = "Veuillez remplir ce champ.";
+            } elseif ($key == "duration") {
+                if (!is_numeric($value)) {
+                    $errors[$key] = "Veuillez insérer uniquement des chiffres.";
+                } elseif (strlen($value) > 5) {
+                    $errors[$key] = "Veuillez insérer une durée inférieur à 5 chiffres.";
                 }
             }
         }
-
-
 
 
 
@@ -219,7 +219,7 @@ class EventController extends AbstractController
             );
             $coords = $responseCoords->toArray();
         }
-        
+
         if (isset($coords['results']) && count($coords['results']) > 0) {
             foreach ($coords['results'] as $key) {
                 $event->setLatitude($key['geometry']['location']['lat']);
@@ -243,6 +243,74 @@ class EventController extends AbstractController
             $em->flush();
             return $this->json([
                 'success' => "success"
+            ]);
+        } else {
+            return $this->json([
+                'errors' => $errors
+            ]);
+        }
+    }
+
+    /**
+     * @Route("api/auth/updateEvent", name="api_auth_update_event")
+     */
+    public function updateEvent(Request $request, EventRepository $eventRepository)
+    {
+        $errors = [];
+
+        // GET data
+        $data = json_decode($request->getContent(), true);
+        $now = new DateTime();
+
+        // get Event
+        $event = $eventRepository->findOneBy(
+            array('id' => $data['id'])
+        );
+
+        // Retrieve User
+        $user = $this->getUser();
+
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                $errors[$key] = "Veuillez remplir ce champ.";
+            }
+
+            if ($key !== "startedAt" && $key !== "duration") {
+                if (!is_string($value)) {
+                    $errors[$key] = "Veuillez insérer uniquement du texte.";
+                } elseif (strlen($value) > 255) {
+                    $errors[$key] = "Veuillez insérer 255 caractère maximum.";
+                }
+            } elseif ($key == "startedAt") {
+                if (strtotime($value) === false) {
+                    $errors[$key] = "Veuillez insérer une date valide.";
+                } elseif ($value > $now) {
+                    $errors[$key] = "Veuillez insérer une date futur.";
+                }
+            } elseif ($key == "duration") {
+                if (!is_numeric($value)) {
+                    $errors[$key] = "Veuillez insérer uniquement des chiffres.";
+                } elseif (strlen($value) > 5) {
+                    $errors[$key] = "Veuillez insérer une durée inférieur à 5 chiffres.";
+                }
+            }
+        }
+
+        // If errors array is empty, insert new User ||  or return errors
+        if (empty($errors)) {
+            $event->setType(htmlspecialchars($data['type']));
+            $event->setTitle(htmlspecialchars($data['title']));
+            $event->setDescription(htmlspecialchars($data['description']));
+            $event->setStartedAt(new Datetime($data['startedAt']));
+            $event->setDuration(htmlspecialchars($data['duration']));
+            $event->setOrganisation(htmlspecialchars($data['organisation']));
+            $event->setLocation(htmlspecialchars($data['location']));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->json([
+                'success' => 'success'
             ]);
         } else {
             return $this->json([

@@ -16,12 +16,13 @@ export default function Header(props) {
     let query = useQuery();
     const [successSubscrib, setSuccessSubscrib] = useState(query.get("registration") ? query.get("registration") : null)
     const [successEvent, setSuccessEvent] = useState(query.get("event") ? query.get("event") : null)
+    const [successUser, setSuccessUser] = useState(query.get("user") ? query.get("user") : null)
 
     const Disconnected = () => {
         localStorage.removeItem('studhelp')
         history.push('/connexion')
     }
-
+    const location = window.location
 
     useEffect(() => {
         if (successSubscrib === "register" || successSubscrib === "login") {
@@ -30,18 +31,24 @@ export default function Header(props) {
             tl.fromTo('#' + successSubscrib, 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
             tl.to('#' + successSubscrib, 2, { top: '-500', display: 'none', delay: 5 });
             setSuccessSubscrib(null);
-        } else if (successEvent === "delete" || successEvent === "create") {
+        } else if (successEvent === "delete" || successEvent === "create" || successEvent === "updateEvent") {
             history.push('/espace-client/mes-evenements')
             const tl = new TimelineMax();
             tl.fromTo('#' + successEvent, 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
             tl.to('#' + successEvent, 2, { top: '-500', display: 'none', delay: 5 });
             setSuccessEvent(null);
+        } else if (successUser === "changeProfile") {
+            const tl = new TimelineMax();
+            tl.fromTo('#' + successUser, 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
+            tl.to('#' + successUser, 2, { top: '-500', display: 'none', delay: 5 });
+            history.push('/espace-client/profil')
+            setSuccessUser(null);
         } else {
             const tl = new TimelineMax();
-            tl.set('#' + successSubscrib + ', #' + successEvent, { top: '-500', display: 'none' });
+            tl.set('#' + successSubscrib + ', #' + successEvent + ', #' + successUser, { top: '-500', display: 'none' });
         }
         // eslint-disable-next-line
-    }, []);
+    }, [history, location]);
 
 
     return (
@@ -124,23 +131,37 @@ export default function Header(props) {
                 id="login"
                 text="Bienvenue sur Stud'help!"
             />
-            {/* Popup success registration */}
+            {/* Popup success register */}
             <Popup
                 id="register"
                 text="Votre inscription à bien été pris en compte!"
             />
 
-             {/* Popup success registration */}
-             <Popup
+            {/* Popup success delete event */}
+            <Popup
                 id="delete"
                 text="Votre évènement à été supprimé."
             />
 
-              {/* Popup success registration */}
-              <Popup
-                id="newEvent"
+            {/* Popup success create event */}
+            <Popup
+                id="create"
                 text="Votre évènement à été crée avec succès!"
             />
+
+            {/* Popup success update profile */}
+            <Popup
+                id="changeProfile"
+                text="Votre profil à été modifié avec succès."
+            />
+
+            {/* Popup success update Event */}
+            <Popup
+                id="updateEvent"
+                text="Votre évènement à été modifié avec succès."
+            />
+
+
         </div>
     )
 }
