@@ -6,7 +6,7 @@ export default function Title(props) {
         <div className="row justify-content-center mt-4">
             <div className="col-xl-4">
                 <img className="logo" src={Logo} alt="student hat" />
-                <h1>{props.title && props.title}</h1>
+                <h1 className="h1">{props.title && props.title}</h1>
             </div>
         </div>
     )

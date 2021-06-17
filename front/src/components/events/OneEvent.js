@@ -3,6 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { getEvent } from '../../services/events'
 import Illustration from '../../images/Associations/product_launch.png'
 import Title from '../Title'
+import dateFormat from 'dateformat';
 
 export default function OneEvent() {
     const [event, setEvent] = useState([])
@@ -11,6 +12,7 @@ export default function OneEvent() {
 
     useEffect(() => {
         getEvent(setEvent, id)
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -21,7 +23,7 @@ export default function OneEvent() {
 
             {/* Presentation associations */}
             <div className="row justify-content-center description-page">
-                <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4">
+                <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4 text-description">
                     <p>
                         Voici l'évènement que tu as choisis<br></br><br></br>
                         Tu peux t'y inscrire et participer au tchat privé de chacun des évènements auquels tu souhaites participer
@@ -36,7 +38,7 @@ export default function OneEvent() {
 
 
 
-            { event !== null ?
+            {event !== null ?
                 <div className="row justify-content-center">
                     <div className="association-component col-10 col-sm-8 col-md-10 col-lg-11 col-xl-9">
                         <div className="row max-md-flex-direction-column ">
@@ -44,6 +46,10 @@ export default function OneEvent() {
                             <div className="offset-1 col-10 offset-lg-0 col-lg-7">
                                 <h4>{event.title}</h4>
                                 <p className="association-description">{event.description}</p>
+                                <div className="d-flex ">
+                                    <button className="offset-1 col-4 btn-orangeFull">Participer</button>
+                                    <button className="offset-1 col-4 btn-turquoiseFull">Rejoindre le tchat</button>
+                                </div>
                             </div>
 
                             <div className="col-1 hr"></div>
@@ -60,7 +66,7 @@ export default function OneEvent() {
                                         <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z" />
                                         <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                                     </svg>
-                                    <p>Commence le {event.startedAt}</p>
+                                    <p>Commence le {dateFormat(event.startedAt, "d/mm, yyyy à HH:MM TT")}</p>
                                 </div>
                                 {event.type && <div className="d-flex information">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-laptop" viewBox="0 0 16 16">

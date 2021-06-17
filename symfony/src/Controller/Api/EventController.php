@@ -11,7 +11,7 @@ use App\Repository\EventRepository;
 use App\Entity\Event;
 
 use Symfony\Component\HttpClient\HttpClient;
-
+use Datetime;
 
 class EventController extends AbstractController
 {
@@ -75,60 +75,10 @@ class EventController extends AbstractController
             // Ajoute tableau en tant que dernier paramètre, pour trier par la clé commune
             array_multisort($orderBy, SORT_ASC, $nearMe);
         }
-        
+
         return new JsonResponse([
             'nearMe' => $nearMe,
         ]);
-    }
-
-
-    /**
-     * @Route("/api/event", name="api_post_event")
-     */
-    public function insertEvent(Request $request, EventRepository $eventRepository)
-    {
-        $errors = [];
-
-        $data = json_decode($request->getContent(), true);
-        $user = $this->getUser();
-
-        $event = new Event;
-        $event->setAdmin($user->getId());
-
-        $event->setType($data['type']);
-        $event->setTitle($data['title']);
-        $event->setDescription($data['description']);
-        $event->setStartedAt($data['startedAt']);
-        $event->setDuration($data['duration']);
-        $event->setOrganisation($data['organisation']);
-        $event->setLocation($data['location']);
-
-
-        // Get latitude & longitude from Google Apo
-        $httpClient = HttpClient::create();
-        $responseCoords = $httpClient->request(
-            'GET',
-            "https://maps.googleapis.com/maps/api/geocode/json?address=" . $data['location'] . "&key=AIzaSyAkWtxL2EU0hLe9fQXv7umLECdugu8DJdU",
-        );
-        $coords = $responseCoords->toArray();
-
-        foreach ($coords['results'] as $key) {
-            $event->setLatitude($key['geometry']['location']['lat']);
-            $event->setLongitude($key['geometry']['location']['lng']);
-        }
-
-        if (empty($errors)) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($event);
-            $em->flush();
-            return $this->json([
-                'success' => $event
-            ]);
-        } else {
-            return $this->json([
-                'errors' => $errors
-            ]);
-        }
     }
 
     /**
@@ -159,12 +109,12 @@ class EventController extends AbstractController
         ]);
     }
 
+
     /**
-     * @Route("/api/event/remove/{id}", name="api_remove_event")
+     * @Route("/api/auth/event/remove/{id}", name="api_remove_event")
      */
     public function removeEvent(EventRepository $eventRepository, $id)
     {
-        $errors = [];
         $user = $this->getUser();
 
         $eventEntity = $eventRepository->findOneBy(['id' => $id]);
@@ -206,6 +156,7 @@ class EventController extends AbstractController
                     "duration" => $event->getDuration(),
                     "organisation" => $event->getOrganisation(),
                     "location" => $event->getLocation(),
+
                 ];
             }
         }
@@ -213,5 +164,90 @@ class EventController extends AbstractController
         return $this->json([
             'myevents' => $myEvents
         ]);
+    }
+
+    // This is function for insert event directly from postman 
+    /**
+     * @Route("/api/auth/event", name="api_auth_post_event")
+     */
+    public function insertEvent(Request $request, EventRepository $eventRepository)
+    {
+        $errors = [];
+
+        $data = json_decode($request->getContent(), true);
+        $user = $this->getUser();
+
+        $event = new Event;
+        $event->setAdmin($user);
+
+        $now = new DateTime();
+        dump($data);
+        foreach ($data as $key => $value) {
+            if ($key !== "startedAt") {
+                if (empty($value)) {
+                    $errors[$key] = "Veuillez remplir ce champ.";
+                } elseif (!is_string($value)) {
+                    $errors[$key] = "Veuillez insérer uniquement du texte.";
+                } elseif (strlen($value) > 255) {
+                    $errors[$key] = "Veuillez insérer 255 caractère maximum.";
+                }
+            } elseif ($key == "startedAt") {
+                if (empty($value)) {
+                    $errors[$key] = "Veuillez remplir ce champ.";
+                } elseif (strtotime($value) === false) {
+                    $errors[$key] = "Veuillez insérer une date valide.";
+                } elseif ($value > $now) {
+                    $errors[$key] = "Veuillez insérer une date futur.";
+                }
+            } else {
+                if (empty($value)) {
+                    $errors[$key] = "Veuillez remplir ce champ.";
+                }
+            }
+        }
+
+
+
+
+
+        // Get latitude & longitude from Google Apo
+        if (!empty($data['location'])) {
+            $httpClient = HttpClient::create();
+            $responseCoords = $httpClient->request(
+                'GET',
+                "https://maps.googleapis.com/maps/api/geocode/json?address=" . $data['location'] . "&key=AIzaSyAkWtxL2EU0hLe9fQXv7umLECdugu8DJdU",
+            );
+            $coords = $responseCoords->toArray();
+        }
+        
+        if (isset($coords['results']) && count($coords['results']) > 0) {
+            foreach ($coords['results'] as $key) {
+                $event->setLatitude($key['geometry']['location']['lat']);
+                $event->setLongitude($key['geometry']['location']['lng']);
+            }
+        } else {
+            $errors['location'] = "L'adresse que vous avez fournis n'a pas été trouvé";
+        }
+
+        if (empty($errors)) {
+            $event->setType(htmlspecialchars($data['type']));
+            $event->setTitle(htmlspecialchars($data['title']));
+            $event->setDescription(htmlspecialchars($data['description']));
+            $event->setStartedAt(new Datetime($data['startedAt']));
+            $event->setDuration(htmlspecialchars($data['duration']));
+            $event->setOrganisation(htmlspecialchars($data['organisation']));
+            $event->setLocation(htmlspecialchars($data['location']));
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
+            return $this->json([
+                'success' => "success"
+            ]);
+        } else {
+            return $this->json([
+                'errors' => $errors
+            ]);
+        }
     }
 }

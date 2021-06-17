@@ -1,15 +1,48 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useLocation, useHistory } from "react-router-dom";
+
+import { TimelineMax } from 'gsap'
 import { slide as Menu } from 'react-burger-menu'
 import Logo from '../../images/hat.png'
+import Popup from './../popup/Popup'
 
 export default function Header(props) {
     const history = useHistory()
+
+    // Get params 
+    function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    }
+    let query = useQuery();
+    const [successSubscrib, setSuccessSubscrib] = useState(query.get("registration") ? query.get("registration") : null)
+    const [successEvent, setSuccessEvent] = useState(query.get("event") ? query.get("event") : null)
 
     const Disconnected = () => {
         localStorage.removeItem('studhelp')
         history.push('/connexion')
     }
+
+
+    useEffect(() => {
+        if (successSubscrib === "register" || successSubscrib === "login") {
+            history.push('/')
+            const tl = new TimelineMax();
+            tl.fromTo('#' + successSubscrib, 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
+            tl.to('#' + successSubscrib, 2, { top: '-500', display: 'none', delay: 5 });
+            setSuccessSubscrib(null);
+        } else if (successEvent === "delete" || successEvent === "create") {
+            history.push('/espace-client/mes-evenements')
+            const tl = new TimelineMax();
+            tl.fromTo('#' + successEvent, 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
+            tl.to('#' + successEvent, 2, { top: '-500', display: 'none', delay: 5 });
+            setSuccessEvent(null);
+        } else {
+            const tl = new TimelineMax();
+            tl.set('#' + successSubscrib + ', #' + successEvent, { top: '-500', display: 'none' });
+        }
+        // eslint-disable-next-line
+    }, []);
+
 
     return (
         <div className="header">
@@ -52,19 +85,19 @@ export default function Header(props) {
                     </svg>
                     <b>S'inscrire</b>
                 </a>}
-                {props.token.user && <a className="menu-item" href="/profil">
+                {props.token.user && <a className="menu-item" href="/espace-client/profil">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M17.294 7.29105C17.294 10.2281 14.9391 12.5831 12 12.5831C9.0619 12.5831 6.70601 10.2281 6.70601 7.29105C6.70601 4.35402 9.0619 2 12 2C14.9391 2 17.294 4.35402 17.294 7.29105ZM12 22C7.66237 22 4 21.295 4 18.575C4 15.8539 7.68538 15.1739 12 15.1739C16.3386 15.1739 20 15.8789 20 18.599C20 21.32 16.3146 22 12 22Z" />
                     </svg>
                     <b>Mon profil</b>
                 </a>}
-                {props.token.user && <a className="menu-item" href="/">
+                {props.token.user && <a className="menu-item" href="/espace-client/mes-invitations">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M18.7071 8.79633C18.7071 10.0523 19.039 10.7925 19.7695 11.6456C20.3231 12.2741 20.5 13.0808 20.5 13.956C20.5 14.8302 20.2128 15.6601 19.6373 16.3339C18.884 17.1417 17.8215 17.6573 16.7372 17.747C15.1659 17.8809 13.5937 17.9937 12.0005 17.9937C10.4063 17.9937 8.83505 17.9263 7.26375 17.747C6.17846 17.6573 5.11602 17.1417 4.36367 16.3339C3.78822 15.6601 3.5 14.8302 3.5 13.956C3.5 13.0808 3.6779 12.2741 4.23049 11.6456C4.98384 10.7925 5.29392 10.0523 5.29392 8.79633V8.3703C5.29392 6.68834 5.71333 5.58852 6.577 4.51186C7.86106 2.9417 9.91935 2 11.9558 2H12.0452C14.1254 2 16.2502 2.98702 17.5125 4.62466C18.3314 5.67916 18.7071 6.73265 18.7071 8.3703V8.79633ZM9.07367 20.0608C9.07367 19.5573 9.53582 19.3266 9.96318 19.2279C10.4631 19.1222 13.5093 19.1222 14.0092 19.2279C14.4366 19.3266 14.8987 19.5573 14.8987 20.0608C14.8738 20.5402 14.5926 20.9653 14.204 21.2352C13.7001 21.628 13.1088 21.8767 12.4906 21.9664C12.1487 22.0107 11.8128 22.0117 11.4828 21.9664C10.8636 21.8767 10.2723 21.628 9.76938 21.2342C9.37978 20.9653 9.09852 20.5402 9.07367 20.0608Z" />
                     </svg>
                     <b>Mes invitations</b>
                 </a>}
-                {props.token.user && <a className="menu-item" href="/mes_evenements">
+                {props.token.user && <a className="menu-item" href="/espace-client/mes-evenements">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M16.4109 2.76862L16.4119 3.51824C19.1665 3.73413 20.9862 5.61119 20.9891 8.48975L21 16.9155C21.0039 20.054 19.0322 21.985 15.8718 21.99L8.15188 22C5.01119 22.004 3.01482 20.027 3.01087 16.8795L3.00001 8.55272C2.99606 5.65517 4.75153 3.78311 7.50617 3.53024L7.50518 2.78061C7.5042 2.34083 7.83001 2.01 8.26444 2.01C8.69886 2.009 9.02468 2.33883 9.02567 2.77861L9.02666 3.47826L14.8914 3.47027L14.8904 2.77062C14.8894 2.33084 15.2152 2.001 15.6497 2C16.0742 1.999 16.4099 2.32884 16.4109 2.76862ZM4.52148 8.86157L19.4696 8.84158V8.49175C19.4272 6.34283 18.349 5.21539 16.4138 5.04748L16.4148 5.81709C16.4148 6.24688 16.0801 6.5877 15.6556 6.5877C15.2212 6.5887 14.8943 6.24887 14.8943 5.81909L14.8934 5.0095L9.02863 5.01749L9.02962 5.82609C9.02962 6.25687 8.70479 6.5967 8.27036 6.5967C7.83594 6.5977 7.50913 6.25887 7.50913 5.82809L7.50815 5.05847C5.58286 5.25137 4.51753 6.38281 4.52049 8.55072L4.52148 8.86157ZM15.2399 13.4043V13.4153C15.2498 13.8751 15.625 14.2239 16.0801 14.2139C16.5244 14.2029 16.8789 13.8221 16.869 13.3623C16.8483 12.9225 16.4918 12.5637 16.0485 12.5647C15.5944 12.5747 15.2389 12.9445 15.2399 13.4043ZM16.0554 17.892C15.6013 17.882 15.235 17.5032 15.234 17.0435C15.2241 16.5837 15.5884 16.2029 16.0426 16.1919H16.0525C16.5165 16.1919 16.8927 16.5707 16.8927 17.0405C16.8937 17.5102 16.5185 17.891 16.0554 17.892ZM11.1721 13.4203C11.1919 13.8801 11.568 14.2389 12.0222 14.2189C12.4665 14.1979 12.821 13.8181 12.8012 13.3583C12.7903 12.9085 12.425 12.5587 11.9807 12.5597C11.5266 12.5797 11.1711 12.9605 11.1721 13.4203ZM12.0262 17.8471C11.572 17.8671 11.1968 17.5082 11.1761 17.0485C11.1761 16.5887 11.5305 16.2089 11.9847 16.1879C12.429 16.1869 12.7953 16.5367 12.8052 16.9855C12.8259 17.4463 12.4705 17.8261 12.0262 17.8471ZM7.10433 13.4553C7.12408 13.915 7.50025 14.2749 7.95442 14.2539C8.39872 14.2339 8.75317 13.8531 8.73243 13.3933C8.72256 12.9435 8.35725 12.5937 7.91196 12.5947C7.45779 12.6147 7.10334 12.9955 7.10433 13.4553ZM7.95837 17.8521C7.5042 17.8731 7.12901 17.5132 7.10828 17.0535C7.10729 16.5937 7.46273 16.2129 7.9169 16.1929C8.3612 16.1919 8.7275 16.5417 8.73737 16.9915C8.7581 17.4513 8.40365 17.8321 7.95837 17.8521Z" />
                     </svg>
@@ -84,6 +117,30 @@ export default function Header(props) {
                 </a>}
 
             </Menu>
+
+
+            {/* Popup success login */}
+            <Popup
+                id="login"
+                text="Bienvenue sur Stud'help!"
+            />
+            {/* Popup success registration */}
+            <Popup
+                id="register"
+                text="Votre inscription à bien été pris en compte!"
+            />
+
+             {/* Popup success registration */}
+             <Popup
+                id="delete"
+                text="Votre évènement à été supprimé."
+            />
+
+              {/* Popup success registration */}
+              <Popup
+                id="newEvent"
+                text="Votre évènement à été crée avec succès!"
+            />
         </div>
     )
 }

@@ -6,11 +6,11 @@
 @import "./utils/popup.scss";
 @import "./utils/loader1.scss";
 
-// Title h1 top
+// Title .h1 top
 .logo {
     width: 150px;
 }
-h1 {
+.h1 {
     color: white;
     font-size: 40px;
     font-family: "Filson Pro Bold", sans-serif;
@@ -31,7 +31,7 @@ h1 {
     .logo {
         width: 130px;
     }
-    h1 {
+    .h1 {
         font-size: 34px;
     }
 }
@@ -45,7 +45,7 @@ h1 {
     .logo {
         width: 110px;
     }
-    h1 {
+    .h1 {
         font-size: 30px;
         margin-bottom: 5vh;
     }
@@ -55,7 +55,7 @@ h1 {
     .logo {
         width: 90px;
     }
-    h1 {
+    .h1 {
         font-size: 26px;
         margin-bottom: 3vh;
     }

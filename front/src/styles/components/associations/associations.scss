@@ -41,6 +41,10 @@
 
     .description-page {
         margin: 10vh 0;
+        .text-description{
+            margin-top: auto;
+            margin-bottom: auto;
+        }
         .search-illustration {
             width: 100%;
         }
@@ -52,7 +56,7 @@
             text-shadow: 1px 1px 1px black;
         }
         b {
-            color: white;
+            color: $orange;
         }
         i {
             a {

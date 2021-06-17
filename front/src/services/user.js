@@ -1,16 +1,16 @@
 import axios from 'axios';
 
-const url = "http://localhost:8000/api/";
+const url = process.env.REACT_APP_API_ENDPOINT;
 
 const headersAuth = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
     'Authorization': `Bearer ` + localStorage.getItem('studhelp')
 };
-const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-};
+// const headers = {
+//     'Access-Control-Allow-Origin': '*',
+//     'Content-Type': 'application/json',
+// };
 
 // Check Token
 export async function checkUser(setResponse) {

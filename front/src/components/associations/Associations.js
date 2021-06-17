@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { getAssocs } from '../../services/associations'
 
-import gsap from 'gsap'
+// import gsap from 'gsap'
 import Select from 'react-select'
 import ReactPaginate from "react-paginate";
 
@@ -120,7 +120,7 @@ export default function Associations() {
 
             {/* Presentation associations */}
             <div className="row justify-content-center description-page">
-                <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4">
+                <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4 text-description">
                     <p>
                         Trouve les associations près de chez toi en quelques clics.<br></br>
                         Recherche par titre, ville, description, périmetre...

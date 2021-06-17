@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = "http://localhost:8000/api/";
+const url = process.env.REACT_APP_API_ENDPOINT;
 
 const headersAuth = {
     'Access-Control-Allow-Origin': '*',
@@ -67,6 +67,42 @@ export async function getEventsByUser(setResponse, setLoading) {
                 setLoading(false)
             } else {
                 setResponse(false)
+            }
+        }, (err) => {
+            setResponse(err)
+        });
+}
+
+
+// Delete an event
+export async function removeEvent(setResponse, id) {
+    await axios({
+        url: url + "auth/event/remove/" + id,
+        headers: headersAuth,
+    })
+        .then((response) => {
+            if (response) {
+                setResponse(response.data.success)
+            }
+        }, (err) => {
+            setResponse(err)
+        });
+}
+
+
+// Get Events
+export async function newEvent(data, setResponse, setErrors) {
+    await axios({
+        method: "POST",
+        url: url + "auth/event",
+        headers: headersAuth,
+        data: data
+    })
+        .then((response) => {
+            if (response.data.errors) {
+                setErrors(response.data.errors)
+            } else {
+                setResponse(response.data.success)
             }
         }, (err) => {
             setResponse(err)

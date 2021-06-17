@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const url = "http://localhost:8000/api/";
+const url = process.env.REACT_APP_API_ENDPOINT;
 
-const headersAuth = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ` + localStorage.getItem('studhelp')
-};
+// const headersAuth = {
+//     'Access-Control-Allow-Origin': '*',
+//     'Content-Type': 'application/json',
+//     'Authorization': `Bearer ` + localStorage.getItem('studhelp')
+// };
 const headers = {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ export async function getAssocs(setResponse, setLoading, latitude, longitude, pe
             'lat': latitude,
             'lng': longitude,
             'perimeter': perimeter,
-            "searchBar" : searchBar,
+            "searchBar": searchBar,
             "orderBy": orderBy
         }
     })

@@ -1,6 +1,5 @@
 // Popup notif
-.successLogin-popup,
-.successRegister-popup {
+.success-popup{
     display: none;
     position: fixed;
     top: 30vh;
@@ -15,27 +14,19 @@
     border-radius: 8px;
     flex-direction: row;
     padding: 10vh 0;
-    // svg {
-    //     margin-right: 15px;
-    //     margin-top: auto;
-    //     margin-bottom: auto;
-    //     path {
-    //         fill: white;
-    //     }
-    // }
+
     p {
         display: block;
         margin: auto;
         width: auto;
-        
+        color: white;
     }
 }
 
 
 @media screen and (max-width: 767.98px) {
     // If success, we show popup "Connection success"
-    .success-popup,
-    .success-popupBilling {
+    .success-popup {
         left: 0;
         width: 103vw;
         padding: 20px;

@@ -6,8 +6,9 @@ import ReactPaginate from "react-paginate";
 import { getEvents } from '../../services/events'
 import Event from './Event'
 import Title from '../Title'
-import Illustration from '../../images/Associations/search_outline.png'
 import Loader1 from '../loader/Loader1'
+
+import Illustration from '../../images/Associations/search_outline.png'
 import PinMap from '../../images/pin.png'
 
 export default function Events() {
@@ -45,7 +46,7 @@ export default function Events() {
                 "lng": parseFloat(position.coords.longitude)
             })
         });
-    }, [perimeter, searchBar])
+    }, [perimeter, searchBar, orderBy])
 
     // Google maps size
     const containerStyle = {
@@ -117,7 +118,7 @@ export default function Events() {
 
             {/* Presentation associations */}
             <div className="row justify-content-center description-page">
-                <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4">
+                <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4 text-description">
                     <p>
                         Trouve les évènements près de chez toi en quelques clics.<br></br>
                         Recherche par type, ville, description, périmetre, date...

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
 import { loginUser, registerUser, GoogleAuth } from '../../services/registration.js'
 import { GoogleLogin } from 'react-google-login';
 import HelpYou from '../../images/User/Register/illustration_home.png'
@@ -19,15 +18,8 @@ export default function Register(props) {
     
 
     const [successGoogle, setSuccessGoogle] = useState([])
-    const history = useHistory()
 
     const input = useRef();
-
-    useEffect(() => {
-        if (props.token.user) {
-            history.goBack()
-        }
-    }, [props, history]);
 
     const data = {
         "password": password,
@@ -76,7 +68,6 @@ export default function Register(props) {
 
     // if connection success, we return a token and set in localStorage
     useEffect(() => {
-        console.log(successGoogle.data)
         if (successGoogle.data) {
             localStorage.setItem('studhelp', successGoogle.data.token)
             window.location.href = '/?registration=register'

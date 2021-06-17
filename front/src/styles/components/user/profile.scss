@@ -81,6 +81,17 @@
             margin-right: 45px;
         }
     }
+    .dateTimePicker{
+        width: 100%;
+        .react-datetime-picker__inputGroup{
+            width: 110%;
+            // display: flex;
+            // justify-content: space-between;
+        }
+        button{
+            width: auto;
+        }
+    }
 }
 
 

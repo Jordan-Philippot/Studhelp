@@ -8,6 +8,9 @@ import './styles/App.scss';
 import gsap, { CSSPlugin } from 'gsap';
 // Axios 
 import { checkUser } from './services/user'
+
+// Loader 
+import Loader from './components/loader/Loader';
 // Sections
 import Header from "./components/sections/Header";
 import Footer from "./components/sections/Footer";
@@ -19,19 +22,16 @@ import Register from "./components/registration/Register";
 // Events
 import Events from "./components/events/Events";
 import OneEvent from "./components/events/OneEvent";
-import MyEvents from "./components/events/MyEvents";
-
 // Associations
 import Associations from "./components/associations/Associations";
-
-
+import OneAssociation from './components/associations/OneAssociation';
 // User 
 import Profile from "./components/user/profile/Profile";
-import OneAssociation from './components/associations/OneAssociation';
+import MyEvents from "./components/events/MyEvents";
+import NewEvent from "./components/events/NewEvent";
+import MyOneEvent from "./components/events/MyOneEvent";
 
 
-// Loader 
-import Loader from './components/loader/Loader';
 
 export default function App() {
   const [load, setLoad] = useState(false)
@@ -59,6 +59,19 @@ export default function App() {
       tl.to('.App', { css: { display: 'block' } }, 0.5);
     }
   }, [load])
+
+  // If client area = redirect to login page
+  useEffect(() => {
+    if (location.match(/espace-client/)) {
+      if (token.user === "" || token.user === false) {
+        return window.location.href = "/login"
+      }
+    } else if (location.match(/connexion/) || location.match(/inscription/)) {
+      if (token.user === true) {
+        return window.location.href = "/"
+      }
+    }
+  }, [location, token])
 
   return (
     <Router>
@@ -99,12 +112,6 @@ export default function App() {
             </Route>
 
 
-            {/* User */}
-            <Route exact path="/profil">
-              <Helmet title="Stud'help | Profil" />
-              <Profile token={token} />
-            </Route>
-
             {/* Events */}
             <Route exact path="/evenements">
               <Helmet title="Stud'help | Évènements" />
@@ -116,22 +123,41 @@ export default function App() {
               <OneEvent token={token} />
             </Route>
 
-            <Route exact path="/mes_evenements">
-              <Helmet title="Stud'help | Mes évènements" />
-              <MyEvents token={token} />
-            </Route>
 
             {/* Associations */}
             <Route exact path="/associations">
               <Helmet title="Stud'help | Associations" />
-              <Associations token={token} />
+              <Associations />
             </Route>
 
             <Route exact path="/association/:id">
               <Helmet title="Stud'help | Association" />
-              <OneAssociation token={token} />
+              <OneAssociation />
             </Route>
 
+            {/* Espace Client */}
+            {/* User */}
+            <Route exact path="/espace-client/profil">
+              <Helmet title="Stud'help | Profil" />
+              <Profile />
+            </Route>
+
+            <Route exact path="/espace-client/mes-evenements">
+              <Helmet title="Stud'help | Mes évènements" />
+              <MyEvents />
+            </Route>
+
+            <Route exact path="/espace-client/mon-evenement/:id">
+              <Helmet title="Stud'help | Mon évènement" />
+              <MyOneEvent />
+            </Route>
+
+
+            <Route exact path="/espace-client/nouvel-evenement">
+              <Helmet title="Stud'help | Mon Nouvel évènement" />
+              <NewEvent />
+            </Route>
+          
           </HelmetProvider>
         </Switch>
 

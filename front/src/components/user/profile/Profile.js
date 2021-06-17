@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 
 import { getProfile, setUserProfile } from '../../../services/user.js'
 import { TimelineMax } from 'gsap'
@@ -9,6 +9,7 @@ import Humaaans from '../../../images/User/Profile/Humaaans.png'
 import Humaaans2 from '../../../images/User/Profile/Humaaans2.png'
 
 import Title from '../../Title'
+import Popup from '../../popup/Popup'
 
 export default function Profile(props) {
     const input = useRef();
@@ -31,7 +32,7 @@ export default function Profile(props) {
     const [errorsprofile, setErrorsprofile] = useState([])
     const [successprofile, setSuccessprofile] = useState("")
 
-    const history = useHistory();
+    // const history = useHistory();
 
     const data = {
         "firstname": firstname,
@@ -68,36 +69,31 @@ export default function Profile(props) {
         }
     }, [profile])
 
-    useEffect(() => {
-        if (props.token.user === "" || props.token.user === false) {
-            history.goBack()
-        }
-    }, [props, history]);
 
     // A rajouter !!! existe plus success popup -> successProfile
     useEffect(() => {
         if (successprofile === "success") {
             const tl = new TimelineMax();
-            tl.fromTo('.success-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
-            tl.to('.success-popup', 2, { top: '-500', display: 'none', delay: 5 });
+            tl.fromTo('#changeProfile', 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
+            tl.to('#changeProfile', 2, { top: '-500', display: 'none', delay: 5 });
             setSuccessprofile("")
 
         } else if (successprofile === "email") {
             const tl = new TimelineMax();
-            tl.fromTo('.success-popup', 2, { top: '-500', display: 'none' }, { top: '0px', display: 'block' })
-            tl.to('.success-popup', 2, { top: '-500', display: 'none', delay: 5 });
+            tl.fromTo('#changeProfile', 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
+            tl.to('#changeProfile', 2, { top: '-500', display: 'none', delay: 5 });
 
             localStorage.removeItem('studhelp')
             window.location.reload();
             setSuccessprofile("")
         } else {
             const tl = new TimelineMax();
-            tl.set('.success-popup', { top: '-500', display: 'none' });
+            tl.set('#changeProfile', { top: '-500', display: 'none' });
         }
         // eslint-disable-next-line
     }, [successprofile])
 
-
+console.log(successprofile, profile)
     // Show or hide password
     const showPassword = () => {
         if (input.current.type === "password") {
@@ -113,6 +109,13 @@ export default function Profile(props) {
 
     return (
         <div className="profile">
+            
+              {/* Popup success */}
+              <Popup
+                id="changeProfile"
+                text="Votre profil à été modifié avec succès."
+            />
+            
             <img className="humaaans" src={Humaaans} alt="caracter standing" />
             <img className="humaaans2" src={Humaaans2} alt="caracter standing" />
 
@@ -154,7 +157,7 @@ export default function Profile(props) {
                                         required
                                         onChange={(e) => setLastname(e.target.value)}
                                     />
-                                    {errorsprofile.lastname && <span className="text-danger">{errorsprofile.lastname}<br></br></span>}
+                                    {errorsprofile.lastname && <span className="text-error">{errorsprofile.lastname}<br></br></span>}
                                 </div>
                                 <div className="offset-2 col-5">
                                     <label htmlFor="firstname">Prénom</label>
@@ -166,7 +169,7 @@ export default function Profile(props) {
                                         required
                                         onChange={(e) => setFirstname(e.target.value)}
                                     />
-                                    {errorsprofile.firstname && <span className="text-danger">{errorsprofile.firstname}</span>}
+                                    {errorsprofile.firstname && <span className="text-error">{errorsprofile.firstname}</span>}
                                 </div>
                             </div>
 
@@ -188,7 +191,7 @@ export default function Profile(props) {
                                     required
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
-                                {errorsprofile.email && <span className="text-danger">{errorsprofile.email}</span>}
+                                {errorsprofile.email && <span className="text-error">{errorsprofile.email}</span>}
                             </div>
 
                             <div className="d-flex flex-direction-column">
@@ -208,7 +211,7 @@ export default function Profile(props) {
                                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                                     </svg>
                                 </div>
-                                {errorsprofile.password && <span className="text-danger">{errorsprofile.password}</span>}
+                                {errorsprofile.password && <span className="text-error">{errorsprofile.password}</span>}
                             </div>
 
 

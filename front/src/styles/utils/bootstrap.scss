@@ -5,7 +5,7 @@
 * {
     .text-error {
         font-family: "Filson Pro", sans-serif;
-        color: rgb(255, 0, 0);
+        color: $red;
         font-size: 10px;
         font-weight: bold;
         margin: 0;
@@ -15,7 +15,8 @@
     }
 }
 
-
+// font: italic 1.2em "Fira Sans", serif;
+//styleName: Headings/Headings 1;
 
 li {
     list-style-type: none;
@@ -34,9 +35,8 @@ li {
     }
 }
 
-
 // Buttons
-$btn: "orange" #ff7700, "turquoise" #00d5ff, "purple" #6247e9, "darkblue" #28518a;
+$btn: "orange" #ff7700, "red" #ff3c00, "turquoise" #00d5ff, "purple" #6247e9, "darkblue" #28518a;
 
 @each $name, $color in $btn {
     .btn-#{$name}Full {
@@ -76,10 +76,6 @@ $btn: "orange" #ff7700, "turquoise" #00d5ff, "purple" #6247e9, "darkblue" #28518
     }
 }
 
-
-
-
-
 @media screen and (max-width: 1199.98px) {
     .max-lg-flex-direction-column-reverse {
         flex-direction: column-reverse;
@@ -101,7 +97,6 @@ $btn: "orange" #ff7700, "turquoise" #00d5ff, "purple" #6247e9, "darkblue" #28518
     }
 }
 @media screen and (min-width: 576px) and (max-width: 991.98px) and (max-height: 450px) {
-   
 }
 
 @media screen and (max-width: 767.98px) {
@@ -111,7 +106,6 @@ $btn: "orange" #ff7700, "turquoise" #00d5ff, "purple" #6247e9, "darkblue" #28518
     .max-sm-flex-direction-column-reverse {
         flex-direction: column-reverse;
     }
-
 }
 
 @media screen and (max-width: 575.98px) {

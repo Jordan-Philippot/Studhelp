@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import Logo from '../../images/hat.png'
-import { TimelineMax, CSSPlugin } from 'gsap';
+// import { TimelineMax, CSSPlugin } from 'gsap';
 
 export default function Footer(props) {
 
@@ -50,7 +50,7 @@ export default function Footer(props) {
                     <li><a href="/">Accueil</a></li>
                     <li><a href="/#howItWorks">Comment ça marche?</a></li>
                     <li><a href="/">FAQ</a></li>
-                    <li><a href="/about_us">A propos</a></li>
+                    <li><a href="/about-us">A propos</a></li>
                 </ul>
 
                 <ul className="offset-1 col-5 col-sm-5 col-lg-4 col-xl-2">
@@ -60,10 +60,10 @@ export default function Footer(props) {
                 </ul>
 
                 <ul className="col-6 col-sm-6 col-lg-4 col-xl-2">
-                    {props.token?.user && <li><a href="/profil">Profil</a></li>}
-                    {props.token?.user && <li><a href="/mes_evenements">Mes évènements</a></li>}
+                    {props.token?.user && <li><a href="/espace-client/profil">Profil</a></li>}
+                    {props.token?.user && <li><a href="/espace-client/mes-evenements">Mes évènements</a></li>}
                     {props.token?.user && <li><a href="/tchat">Tchat</a></li>}
-                    {props.token?.user && <li><a href="/mes_invitations">Mes invitations</a></li>}
+                    {props.token?.user && <li><a href="/espace-client/mes-invitations">Mes invitations</a></li>}
                     {!props.token?.user && <li><a href="/connexion">Connexion</a></li>}
                     {!props.token?.user && <li><a href="/inscription">Inscription</a></li>}
                 </ul>

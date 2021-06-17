@@ -5,7 +5,7 @@ import { GoogleLogin } from 'react-google-login';
 import Party from '../../images/User/Register/party.png'
 import Logo from '../../images/hat.png'
 
-export default function Login(props) {
+export default function Login() {
     // Data
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -42,12 +42,6 @@ export default function Login(props) {
             input.current.type = "password";
         }
     }
-
-    useEffect(() => {
-        if (props.token.user) {
-            history.goBack()
-        }
-    }, [props, history]);
 
 
     // After Click sign in google & choose account
