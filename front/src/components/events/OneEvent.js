@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useHistory } from "react-router-dom";
 import { getEvent } from '../../services/events'
-import { addParticipation, getParticipants, removeParticipant } from '../../services/user'
+import { addParticipation, getParticipants, removeParticipant } from '../../services/participation'
 
 import Illustration from '../../images/Associations/product_launch.png'
 import Title from '../Title'

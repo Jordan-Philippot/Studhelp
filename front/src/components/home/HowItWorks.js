@@ -2,6 +2,8 @@ import React from 'react'
 import StudentWork from '../../images/Home/process_outline.png'
 import Gaming from '../../images/Home/gaming_solid.png'
 import StudentPuzzle from '../../images/Home/team_at_work.png'
+import Humaaans from '../../images/User/Humaans_myevents.png'
+
 
 export default function HowItWorks() {
     return (
@@ -59,8 +61,8 @@ export default function HowItWorks() {
                     <h4>Besoin de soutien? </h4>
 
                     <p className="describe-explain mt-4">
-                       Ici, tu trouveras toute les associations étudiantes de france, directement tirées du site gouvernementale.<br></br>
-                       Du simple BDE au soutien psychologique, à une récolte alimentaire, tu trouveras tout ce dont tu as besoin &#128519;
+                        Ici, tu trouveras toute les associations étudiantes de france, directement tirées du site gouvernementale.<br></br>
+                        Du simple BDE au soutien psychologique, à une récolte alimentaire, tu trouveras tout ce dont tu as besoin &#128519;
                     </p>
 
                     <div className="mt-4">
@@ -81,17 +83,35 @@ export default function HowItWorks() {
 
 
 
-            {/* <div className="row justify-content-center mt-5">
-                <div className="col-sm-5 bubble-turquoise">
-                    <img src={StudentWork} alt="students work and phone" />
+            <div className="explain-block row max-md-flex-direction-column">
+
+                <div className="offset-1 col-10 offset-sm-3 col-sm-6 offset-md-3 col-md-6 offset-lg-1 col-lg-4 offset-xl-1 col-xl-4 bubble-turquoise">
+                    <div className="offset-2 col-6">
+                        <img className="explain-picture" src={Humaaans} alt="Manette de jeu, gaming, gameboy" />
+                    </div>
                 </div>
 
+                <div className="explain-text offset-1 col-10 offset-sm-3 col-sm-6 offset-md-3 col-md-6 offset-lg-1 col-lg-5 offset-xl-1 col-xl-4 flex-direction-column ">
+                    <h4>Gestion de tes évènements</h4>
 
-                <div className="col-sm-6">
-                    <p><br></br>
+                    <p className="describe-explain mt-4">
+                        En plus de la gestion basique, tu peux également inviter n'importe quel utilisateur
+                        de Stud'help afin de promouvoir ton évènement, ou simplement y inviter tes amis &#128521;
+                        <br></br><br></br>
+                        Pour cela, Il suffit de te connecter et de se rendre dans "Mes évènements"!
                     </p>
+
+                    {/* <div className="mt-4">
+                        <a className="text-blue d-flex" href="/evenements">
+                            <p className="mr-2">En savoir plus</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right mt-1" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+                            </svg>
+                        </a>
+                    </div> */}
                 </div>
-            </div> */}
+            </div>
+
         </div>
     )
 }

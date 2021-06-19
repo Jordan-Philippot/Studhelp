@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import { getMyParticipations } from '../../services/user'
+import { getMyParticipations } from '../../services/participation'
 import MyParticipation from './MyParticipation'
 import IllustrationMyEvents from '../../images/User/Humaans_myevents.png'
 import Title from '../Title'
