@@ -37,7 +37,7 @@ export default function OneEvent(props) {
 
     useEffect(() => {
         if (responseParticipation === "success") {
-            window.location.href = "/evenements?event=addParticipation"
+            window.location.href = "/evenement/" + id + "?event=addParticipation"
         }
     }, [responseParticipation])
 
@@ -48,7 +48,7 @@ export default function OneEvent(props) {
     useEffect(() => {
         console.log(isRemove)
         if (isRemove) {
-            window.location.href = "/evenements/" + id + "?event=removeParticipation"
+            window.location.href = "/evenement/" + id + "?event=removeParticipation"
         }
     }, [isRemove])
     return (
@@ -76,23 +76,25 @@ export default function OneEvent(props) {
 
             {event !== null ?
                 <div className="row justify-content-center">
-                    <div className="association-component col-10 col-sm-8 col-md-10 col-lg-11 col-xl-9">
+                    <div className={`association-component col-10 col-sm-8 col-md-10 col-lg-11 col-xl-9 ${event.isPassed ? "isPassed" : ""}`}>
+                    {event.isPassed && <div className="isPassedBrand">Fin</div>}
+
                         <div className="row max-md-flex-direction-column ">
 
                             <div className="offset-1 col-10 offset-lg-0 col-lg-7">
                                 <h4>{event.title}</h4>
                                 <p className="association-description">{event.description}</p>
-                                <div className="d-flex ">
+                                <div className="d-flex max-sm-flex-direction-column mt-5 ">
                                     {(() => {
                                         if (isParticipate) {
-                                            return <button className="offset-1 col-4 btn-redFull" onClick={handleRemoveParticipant}>Me désinscrire</button>
+                                            return <button className="col-12 offset-md-1 col-md-4  btn-redFull" onClick={handleRemoveParticipant}>Me désinscrire</button>
                                         } else {
-                                            return <button className="offset-1 col-4 btn-orangeFull" onClick={addParticipationtUser}>Participer</button>
+                                            return <button className="col-12 offset-md-1 col-md-4 btn-orangeFull" onClick={addParticipationtUser}>Participer</button>
                                         }
                                     })()}
 
 
-                                    <button className="offset-1 col-4 btn-turquoiseFull">Rejoindre le tchat</button>
+                                    <button className="col-12 offset-md-1 col-md-4 btn-turquoiseFull">Rejoindre le tchat</button>
                                 </div>
 
                                 {errorsParticipation.event && <div className="text-error mt-5">{errorsParticipation.event}</div>}

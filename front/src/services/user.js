@@ -126,3 +126,22 @@ export async function removeParticipant(eventId, setResponse) {
             setResponse(false)
         });
 }
+
+// Get Profile
+export async function getMyParticipations(setResponse, setLoading) {
+    await axios({
+        method: "GET",
+        url: url + 'auth/getMyParticipations',
+        headers: headersAuth
+    })
+        .then((response) => {
+            if (response) {
+                setResponse(response.data.myParticipations)
+                setLoading(false)
+            } else {
+                setResponse(false)
+            }
+        }, (err) => {
+            setResponse(err)
+        });
+}

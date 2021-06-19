@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 
 import { getEvent, updateMyEvent } from '../../services/events.js'
-import { TimelineMax } from 'gsap'
+// import { TimelineMax } from 'gsap'
 import DateTimePicker from 'react-datetime-picker';
 
 import Illustration from '../../images/User/Profile/workspace_solid.png'

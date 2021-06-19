@@ -62,6 +62,7 @@ export default function Footer(props) {
                 <ul className="col-6 col-sm-6 col-lg-4 col-xl-2">
                     {props.token?.user && <li><a href="/espace-client/profil">Profil</a></li>}
                     {props.token?.user && <li><a href="/espace-client/mes-evenements">Mes évènements</a></li>}
+                    {props.token?.user && <li><a href="/espace-client/mes-evenements">Mes Participations</a></li>}
                     {props.token?.user && <li><a href="/tchat">Tchat</a></li>}
                     {props.token?.user && <li><a href="/espace-client/mes-invitations">Mes invitations</a></li>}
                     {!props.token?.user && <li><a href="/connexion">Connexion</a></li>}

@@ -44,7 +44,9 @@ export default function MyEvents() {
 
                     <p>
                         Tu peux également voir les détails en cliquant sur <b>"Voir mon évènement" </b>
-                        Dans chaque évènement, nous te mettons à disposition un tchat dédié.
+                        Dans chaque évènement, la liste des utilisateurs de Stud'help est consultable afin de les inviter.
+                        <br></br>
+                        Un tchat dédié est également mis à disposition.
                         <br></br><br></br>
                         <i>
                             Tu souhaites créer ton évènement? Rien de plus de simple,
@@ -71,8 +73,7 @@ export default function MyEvents() {
 
                         {(() => {
                             if (myEventsResponse.length === 0 && loading === false) {
-                                return <p className="geolocalisation-none">Désolé, aucun résultat n'a été trouvé</p>
-                                // return <p className="geolocalisation-none">Pour accéder aux associations, veuillez accepter la géolocalisation</p>
+                                return <p className="geolocalisation-none">Désolé, aucun évènement n'a été trouvé</p>
                             } else if (myEventsResponse.length > 0 && loading === false) {
                                 return myEventsResponse
                                     .slice(offset, offset + PER_PAGE)

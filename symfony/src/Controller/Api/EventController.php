@@ -27,6 +27,7 @@ class EventController extends AbstractController
         $searchBar = $data['searchBar'];
         $orderBy = $data['orderBy'];
 
+        $now = new Datetime();
         $nearMe = [];
 
         if ($searchBar !== '' && strlen($searchBar) > 0) {
@@ -42,30 +43,32 @@ class EventController extends AbstractController
         // We check distance between user and each association ( search is in front)
         foreach ($allEvents as $event) {
 
-            $latitudeTo = $event->getLatitude();
-            $longitudeTo = $event->getLongitude();
+            if ($event->getStartedAt() > $now) {
+                $latitudeTo = $event->getLatitude();
+                $longitudeTo = $event->getLongitude();
 
-            //Calculate distance from latitude and longitude
-            $theta = $longitudeFrom - $longitudeTo;
-            $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
-            $dist = acos($dist);
-            $dist = rad2deg($dist);
-            $miles = $dist * 60 * 1.1515;
-            $distance = ($miles * 1.609344);
+                //Calculate distance from latitude and longitude
+                $theta = $longitudeFrom - $longitudeTo;
+                $dist = sin(deg2rad($latitudeFrom)) * sin(deg2rad($latitudeTo)) +  cos(deg2rad($latitudeFrom)) * cos(deg2rad($latitudeTo)) * cos(deg2rad($theta));
+                $dist = acos($dist);
+                $dist = rad2deg($dist);
+                $miles = $dist * 60 * 1.1515;
+                $distance = ($miles * 1.609344);
 
-            if ($distance <= $perimeter) {
-                $nearMe[] = [
-                    "id" => $event->getId(),
-                    "admin" => $event->getAdmin(),
-                    "type" => $event->gettype(),
-                    "title" => $event->getTitle(),
-                    "description" => $event->getDescription(),
-                    "startedAt" => $event->getStartedAt(),
-                    "duration" => $event->getDuration(),
-                    "organisation" => $event->getOrganisation(),
-                    "location" => $event->getLocation(),
-                    "distance" => round($distance, 1)
-                ];
+                if ($distance <= $perimeter) {
+                    $nearMe[] = [
+                        "id" => $event->getId(),
+                        "admin" => $event->getAdmin(),
+                        "type" => $event->gettype(),
+                        "title" => $event->getTitle(),
+                        "description" => $event->getDescription(),
+                        "startedAt" => $event->getStartedAt(),
+                        "duration" => $event->getDuration(),
+                        "organisation" => $event->getOrganisation(),
+                        "location" => $event->getLocation(),
+                        "distance" => round($distance, 1)
+                    ];
+                }
             }
         }
 
@@ -86,11 +89,21 @@ class EventController extends AbstractController
      */
     public function getEvent(EventRepository $eventRepository, $id)
     {
+        $now = new DateTime();
+
         $eventEntity = $eventRepository->findOneBy(['id' => $id]);
+
+
 
         if ($eventEntity == null) {
             $event = null;
         } else {
+            if ($eventEntity->getStartedAt() > $now) {
+                $passed = false;
+            } else {
+                $passed = true;
+            }
+            
             $event = [
                 "id" => $eventEntity->getId(),
                 "admin" => $eventEntity->getAdmin()->getEmail(),
@@ -101,6 +114,7 @@ class EventController extends AbstractController
                 "duration" => $eventEntity->getDuration(),
                 "organisation" => $eventEntity->getOrganisation(),
                 "location" => $eventEntity->getLocation(),
+                "isPassed" => $passed
             ];
         }
 
@@ -156,7 +170,6 @@ class EventController extends AbstractController
                     "duration" => $event->getDuration(),
                     "organisation" => $event->getOrganisation(),
                     "location" => $event->getLocation(),
-
                 ];
             }
         }

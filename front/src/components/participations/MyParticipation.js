@@ -1,11 +1,12 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-export default function MyEvent(props) {
+export default function MyParticipation(props) {
     const history = useHistory()
 
     return (
-        <div className="association-component col-10 col-sm-8 col-md-5 col-lg-5 col-xl-5">
+        <div className={`association-component col-10 col-sm-8 col-md-5 col-lg-5 col-xl-5 ${props.event.isPassed ? "isPassed" : ""}`}>
+            {props.event.isPassed && <div className="isPassedBrand">Fin</div>}
             <h4>{props.event.title}</h4>
             <div className="d-flex justify-content-center address">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-geo-alt-fill" viewBox="0 0 16 16">
@@ -13,7 +14,7 @@ export default function MyEvent(props) {
                 </svg>
                 <p>{props.event.location}</p>
             </div>
-            <button className="btn btn-turquoiseOut" onClick={() => history.push("/espace-client/mon-evenement/" + props.event.id)}>Voir mon évènement</button>
+            <button className="btn btn-turquoiseOut" onClick={() => history.push("/evenement/" + props.event.id)}>Voir l'évènement</button>
         </div>
     )
 }

@@ -27,10 +27,15 @@ import Associations from "./components/associations/Associations";
 import OneAssociation from './components/associations/OneAssociation';
 // User 
 import Profile from "./components/user/profile/Profile";
-import MyEvents from "./components/events/MyEvents";
-import NewEvent from "./components/events/NewEvent";
-import MyOneEvent from "./components/events/MyOneEvent";
-import UpdateEvent from "./components/events/UpdateEvent";
+import MyEvents from "./components/myevents/MyEvents";
+import NewEvent from "./components/myevents/NewEvent";
+import MyOneEvent from "./components/myevents/MyOneEvent";
+import UpdateEvent from "./components/myevents/UpdateEvent";
+
+import MyParticipations from "./components/participations/MyParticipations";
+
+// Invitations
+import NewInvitations from "./components/invitations/NewInvitation";
 
 
 
@@ -73,7 +78,7 @@ export default function App() {
       }
     }
   }, [location, token])
-console.log(token)
+
   return (
     <Router>
 
@@ -143,6 +148,8 @@ console.log(token)
               <Profile />
             </Route>
 
+
+            {/* User Events */}
             <Route exact path="/espace-client/mes-evenements">
               <Helmet title="Stud'help | Mes évènements" />
               <MyEvents />
@@ -158,12 +165,24 @@ console.log(token)
               <Helmet title="Stud'help | Mon Nouvel évènement" />
               <NewEvent />
             </Route>
-          
+
             <Route exact path="/espace-client/modifier-evenement/:id">
               <Helmet title="Stud'help | Modifier mon évènement" />
               <UpdateEvent />
             </Route>
+
+            {/* User Participate */}
+            <Route exact path="/espace-client/mes-participations">
+              <Helmet title="Stud'help | Mes participations" />
+              <MyParticipations />
+            </Route>
             
+
+            <Route exact path="/espace-client/nouvel-invitation/:id">
+              <Helmet title="Stud'help | Envoyer une invitation" />
+              <NewInvitations />
+            </Route>
+
           </HelmetProvider>
         </Switch>
 

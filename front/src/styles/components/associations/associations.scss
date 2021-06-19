@@ -33,7 +33,7 @@
         border-radius: 50px;
         color: rgb(61, 61, 61);
         margin-top: 20px;
-        &::placeholder{
+        &::placeholder {
             font-size: 16px;
             color: rgb(100, 100, 100);
         }
@@ -41,7 +41,7 @@
 
     .description-page {
         margin: 10vh 0;
-        .text-description{
+        .text-description {
             margin-top: auto;
             margin-bottom: auto;
         }
@@ -77,6 +77,7 @@
         margin-right: 30px;
         margin-bottom: 30px;
         color: white;
+        overflow: hidden;
         h4 {
             font-size: 18px;
             min-height: 70px;
@@ -101,9 +102,38 @@
 
         button {
             margin-top: 40px;
+            position: relative;
             border-radius: 50px;
             width: 100%;
+            bottom: 0;
         }
+    }
+    
+    .isPassed {
+        background: rgba(80, 0, 184, 0.8);
+        padding: 0px 5% 25px 5%;
+        button {
+            margin-top: 30px;
+            position: relative;
+            border-radius: 50px;
+            width: 100%;
+            bottom: 0;
+        }
+    }
+    .isPassedBrand {
+        width: 200px;
+        text-align: center;
+        line-height: 50px;
+        letter-spacing: 1px;
+        color: #202020;
+        position: relative;
+        top: 20px;
+        left: 85%;
+        // left: auto;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        background: white;
+        font-family: "Filson Pro";
     }
 }
 
@@ -128,6 +158,29 @@
                     font-size: 15px;
                 }
             }
+        }
+        .isPassed {
+            padding: 20px 5% 25px 5%;
+        }
+        .isPassedBrand {
+            width: 250px;
+            top: 10px;
+            left: 75%;
+            font-size: 16px;
+            line-height: 30px;
+        }
+    }
+}
+
+@media screen and (max-width: 1399.98px) {
+    .associations {
+        .isPassed {
+            padding: 20px 5% 25px 5%;
+        }
+        .isPassedBrand {
+            top: -10px;
+            left: 70%;
+            font-size: 14px;
         }
     }
 }
@@ -160,6 +213,14 @@
             background-color: $turquoise;
             color: white;
         }
+        .isPassed {
+            padding: 15px 5% 25px 5%;
+        }
+        .isPassedBrand {
+            width: 200px;
+            top: 0px;
+            left: 68%;
+        }
     }
 }
 
@@ -183,6 +244,15 @@
                     font-size: 13px;
                 }
             }
+        }
+        .isPassed {
+            padding: 20px 5% 25px 5%;
+        }
+        .isPassedBrand {
+            width: 200px;
+            top: -5px;
+            left: 62%;
+            line-height: 20px;
         }
     }
 }
@@ -216,12 +286,18 @@
                 }
             }
         }
+     
+        .isPassedBrand {
+            width: 200px;
+            top: 0px;
+            left: 65%;
+            line-height: 20px;
+        }
     }
 }
 
 @media screen and (min-width: 576px) and (max-width: 991.98px) and (max-height: 450px) {
     .associations {
-      
         .pagination {
             .pagination__link {
                 font-size: 15px;
@@ -234,14 +310,13 @@
         }
 
         .description-page {
-          margin: 50px 0;
+            margin: 50px 0;
         }
     }
 }
 
 @media screen and (max-width: 575.98px) {
     .associations {
-
         .pagination {
             .pagination__link {
                 font-size: 14px;
@@ -257,11 +332,11 @@
             font-size: 16px;
         }
         .searchBar {
-            &::placeholder{
+            &::placeholder {
                 font-size: 14px;
             }
         }
-        
+
         .description-page {
             p {
                 font-size: 13px;
@@ -282,9 +357,18 @@
                     font-size: 13px;
                 }
             }
-            button{
+            button {
                 font-size: 15px;
             }
+        }
+        .isPassed {
+            padding: 50px 5% 25px 5%;
+        }
+        .isPassedBrand {
+            width: 230px;
+            top: -40px;
+            left: 55%;
+            line-height: 18px;
         }
     }
 }

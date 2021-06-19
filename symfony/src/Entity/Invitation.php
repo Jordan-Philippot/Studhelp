@@ -40,6 +40,11 @@ class Invitation
      */
     private $send_at;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +94,18 @@ class Invitation
     public function setSendAt(\DateTimeInterface $send_at): self
     {
         $this->send_at = $send_at;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
