@@ -37,6 +37,7 @@ import MyParticipations from "./components/participations/MyParticipations";
 // Invitations
 import NewInvitations from "./components/invitations/NewInvitation";
 
+import AboutUs from "./components/about/AboutUs"
 
 
 export default function App() {
@@ -181,6 +182,12 @@ export default function App() {
             <Route exact path="/espace-client/nouvel-invitation/:id">
               <Helmet title="Stud'help | Envoyer une invitation" />
               <NewInvitations />
+            </Route>
+
+            {/* User Participate */}
+            <Route exact path="/a-propos">
+              <Helmet title="Stud'help | À propos" />
+              <AboutUs />
             </Route>
 
           </HelmetProvider>
