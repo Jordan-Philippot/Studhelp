@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 import { loginUser, GoogleAuth } from '../../services/registration.js'
 import { GoogleLogin } from 'react-google-login';
 import Party from '../../images/User/Register/party.png'
@@ -15,7 +15,7 @@ export default function Login() {
     const [response, setResponse] = useState([])
     const [successGoogle, setSuccessGoogle] = useState([])
 
-    const history = useHistory()
+    // const history = useHistory()
     const input = useRef();
 
     // Login User 

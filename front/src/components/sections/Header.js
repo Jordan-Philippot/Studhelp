@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import { TimelineMax } from 'gsap'
 import { slide as Menu } from 'react-burger-menu'
@@ -9,6 +9,7 @@ import Popup from './../popup/Popup'
 export default function Header(props) {
     const history = useHistory()
 
+    const location = useLocation()
     // Get params 
     function useQuery() {
         return new URLSearchParams(useLocation().search);
@@ -17,12 +18,12 @@ export default function Header(props) {
     const [successSubscrib, setSuccessSubscrib] = useState(query.get("registration") ? query.get("registration") : null)
     const [successEvent, setSuccessEvent] = useState(query.get("event") ? query.get("event") : null)
     const [successUser, setSuccessUser] = useState(query.get("user") ? query.get("user") : null)
+    const [successInvitation, setSuccessInvitation] = useState(query.get("invitation") ? query.get("invitation") : null)
 
     const Disconnected = () => {
         localStorage.removeItem('studhelp')
         history.push('/connexion')
     }
-    const location = window.location
 
     useEffect(() => {
         if (successSubscrib === "register" || successSubscrib === "login") {
@@ -47,6 +48,12 @@ export default function Header(props) {
             tl.to('#' + successUser, 2, { top: '-500', display: 'none', delay: 5 });
             history.push('/espace-client/profil')
             setSuccessUser(null);
+        } else if (successInvitation === "invitationSend" || successInvitation === "invitationRemove" || successInvitation === "invitationAccept") {
+            const tl = new TimelineMax();
+            tl.fromTo('#' + successInvitation, 2, { top: '-500', display: 'none' }, { top: '30vh', display: 'block' })
+            tl.to('#' + successInvitation, 2, { top: '-500', display: 'none', delay: 5 });
+            history.push(location.pathname)
+            setSuccessInvitation(null);
         } else {
             const tl = new TimelineMax();
             tl.set('#' + successSubscrib + ', #' + successEvent + ', #' + successUser, { top: '-500', display: 'none' });
@@ -62,7 +69,7 @@ export default function Header(props) {
                     <img className="logo-mini" src={Logo} alt="Logo Stud'help" />
                     <b>Stud'help</b>
                 </a>
-                <a className="menu-item" href="/">
+                <a className="menu-item" href="/about-us">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M16.1583 8.23285C16.1583 10.5825 14.2851 12.4666 11.949 12.4666C9.61292 12.4666 7.73974 10.5825 7.73974 8.23285C7.73974 5.88227 9.61292 4 11.949 4C14.2851 4 16.1583 5.88227 16.1583 8.23285ZM11.949 20C8.51785 20 5.58809 19.456 5.58809 17.2802C5.58809 15.1034 8.49904 14.5396 11.949 14.5396C15.3802 14.5396 18.31 15.0836 18.31 17.2604C18.31 19.4362 15.399 20 11.949 20ZM17.9571 8.30922C17.9571 9.50703 17.5998 10.6229 16.973 11.5505C16.9086 11.646 16.9659 11.7748 17.0796 11.7946C17.2363 11.8216 17.3984 11.8369 17.5631 11.8414C19.2062 11.8846 20.6809 10.821 21.0883 9.21974C21.6918 6.84123 19.9198 4.7059 17.6634 4.7059C17.4181 4.7059 17.1835 4.73201 16.9551 4.77884C16.9238 4.78605 16.8907 4.80046 16.8728 4.82838C16.8513 4.8626 16.8674 4.90853 16.8889 4.93825C17.5667 5.8938 17.9571 7.05918 17.9571 8.30922ZM20.6782 13.5126C21.7823 13.7296 22.5084 14.1727 22.8093 14.8166C23.0636 15.3453 23.0636 15.9586 22.8093 16.4864C22.349 17.4851 20.8654 17.8058 20.2887 17.8886C20.1696 17.9066 20.0738 17.8031 20.0864 17.6833C20.3809 14.9157 18.0377 13.6035 17.4315 13.3018C17.4055 13.2883 17.4002 13.2676 17.4028 13.255C17.4046 13.246 17.4154 13.2316 17.4351 13.2289C18.7468 13.2046 20.1571 13.3847 20.6782 13.5126ZM6.43711 11.8413C6.60186 11.8368 6.76304 11.8224 6.92063 11.7945C7.03434 11.7747 7.09165 11.6459 7.02718 11.5504C6.4004 10.6228 6.04313 9.50694 6.04313 8.30913C6.04313 7.05909 6.43353 5.89371 7.11135 4.93816C7.13284 4.90844 7.14806 4.86251 7.12746 4.82829C7.10956 4.80127 7.07553 4.78596 7.04509 4.77875C6.81586 4.73192 6.58127 4.70581 6.33593 4.70581C4.07951 4.70581 2.30751 6.84114 2.91191 9.21965C3.31932 10.8209 4.79405 11.8845 6.43711 11.8413ZM6.59694 13.2545C6.59962 13.268 6.59425 13.2878 6.56918 13.3022C5.9621 13.6039 3.61883 14.9161 3.91342 17.6827C3.92595 17.8034 3.83104 17.9061 3.71195 17.889C3.13531 17.8061 1.65163 17.4855 1.19139 16.4867C0.936203 15.9581 0.936203 15.3457 1.19139 14.817C1.49225 14.1731 2.21752 13.73 3.32156 13.512C3.84358 13.385 5.25294 13.2049 6.5656 13.2292C6.5853 13.2319 6.59515 13.2464 6.59694 13.2545Z" />
                     </svg>
@@ -119,7 +126,7 @@ export default function Header(props) {
                     </svg>
                     <b>Mes Participations</b>
                 </a>}
-                {props.token.user && <a className="menu-item" href="/">
+                {props.token.user && <a className="menu-item" href="/espace-client/tchat">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M2 12.015C2 6.74712 6.21 2 12.02 2C17.7 2 22 6.65699 22 11.985C22 18.1642 16.96 22 12 22C10.36 22 8.54 21.5593 7.08 20.698C6.57 20.3876 6.14 20.1572 5.59 20.3375L3.57 20.9384C3.06 21.0986 2.6 20.698 2.75 20.1572L3.42 17.9139C3.53 17.6034 3.51 17.2729 3.35 17.0125C2.49 15.4301 2 13.6975 2 12.015ZM10.7 12.015C10.7 12.7261 11.27 13.2969 11.98 13.307C12.69 13.307 13.26 12.7261 13.26 12.025C13.26 11.314 12.69 10.7431 11.98 10.7431C11.28 10.7331 10.7 11.314 10.7 12.015ZM15.31 12.025C15.31 12.7261 15.88 13.307 16.59 13.307C17.3 13.307 17.87 12.7261 17.87 12.025C17.87 11.314 17.3 10.7431 16.59 10.7431C15.88 10.7431 15.31 11.314 15.31 12.025ZM7.37 13.307C6.67 13.307 6.09 12.7261 6.09 12.025C6.09 11.314 6.66 10.7431 7.37 10.7431C8.08 10.7431 8.65 11.314 8.65 12.025C8.65 12.7261 8.08 13.2969 7.37 13.307Z" />
                     </svg>
@@ -182,6 +189,26 @@ export default function Header(props) {
                 text="Votre participation à été supprimé avec succès."
             />
 
+            {/* Popup success add Participation */}
+            <Popup
+                id="invitationSend"
+                text="Votre invitation à été envoyée avec succès."
+            />
+
+            <Popup
+                id="invitationRemove"
+                text="Votre invitation à été supprimé."
+            />
+
+            <Popup
+                id="myinvitationRemove"
+                text="Votre invitation à été supprimé."
+            />
+
+            <Popup
+                id="invitationAccept"
+                text="Votre participation a bien été confirmé."
+            />
 
         </div>
     )

@@ -19,7 +19,6 @@ export default function MyEvents() {
         getEventsByUser(setMyEventsResponse, setLoading)
     }, [])
 
-    console.log(myEventsResponse)
 
     // Pagination
     const PER_PAGE = 10;

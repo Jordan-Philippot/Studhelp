@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
 
 import TextLoop from "react-text-loop";
-import { TimelineMax } from 'gsap';
+// import { TimelineMax } from 'gsap';
 
 import HowItWorks from './HowItWorks'
 import Title from '../Title'

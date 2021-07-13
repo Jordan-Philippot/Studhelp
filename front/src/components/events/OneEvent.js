@@ -6,6 +6,8 @@ import { addParticipation, getParticipants, removeParticipant } from '../../serv
 import Illustration from '../../images/Associations/product_launch.png'
 import Title from '../Title'
 import dateFormat from 'dateformat';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export default function OneEvent(props) {
     const [event, setEvent] = useState([])
@@ -27,30 +29,63 @@ export default function OneEvent(props) {
     const data = {
         'eventId': id
     }
+ 
     const addParticipationtUser = () => {
-        if (!props.token.user) {
-            window.location.href = "/connexion"
-        } else {
-            addParticipation(data, setResponseParticipation, setErrorsParticipation)
-        }
+        confirmAlert({
+            title: "Participer a cet évènement",
+            message: "Êtes-vous sûr de vouloir vous inscrire a cet évènement?",
+            buttons: [
+                {
+                    label: 'Oui',
+                    onClick: () => {
+                        if (!props.token.user) {
+                            window.location.href = "/connexion"
+                        } else {
+                            addParticipation(data, setResponseParticipation, setErrorsParticipation)
+                        }
+                    }
+                },
+                {
+                    label: 'Non',
+                    onClick: () => alert("Votre participation n'a pas été supprimé")
+                }
+            ]
+        });
     }
 
     useEffect(() => {
         if (responseParticipation === "success") {
             window.location.href = "/evenement/" + id + "?event=addParticipation"
         }
+        // eslint-disable-next-line
     }, [responseParticipation])
 
+
     const handleRemoveParticipant = () => {
-        removeParticipant(data, setIsRemove)
+        confirmAlert({
+            title: "Annuler votre participation",
+            message: "Êtes-vous sûr de vouloir supprimer votre participation à cet évènement?",
+            buttons: [
+                {
+                    label: 'Oui',
+                    onClick: () => { removeParticipant(data, setIsRemove) }
+                },
+                {
+                    label: 'Non',
+                    onClick: () => alert("Votre participation n'a pas été supprimé")
+                }
+            ]
+        });
     }
 
     useEffect(() => {
-        console.log(isRemove)
         if (isRemove) {
             window.location.href = "/evenement/" + id + "?event=removeParticipation"
         }
+        // eslint-disable-next-line
     }, [isRemove])
+
+    console.log(props)
     return (
         <div className="oneAssociation">
 
@@ -73,11 +108,21 @@ export default function OneEvent(props) {
             </div>
 
 
+            {/* New Invitation */}
+            {props.token.user && isParticipate && <div className="row justify-content-center">
+                <button className="col-8 col-xl-3 btn-orangeFull my-5 py-4" onClick={() => history.push("/espace-client/nouvel-invitation/" + id)}>Lancer une invitation</button>
+            </div>
+            }
+
+            {/* Number of Participants */}
+            <div className="row justify-content-center">
+                <button className="col-10 col-xl-6 my-5 py-4 btn-purpleOut">Il y a actuellement {event.numberOfParticipants} participant(s) à cet évènement</button>
+            </div>
 
             {event !== null ?
                 <div className="row justify-content-center">
                     <div className={`association-component col-10 col-sm-8 col-md-10 col-lg-11 col-xl-9 ${event.isPassed ? "isPassed" : ""}`}>
-                    {event.isPassed && <div className="isPassedBrand">Fin</div>}
+                        {event.isPassed && <div className="isPassedBrand">Fin</div>}
 
                         <div className="row max-md-flex-direction-column ">
 
@@ -125,17 +170,16 @@ export default function OneEvent(props) {
                                 </div>
                                 }
                                 {event.organisation && <div className="d-flex information">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-textarea-t" viewBox="0 0 16 16">
-                                        <path d="M1.5 2.5A1.5 1.5 0 0 1 3 1h10a1.5 1.5 0 0 1 1.5 1.5v3.563a2 2 0 0 1 0 3.874V13.5A1.5 1.5 0 0 1 13 15H3a1.5 1.5 0 0 1-1.5-1.5V9.937a2 2 0 0 1 0-3.874V2.5zm1 3.563a2 2 0 0 1 0 3.874V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V9.937a2 2 0 0 1 0-3.874V2.5A.5.5 0 0 0 13 2H3a.5.5 0 0 0-.5.5v3.563zM2 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                                        <path d="M11.434 4H4.566L4.5 5.994h.386c.21-1.252.612-1.446 2.173-1.495l.343-.011v6.343c0 .537-.116.665-1.049.748V12h3.294v-.421c-.938-.083-1.054-.21-1.054-.748V4.488l.348.01c1.56.05 1.963.244 2.173 1.496h.386L11.434 4z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-building" viewBox="0 0 16 16">
+                                        <path fillRule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z" />
+                                        <path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z" />
                                     </svg>
                                     <p>Organisation: {event.organisation}</p>
                                 </div>
                                 }
                                 {event.admin && <div className="d-flex information">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-textarea-t" viewBox="0 0 16 16">
-                                        <path d="M1.5 2.5A1.5 1.5 0 0 1 3 1h10a1.5 1.5 0 0 1 1.5 1.5v3.563a2 2 0 0 1 0 3.874V13.5A1.5 1.5 0 0 1 13 15H3a1.5 1.5 0 0 1-1.5-1.5V9.937a2 2 0 0 1 0-3.874V2.5zm1 3.563a2 2 0 0 1 0 3.874V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V9.937a2 2 0 0 1 0-3.874V2.5A.5.5 0 0 0 13 2H3a.5.5 0 0 0-.5.5v3.563zM2 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                                        <path d="M11.434 4H4.566L4.5 5.994h.386c.21-1.252.612-1.446 2.173-1.495l.343-.011v6.343c0 .537-.116.665-1.049.748V12h3.294v-.421c-.938-.083-1.054-.21-1.054-.748V4.488l.348.01c1.56.05 1.963.244 2.173 1.496h.386L11.434 4z" />
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M17.294 7.29105C17.294 10.2281 14.9391 12.5831 12 12.5831C9.0619 12.5831 6.70601 10.2281 6.70601 7.29105C6.70601 4.35402 9.0619 2 12 2C14.9391 2 17.294 4.35402 17.294 7.29105ZM12 22C7.66237 22 4 21.295 4 18.575C4 15.8539 7.68538 15.1739 12 15.1739C16.3386 15.1739 20 15.8789 20 18.599C20 21.32 16.3146 22 12 22Z" />
                                     </svg>
                                     <p>Organisateur: {event.admin}</p>
                                 </div>

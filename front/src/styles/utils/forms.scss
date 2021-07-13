@@ -27,7 +27,28 @@ input {
         color: $greyfont;
     }
 }
-
+textarea{
+    background: #3b3b3b;
+    border-radius: 20px;
+    min-height: 200px;
+    border: none;
+    width: 100%;
+    font-family: "Filson Pro", sans-serif;
+    font-weight: bold;
+    padding-left: 20px;
+    font-size: 16px;
+    color: $white;
+    z-index: 100;
+    &:focus,
+    &:active {
+        box-shadow: 0 0 2px $darkblue;
+        outline: none !important;
+        color: white;
+    }
+    &::placeholder {
+        color: $white;
+    }
+}
 // Show or hide Password
 .showPassword {
     margin-left: -35px;

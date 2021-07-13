@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { getMyParticipations } from '../../services/participation'
 import MyParticipation from './MyParticipation'
@@ -12,7 +12,7 @@ export default function MyParticipations() {
     const [currentPage, setCurrentPage] = useState(0)
     const [loading, setLoading] = useState(true)
 
-    const history = useHistory()
+    // const history = useHistory()
 
     useEffect(() => {
         setLoading(true)

@@ -92,8 +92,9 @@ class EventController extends AbstractController
         $now = new DateTime();
 
         $eventEntity = $eventRepository->findOneBy(['id' => $id]);
+        $participants = $eventEntity->getParticipants();
 
-
+        $numberOfParticipants = count($participants);
 
         if ($eventEntity == null) {
             $event = null;
@@ -103,7 +104,7 @@ class EventController extends AbstractController
             } else {
                 $passed = true;
             }
-            
+
             $event = [
                 "id" => $eventEntity->getId(),
                 "admin" => $eventEntity->getAdmin()->getEmail(),
@@ -114,7 +115,8 @@ class EventController extends AbstractController
                 "duration" => $eventEntity->getDuration(),
                 "organisation" => $eventEntity->getOrganisation(),
                 "location" => $eventEntity->getLocation(),
-                "isPassed" => $passed
+                "isPassed" => $passed,
+                "numberOfParticipants" => $numberOfParticipants
             ];
         }
 
@@ -249,7 +251,8 @@ class EventController extends AbstractController
             $event->setDuration(htmlspecialchars($data['duration']));
             $event->setOrganisation(htmlspecialchars($data['organisation']));
             $event->setLocation(htmlspecialchars($data['location']));
-
+            $event->addParticipant($user);
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();

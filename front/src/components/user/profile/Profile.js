@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 
 import { getProfile, setUserProfile } from '../../../services/user.js'
-import { TimelineMax } from 'gsap'
+// import { TimelineMax } from 'gsap'
 
 import Illustration from '../../../images/User/Profile/workspace_solid.png'
 import Humaaans from '../../../images/User/Profile/Humaaans.png'
@@ -31,7 +31,7 @@ export default function Profile(props) {
     const [errorsprofile, setErrorsprofile] = useState([])
     const [successprofile, setSuccessprofile] = useState("")
 
-    const history = useHistory();
+    // const history = useHistory();
 
     const data = {
         "firstname": firstname,
@@ -99,7 +99,6 @@ export default function Profile(props) {
 
     return (
         <div className="profile">
-
 
 
             <img className="humaaans" src={Humaaans} alt="caracter standing" />

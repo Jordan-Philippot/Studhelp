@@ -135,6 +135,40 @@
         background: white;
         font-family: "Filson Pro";
     }
+    .block-btn {
+        .btn-pack {
+            margin-top: 40px;
+            font-family: "Filson Pro", sans-serif;
+            font-size: 14px;
+            color: black;
+            background-color: rgba(113, 220, 234, 0.4);
+            border: none;
+            border-radius: 4px;
+            padding: 5px 15px;
+            margin-right: 25px;
+            &:hover {
+                background-color: $turquoise;
+                color: black;
+            }
+
+            &:active,
+            &:focus {
+                background-color: $turquoise;
+                color: black;
+            }
+        }
+        .active {
+            background-color: rgb(75, 145, 250);
+            box-shadow: 0px 0px 5px 1px rgba(87, 87, 87, 0.9);
+            color: black;
+            &:focus,
+            &:hover,
+            &:active {
+                background-color: rgba(90, 137, 255, 0.7);
+                color: black;
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 1599.98px) {

@@ -44,6 +44,7 @@ export default function UpdateEvent() {
     // Get profile
     useEffect(() => {
         getEvent(setMyEvent, id)
+        // eslint-disable-next-line
     }, [])
 
 

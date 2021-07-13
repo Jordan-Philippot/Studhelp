@@ -27,7 +27,7 @@ export async function addParticipation(data, setResponse, setErrors) {
         });
 }
 
-// Get Participants for current event
+// Check if user Participate
 export async function getParticipants(eventId, setResponse) {
     await axios({
         method: "POST",
@@ -39,6 +39,28 @@ export async function getParticipants(eventId, setResponse) {
     })
         .then((response) => {
             setResponse(response.data.participate)
+        }, (err) => {
+            setResponse(false)
+        });
+}
+
+// Get All Participants for current event
+export async function getAllParticipants(setResponse, setLoading, eventId) {
+    await axios({
+        method: "POST",
+        url: url + "auth/getAllParticipants",
+        headers: headersAuth,
+        data: {
+            "eventId": eventId
+        }
+    })
+        .then((response) => {
+            if (response) {
+                setResponse(response.data.participants)
+                setLoading(false)
+            } else {
+                setResponse(false)
+            }
         }, (err) => {
             setResponse(false)
         });
@@ -79,3 +101,5 @@ export async function getMyParticipations(setResponse, setLoading) {
             setResponse(err)
         });
 }
+
+

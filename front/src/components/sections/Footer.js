@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import Logo from '../../images/hat.png'
 // import { TimelineMax, CSSPlugin } from 'gsap';
@@ -12,13 +12,7 @@ export default function Footer(props) {
         history.push('/connexion')
     }
 
-    // useEffect(() => {
-    //     const tl = new TimelineMax();
-    //     // console.log(window.location)
-    //     if (window.location.pathname === "/connexion" || window.location.pathname === "/inscription") {
-    //         tl.set(".dropOrange", { backgroundColor: "#118df3" })
-    //     }
-    // }, [])
+
     return (
         <footer >
             <div className="d-flex row justify-content-center">
@@ -49,24 +43,26 @@ export default function Footer(props) {
                 <ul className="col-6 col-sm-6 col-lg-4 col-xl-2">
                     <li><a href="/">Accueil</a></li>
                     <li><a href="/#howItWorks">Comment ça marche?</a></li>
-                    <li><a href="/">FAQ</a></li>
                     <li><a href="/about-us">A propos</a></li>
+                    <li><a href="/evenements">Évènements</a></li>
+                    <li><a href="/associations">Associations</a></li>
+                    {/* <li><a href="/">FAQ</a></li> */}
                 </ul>
 
                 <ul className="offset-1 col-5 col-sm-5 col-lg-4 col-xl-2">
-                    <li><a href="/evenements">Évènements</a></li>
-                    <li><a href="/associations">Associations</a></li>
+                    {props.token?.user && <li><a href="/espace-client/profil">Profil</a></li>}
                     {props.token?.user && <li><a href="/connexion" onClick={Disconnected}>Déconnexion</a></li>}
+                    {!props.token?.user && <li><a href="/connexion">Connexion</a></li>}
+                    {!props.token?.user && <li><a href="/inscription">Inscription</a></li>}
                 </ul>
 
                 <ul className="col-6 col-sm-6 col-lg-4 col-xl-2">
-                    {props.token?.user && <li><a href="/espace-client/profil">Profil</a></li>}
+
                     {props.token?.user && <li><a href="/espace-client/mes-evenements">Mes évènements</a></li>}
-                    {props.token?.user && <li><a href="/espace-client/mes-evenements">Mes Participations</a></li>}
-                    {props.token?.user && <li><a href="/tchat">Tchat</a></li>}
+                    {props.token?.user && <li><a href="/espace-client/mes-participations">Mes Participations</a></li>}
+                    {props.token?.user && <li><a href="/espace-client/tchat">Tchat</a></li>}
                     {props.token?.user && <li><a href="/espace-client/mes-invitations">Mes invitations</a></li>}
-                    {!props.token?.user && <li><a href="/connexion">Connexion</a></li>}
-                    {!props.token?.user && <li><a href="/inscription">Inscription</a></li>}
+
                 </ul>
             </div>
         </footer >

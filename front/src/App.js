@@ -16,6 +16,8 @@ import Header from "./components/sections/Header";
 import Footer from "./components/sections/Footer";
 // Home
 import Home from "./components/home/Home.js";
+// About Us
+import AboutUs from "./components/aboutus/AboutUs.js";
 // Registration
 import Login from "./components/registration/Login";
 import Register from "./components/registration/Register";
@@ -36,8 +38,14 @@ import MyParticipations from "./components/participations/MyParticipations";
 
 // Invitations
 import NewInvitations from "./components/invitations/NewInvitation";
+import MyInvitations from "./components/invitations/MyInvitations";
+import MyInvitation from "./components/invitations/MyInvitation";
 
+// Tchat StreamChat
+import Tchat from "./components/tchat/Tchat";
 
+// Not Found 404
+import NotFound from './components/NotFound'
 
 export default function App() {
   const [load, setLoad] = useState(false)
@@ -105,6 +113,12 @@ export default function App() {
               <Home token={token} />
             </Route>
 
+            {/* About Us */}
+            <Route exact path="/about-us">
+              <Helmet title="Stud'help | À propos" />
+              <AboutUs />
+            </Route>
+
             {/* Login */}
             <Route exact path="/connexion">
               <Helmet title="Stud'help | Connexion" />
@@ -141,7 +155,8 @@ export default function App() {
               <OneAssociation />
             </Route>
 
-            {/* Espace Client */}
+
+            {/****************** Espace Client *********************/}
             {/* User */}
             <Route exact path="/espace-client/profil">
               <Helmet title="Stud'help | Profil" />
@@ -176,14 +191,33 @@ export default function App() {
               <Helmet title="Stud'help | Mes participations" />
               <MyParticipations />
             </Route>
-            
 
+            {/* User Invitations */}
             <Route exact path="/espace-client/nouvel-invitation/:id">
               <Helmet title="Stud'help | Envoyer une invitation" />
               <NewInvitations />
             </Route>
 
+            <Route exact path="/espace-client/mes-invitations">
+              <Helmet title="Stud'help | Mes invitations" />
+              <MyInvitations />
+            </Route>
+
+            <Route exact path="/espace-client/mon-invitation/:id">
+              <Helmet title="Stud'help | Mon invitation" />
+              <MyInvitation />
+            </Route>
+
+            <Route exact path="/espace-client/tchat">
+              <Helmet title="Stud'help | Tchat" />
+              <Tchat token={token}/>
+            </Route>
+
           </HelmetProvider>
+
+          {/* Not Found 404 */}
+          <Route component={NotFound} />
+
         </Switch>
 
         {/* We show footer if url pathname not Registration page */}

@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
 use App\Repository\EventRepository;
+use App\Repository\InvitationRepository;
+use App\Constant\StatusInvitation;
 
 
 
@@ -85,6 +87,34 @@ class ParticipantController extends AbstractController
     }
 
     /**
+     * @Route("api/auth/getAllParticipants", name="api_auth_get_all_participants")
+     */
+    public function getAllParticipants(Request $request, EventRepository $eventRepository)
+    {
+        // GET data
+        $data = json_decode($request->getContent(), true);
+        // Retrieve User
+        $user = $this->getUser();
+
+        // find Event
+        $event = $eventRepository->findOneBy(
+            array('id' => $data['eventId'])
+        );
+        $participants = [];
+
+        foreach ($event->getParticipants() as $key) {
+            $participants[] = [
+                "email" => $key->getEmail(),
+                'id' => $key->getId(),
+            ];
+        }
+
+        return $this->json([
+            'participants' => $participants
+        ]);
+    }
+
+    /**
      * @Route("api/auth/getMyParticipations", name="api_auth_get_my_participations")
      */
     public function getMyParticipations()
@@ -99,9 +129,9 @@ class ParticipantController extends AbstractController
         $allParticipations = [];
 
         foreach ($myParticipations as $key) {
-            if($key->getStartedAt() > $now){
+            if ($key->getStartedAt() > $now) {
                 $passed = false;
-            }else{
+            } else {
                 $passed = true;
             }
 
@@ -128,7 +158,7 @@ class ParticipantController extends AbstractController
     /**
      * @Route("api/auth/removeParticipant", name="api_auth_remove_participant")
      */
-    public function removeParticipant(Request $request, EventRepository $eventRepository)
+    public function removeParticipant(Request $request, EventRepository $eventRepository, InvitationRepository $invitationRepository)
     {
         // GET data
         $data = json_decode($request->getContent(), true);
@@ -140,8 +170,16 @@ class ParticipantController extends AbstractController
             array('id' => $data['eventId'])
         );
 
+        // Find all my invitations of this event
+        $myInvitations = $invitationRepository->findBy(["event" => $data['eventId'], "receiver" => $user]);
 
         $em = $this->getDoctrine()->getManager();
+        
+        // canceled all invitations of this event
+        foreach ($myInvitations as $key) {
+            $key->setStatus(StatusInvitation::REFUSED);
+            $em->persist($key);
+        }
 
         $event->removeParticipant($user);
         $em->persist($event);

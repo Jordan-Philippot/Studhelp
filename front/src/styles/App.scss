@@ -12,12 +12,18 @@
 @import "./components/home/home.scss";
 @import "./components/home/howitworks.scss";
 
+// About Us
+@import "./components/aboutus.scss";
+
 // User
 @import "./components/user/profile.scss";
 
-// User
+// Association
 @import "./components/associations/associations.scss";
 @import "./components/associations/oneAssociation.scss";
+
+// Not Found
+@import "./components/notfound.scss";
 
 body {
     margin: 0;

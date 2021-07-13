@@ -14,35 +14,25 @@ export default function NewInvitation() {
     let { id } = useParams();
 
     const [users, setUsers] = useState([])
-    const [perimeter, setPerimeter] = useState(3)
     const [currentPage, setCurrentPage] = useState(0)
     const [searchBar, setSearchBar] = useState('')
     const [loading, setLoading] = useState(true)
     const [orderBy, setOrderBy] = useState("ASC")
 
+    const [message, setMessage] = useState("")
 
     useEffect(() => {
         setLoading(true)
         navigator.geolocation.getCurrentPosition(function (position) {
-
-            getUsers(id, setUsers, setLoading, position.coords.latitude, position.coords.longitude, perimeter, searchBar, orderBy)
-
+            getUsers(id, setUsers, setLoading, position.coords.latitude, position.coords.longitude, searchBar, orderBy)
         });
-    }, [perimeter, searchBar, orderBy])
+        // eslint-disable-next-line
+    }, [searchBar, orderBy])
 
 
-    // Select Custom
-    const optionsPerimeter = [
-        { value: 3, label: '3km' },
-        { value: 5, label: '5km' },
-        { value: 10, label: '10km' },
-        { value: 20, label: '20km' },
-        { value: 30, label: '30km' },
-        { value: 50, label: '50km' },
-    ]
     const optionsOrderBy = [
-        { value: "title", label: 'Titre' },
-        { value: "distance", label: 'Distance' }
+        { value: "email", label: 'Email' },
+        { value: "lastname", label: 'Nom' }
     ]
 
     // Pagination
@@ -55,6 +45,7 @@ export default function NewInvitation() {
     const offset = currentPage * PER_PAGE;
     const pageCount = Math.ceil(users.length / PER_PAGE);
 
+    console.log(users)
     return (
         <div className="associations">
 
@@ -71,21 +62,13 @@ export default function NewInvitation() {
                         className="custom-select"
                     />
                 </div>
-                <div className="col-9 col-sm-7 col-md-3 col-lg-2">
-                    <Select
-                        defaultValue={perimeter}
-                        onChange={(e) => setPerimeter(e.value)}
-                        options={optionsPerimeter}
-                        placeholder={perimeter + "km"}
-                        className="custom-select"
-                    />
-                </div>
+    
                 <div className="col-9 col-sm-7 col-md-4 col-lg-3">
                     <input
                         type="text"
                         value={searchBar}
                         onChange={(e) => setSearchBar(e.target.value)}
-                        placeholder="Nom, Ville, Description.."
+                        placeholder="Nom, Prénom, Email, Organisation, Ville..."
                         className="searchBar"
                     />
                 </div>
@@ -111,6 +94,10 @@ export default function NewInvitation() {
             </div>
 
 
+            {/* New Invitation */}
+            <div className="row justify-content-center">
+                <textarea placeholder="Tu peux écrire un message ici, il sera envoyé à tout les utilisateurs que tu inviteras &#128521;" className="textarea col-10 col-sm-8 col-md-6 col-xl-3 my-5 py-4" onChange={(e) => setMessage(e.target.value)} />
+            </div>
 
             {/* All Associations with paginate component */}
             <div className="row justify-content-center mb-5">
@@ -124,7 +111,7 @@ export default function NewInvitation() {
                                 return users
                                     .slice(offset, offset + PER_PAGE)
                                     .map((user, key) => {
-                                        return <User key={key} user={user} />
+                                        return <User key={user.id} user={user} eventId={id} message={message} />
                                     })
                             } else {
                                 return <Loader1 />;
