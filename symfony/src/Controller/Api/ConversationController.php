@@ -96,7 +96,7 @@ class ConversationController extends AbstractController
         }
 
         if (empty($errors)) {
-            $conversation->setUsers([$user->getId(), $data['user']]);
+            $conversation->setUsers([$user->getId(), $id]);
             $conversation->setSendAt(new DateTime());
 
             $em = $this->getDoctrine()->getManager();
