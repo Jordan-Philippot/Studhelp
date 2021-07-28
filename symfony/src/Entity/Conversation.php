@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ConversationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,11 +20,6 @@ class Conversation
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $message;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $send_at;
@@ -33,25 +30,29 @@ class Conversation
     private $event;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="conversations")
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="conversation")
      */
-    private $sender;
+    private $messages;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Association::class, cascade={"persist", "remove"})
+     */
+    private $association;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="conversation")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->messages = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getMessage(): ?string
-    {
-        return $this->message;
-    }
-
-    public function setMessage(string $message): self
-    {
-        $this->message = $message;
-
-        return $this;
     }
 
     public function getSendAt(): ?\DateTimeInterface
@@ -78,14 +79,68 @@ class Conversation
         return $this;
     }
 
-    public function getSender(): ?User
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
     {
-        return $this->sender;
+        return $this->messages;
     }
 
-    public function setSender(?User $sender): self
+    public function addMessage(Message $message): self
     {
-        $this->sender = $sender;
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setConversation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getConversation() === $this) {
+                $message->setConversation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAssociation(): ?Association
+    {
+        return $this->association;
+    }
+
+    public function setAssociation(?Association $association): self
+    {
+        $this->association = $association;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUsers(User $users): self
+    {
+        if (!$this->users->contains($users)) {
+            $this->users[] = $users;
+        }
+
+        return $this;
+    }
+
+    public function removeUsers(User $users): self
+    {
+        $this->users->removeElement($users);
 
         return $this;
     }

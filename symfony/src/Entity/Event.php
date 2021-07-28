@@ -71,11 +71,6 @@ class Event
     private $invitations;
 
     /**
-     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="event")
-     */
-    private $conversations;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $latitude;

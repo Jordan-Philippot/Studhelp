@@ -96,6 +96,11 @@ class User implements UserInterface
      */
     private $conversations;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Conversation::class, mappedBy="user1")
+     */
+    private $conversation;
+
 
     public function __construct()
     {
@@ -104,6 +109,7 @@ class User implements UserInterface
         $this->sender_invitations = new ArrayCollection();
         $this->receiver_invitations = new ArrayCollection();
         $this->conversations = new ArrayCollection();
+        $this->conversation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -416,6 +422,14 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversation(): Collection
+    {
+        return $this->conversation;
     }
 
 }
