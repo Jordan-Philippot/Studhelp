@@ -31,6 +31,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
         // List informations about Profile User
         $profile = [
+            'id' => $user->getId(),
             'firstname' => $user->getFirstname(),
             'lastname' => $user->getLastname(),
             'email' => $user->getEmail(),
