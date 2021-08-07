@@ -1,34 +1,68 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+// import '../../services/server'
+import io from 'socket.io-client';
 
-// import { StreamChat } from 'stream-chat';
 
-// const chatClient = StreamChat.getInstance("rc8zz9vnkey6");
+export default function Tchat() {
+    const socket = io('localhost:8080');
 
-// chatClient.connectUser({ id: 1 }, localStorage.getItem('studhelp'));
 
-// import { connectUser } from '../../services/tchat'
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState([])
 
-export default function Tchat(props) {
-    const [response, setResponse] = useState([])
+    function sendMessage(e) {
+        e.preventDefault();
+        const msg = {
+            username: e.target.username.value,
+            text: e.target.text.value
+        };
+        socket.emit('CLIENT_MSG', msg);
+        setNewMessage(msg);
+    }
+    socket.on('SERVER_MSG', msg => {
+        setNewMessage(msg);
+    });
 
-    useEffect(() => {
-        // connectUser(setResponse)
-    }, [])
-    console.log(props)
     return (
-        <div>
-            ok
-            {/* <Chat client={chatClient}>
-                <ChannelList />
-                <Channel>
-                    <Window>
-                        <ChannelHeader />
-                        <MessageList />
-                        <MessageInput />
-                    </Window>
-                    <Thread />
-                </Channel>
-            </Chat> */}
+        <div className="container">
+            <div className="row">
+                <div className="col-4">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="card-title">My first chat</div>
+                            <hr />
+                            <div className="messages">
+                                {messages && messages.map(msg => {
+                                    return (
+                                        <div key>{msg.username}: {msg.text}</div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                        <form onSubmit={e => sendMessage(e)}>
+                            <div className="card-footer">
+                                <input id="username"
+                                    type="text"
+                                    placeholder="Username"
+                                    className="form-control"
+                                />
+                                <br />
+                                <input id="text"
+                                    type="text"
+                                    placeholder="Your message"
+                                    className="form-control"
+                                />
+                                <br />
+                                <button type="submit"
+                                    className="btn btn-primary form-control">
+                                    send
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
+
