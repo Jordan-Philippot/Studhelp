@@ -29,7 +29,7 @@ class MessageController extends AbstractController
                 $messages[] = [
                     'message' => $message->getMessage(),
                     'sender' => $message->getSender(),
-                    'send_at' => $date_format($message->getSendAt(), 'Y-m-d')
+                    'send_at' => date_format($message->getSendAt(), 'Y-m-d')
                 ];
             }
         }
