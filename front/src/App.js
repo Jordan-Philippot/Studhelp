@@ -42,7 +42,7 @@ import MyInvitations from "./components/invitations/MyInvitations";
 import MyInvitation from "./components/invitations/MyInvitation";
 
 // Tchat StreamChat
-import Tchat from "./components/tchat/Tchat";
+import Chat from "./components/chat/Chat";
 
 // Not Found 404
 import NotFound from './components/NotFound'
@@ -208,9 +208,9 @@ export default function App() {
               <MyInvitation />
             </Route>
 
-            <Route exact path="/espace-client/tchat">
-              <Helmet title="Stud'help | Tchat" />
-              <Tchat token={token}/>
+            <Route exact path="/espace-client/chat/:conversation">
+              <Helmet title="Stud'help | Chat" />
+              <Chat token={token}/>
             </Route>
 
           </HelmetProvider>

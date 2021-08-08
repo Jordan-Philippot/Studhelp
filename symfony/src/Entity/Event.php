@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
+ * @ORM\EntityListeners({"App\Entity\Listener\EventListener"})
  */
 class Event
 {

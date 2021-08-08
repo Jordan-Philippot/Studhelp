@@ -20,11 +20,6 @@ class Conversation
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $send_at;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="conversations")
      */
     private $event;
@@ -44,6 +39,16 @@ class Conversation
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdAt;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
@@ -53,18 +58,6 @@ class Conversation
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getSendAt(): ?\DateTimeInterface
-    {
-        return $this->send_at;
-    }
-
-    public function setSendAt(\DateTimeInterface $send_at): self
-    {
-        $this->send_at = $send_at;
-
-        return $this;
     }
 
     public function getEvent(): ?Event
@@ -141,6 +134,30 @@ class Conversation
     public function removeUsers(User $users): self
     {
         $this->users->removeElement($users);
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

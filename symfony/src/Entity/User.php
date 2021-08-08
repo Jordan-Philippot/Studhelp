@@ -92,14 +92,9 @@ class User implements UserInterface
     private $receiver_invitations;
 
     /**
-     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="sender")
+     * @ORM\ManyToMany(targetEntity=Conversation::class, mappedBy="users")
      */
     private $conversations;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Conversation::class, mappedBy="user1")
-     */
-    private $conversation;
 
 
     public function __construct()
@@ -109,7 +104,6 @@ class User implements UserInterface
         $this->sender_invitations = new ArrayCollection();
         $this->receiver_invitations = new ArrayCollection();
         $this->conversations = new ArrayCollection();
-        $this->conversation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -406,7 +400,7 @@ class User implements UserInterface
     {
         if (!$this->conversations->contains($conversation)) {
             $this->conversations[] = $conversation;
-            $conversation->setSender($this);
+            $conversation->addUsers($this);
         }
 
         return $this;
@@ -415,9 +409,8 @@ class User implements UserInterface
     public function removeConversation(Conversation $conversation): self
     {
         if ($this->conversations->removeElement($conversation)) {
-            // set the owning side to null (unless already changed)
-            if ($conversation->getSender() === $this) {
-                $conversation->setSender(null);
+            if ($conversation->getUsers() === $this) {
+                $conversation->removeUsers($this);
             }
         }
 
@@ -431,5 +424,4 @@ class User implements UserInterface
     {
         return $this->conversation;
     }
-
 }
