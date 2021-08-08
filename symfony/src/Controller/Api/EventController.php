@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\EventRepository;
+
 use App\Entity\Event;
 
 use Symfony\Component\HttpClient\HttpClient;
@@ -252,7 +253,7 @@ class EventController extends AbstractController
             $event->setOrganisation(htmlspecialchars($data['organisation']));
             $event->setLocation(htmlspecialchars($data['location']));
             $event->addParticipant($user);
-            
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();

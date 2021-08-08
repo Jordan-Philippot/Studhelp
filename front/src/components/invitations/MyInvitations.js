@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ReactPaginate from "react-paginate";
 import { getMyInvitations } from '../../services/invitations'
 import MyInvitation from './MyInvitation'
-import IllustrationInvitations from '../../images/User/Humaaans - Phone.png'
+import IllustrationInvitations from '../../images/User/Humaaans-PhoneGreen.png'
 import Title from '../Title'
 import Loader1 from '../loader/Loader1'
 

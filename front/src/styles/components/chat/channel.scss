@@ -1,0 +1,77 @@
+.allChannels {
+    max-height: 50vh;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 50px;
+    padding: 0;
+
+    .oneChannel {
+        width: 100%;
+        padding: 20px 0;
+        height: auto;
+        border-bottom: 1px solid grey;
+        &:hover {
+            background-color: #00d5ff41;
+        }
+        h5 {
+            font-size: 24px;
+        }
+        .channel-summary {
+            font-size: 16px;
+            font-family: "Filson Pro", sans-serif;
+            color: rgb(63, 63, 63);
+        }
+        .channel-participants {
+            display: flex;
+            font-size: 16px;
+            justify-content: center;
+            p {
+                margin-top: auto;
+                margin-bottom: auto;
+                font-family: "Open Sans", sans-serif;
+                font-style: italic;
+            }
+            svg {
+                width: 28px;
+                height: auto;
+                fill: $blue;
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 576px) and (max-width: 991.98px) and (max-height: 450px) {
+    .allChannels {
+        max-height: 70vh;
+        .oneChannel {
+            h5 {
+                font-size: 20px;
+            }
+            .channel-participants {
+                font-size: 14px;
+                svg {
+                    width: 20px;
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width: 575.98px) {
+    .allChannels {
+        max-height: 50vh;
+        .oneChannel {
+            h5 {
+                font-size: 16px;
+            }
+            .channel-participants {
+                font-size: 14px;
+                svg {
+                    width: 20px;
+                }
+            }
+        }
+    }
+}

@@ -20,25 +20,106 @@ class ConversationController extends AbstractController
      */
     public function getConversation(ConversationRepository $conversationRepository, $id)
     {
-        $id = intval($id);
-        $conversationEntity = $conversationRepository->findOneBy(['id' => $id]);
+        $user = $this->getUser();
 
-        if ($conversationEntity == null) {
-            $conversation = null;
+        $id = intval($id);
+        $conversation = $conversationRepository->findOneBy(['id' => $id]);
+
+        $association = [];
+        $messages = [];
+        $users = [];
+        $numberOfParticipants = 0;
+
+        if ($conversation == null) {
+            $thisConversation = null;
         } else {
-            $conversation = [
-                "id" => $conversationEntity->getId(),
-                "event" => $conversationEntity->getEvent(),
-                "messages" => $conversationEntity->getMessages(),
-                "association" => $conversationEntity->getAssociation(),
-                "users" => $conversationEntity->getUsers(),
-                "status" => $conversationEntity->getStatus(),
-                "createdAt" => $conversationEntity->getCreatedAt(),
+
+            if ($conversation->getAssociation() !== null) {
+                $association = [
+                    "id" => $conversation->getAssociation()->getId(),
+                    "idAssociation" => $conversation->getAssociation()->getIdAssociation(),
+                    "siret" => $conversation->getAssociation()->getSiret(),
+                    "dateCreation" => $conversation->getAssociation()->getDateCreation(),
+                    "dateLastDeclaration" => $conversation->getAssociation()->getDateDerniereDeclaration(),
+                    "title" => $conversation->getAssociation()->getTitre(),
+                    "titleShort" => $conversation->getAssociation()->getTitreCourt(),
+                    "description" => $conversation->getAssociation()->getDescription(),
+                    "addressSiege" => $conversation->getAssociation()->getAdresseSiege(),
+                    "website" => $conversation->getAssociation()->getSiteWeb(),
+                    "createdAt" => $conversation->getAssociation()->getCreatedAt(),
+                    "latitude" => $conversation->getAssociation()->getLatitude(),
+                    "longitude" => $conversation->getAssociation()->getLongitude()
+                ];
+            }
+            if ($conversation->getMessages() !== null) {
+                foreach ($conversation->getMessages() as $key) {
+                    if ($key->getSender()->getId() === $user->getId()) {
+                        $iamSender = true;
+                    } else {
+                        $iamSender = false;
+                    }
+                    $messages[] = [
+                        "sender" => [
+                            "id" => $key->getSender()->getId(),
+                            "firstname" => $key->getSender()->getFirstname(),
+                            "lastname" => $key->getSender()->getLastname(),
+                            "email" => $key->getSender()->getEmail(),
+                            "age" => $key->getSender()->getAge(),
+                            "school" => $key->getSender()->getSchool(),
+                            "city" => $key->getSender()->getCity(),
+                            "type" => $key->getSender()->getType(),
+                        ],
+                        "message" => $key->getMessage(),
+                        "sendAt" => $key->getSendAt(),
+                        "id" => $key->getId(),
+                        "iamSender" => $iamSender,
+                    ];
+                }
+            }
+            if ($conversation->getUsers() !== null) {
+                $numberOfParticipants = count($conversation->getUsers());
+                foreach ($conversation->getUsers() as $key) {
+                    $users[] = [
+                        "id" => $key->getId(),
+                        "firstname" => $key->getFirstname(),
+                        "lastname" => $key->getLastname(),
+                        "email" => $key->getEmail(),
+                        "age" => $key->getAge(),
+                        "school" => $key->getSchool(),
+                        "city" => $key->getCity(),
+                        "type" => $key->getType(),
+                    ];
+                }
+            }
+
+            $thisConversation = [
+                "id" => $conversation->getId(),
+                "messages" => $messages,
+                "association" => $association,
+                "users" => $users,
+
+                "status" => $conversation->getStatus(),
+                "createdAt" => $conversation->getCreatedAt(),
+
+                "numberOfParticipants" => $numberOfParticipants,
+                "event" => [
+                    "id" => $conversation->getEvent()->getId(),
+                    "admin" => $conversation->getEvent()->getAdmin(),
+                    "type" => $conversation->getEvent()->getType(),
+                    "title" => $conversation->getEvent()->getTitle(),
+                    "description" => $conversation->getEvent()->getDescription(),
+                    "startedAt" => $conversation->getEvent()->getStartedAt(),
+                    "duration" => $conversation->getEvent()->getDuration(),
+                    "organisation" => $conversation->getEvent()->getOrganisation(),
+                    "location" => $conversation->getEvent()->getLocation(),
+                    "latitude" => $conversation->getEvent()->getlatitude(),
+                    "longitude" => $conversation->getEvent()->getLongitude(),
+                ],
             ];
         }
 
         return new JsonResponse([
-            'conversation' => $conversation
+            'conversation' => $thisConversation
         ]);
     }
 
@@ -51,20 +132,99 @@ class ConversationController extends AbstractController
     {
         $user = $this->getUser();
         $usersConversations = $user->getConversations();
-        // $usersConversations = $conversationRepository->findBy(['users' => $user->getId()]);
-        dump($usersConversations);
+        // dump($usersConversations);
         $conversations = [];
+        $association = [];
+        $messages = [];
+        $users = [];
+        $numberOfParticipants = 0;
+
         if ($usersConversations !== null) {
             foreach ($usersConversations as $conversation) {
-                dump($conversation);
+
+                // Association
+                if ($conversation->getAssociation() !== null) {
+                    $association = [
+                        "id" => $conversation->getAssociation()->getId(),
+                        "idAssociation" => $conversation->getAssociation()->getIdAssociation(),
+                        "siret" => $conversation->getAssociation()->getSiret(),
+                        "dateCreation" => $conversation->getAssociation()->getDateCreation(),
+                        "dateLastDeclaration" => $conversation->getAssociation()->getDateDerniereDeclaration(),
+                        "title" => $conversation->getAssociation()->getTitre(),
+                        "titleShort" => $conversation->getAssociation()->getTitreCourt(),
+                        "description" => $conversation->getAssociation()->getDescription(),
+                        "addressSiege" => $conversation->getAssociation()->getAdresseSiege(),
+                        "website" => $conversation->getAssociation()->getSiteWeb(),
+                        "createdAt" => $conversation->getAssociation()->getCreatedAt(),
+                        "latitude" => $conversation->getAssociation()->getLatitude(),
+                        "longitude" => $conversation->getAssociation()->getLongitude()
+                    ];
+                }
+                if ($conversation->getMessages() !== null) {
+                    foreach ($conversation->getMessages() as $key) {
+                        $messages[] = [
+                            "sender" => [
+                                "id" => $key->getSender()->getId(),
+                                "firstname" => $key->getSender()->getFirstname(),
+                                "lastname" => $key->getSender()->getLastname(),
+                                "email" => $key->getSender()->getEmail(),
+                                "age" => $key->getSender()->getAge(),
+                                "school" => $key->getSender()->getSchool(),
+                                "city" => $key->getSender()->getCity(),
+                                "type" => $key->getSender()->getType(),
+                            ],
+                            "message" => $key->getMessage(),
+                            "sendAt" => $key->getSendAt(),
+                        ];
+                    }
+                }
+                if ($conversation->getUsers() !== null) {
+                    $numberOfParticipants = count($conversation->getUsers());
+                    foreach ($conversation->getUsers() as $key) {
+                        $users[] = [
+                            "id" => $key->getId(),
+                            "firstname" => $key->getFirstname(),
+                            "lastname" => $key->getLastname(),
+                            "email" => $key->getEmail(),
+                            "age" => $key->getAge(),
+                            "school" => $key->getSchool(),
+                            "city" => $key->getCity(),
+                            "type" => $key->getType(),
+                        ];
+                    }
+                }
+
+                if (strlen($conversation->getEvent()->getDescription()) > 50) {
+                    $summary = substr($conversation->getEvent()->getDescription(), 0, 50) . "...";
+                } else {
+                    $summary = $conversation->getEvent()->getDescription();
+                }
+
+
                 $conversations[] = [
                     "id" => $conversation->getId(),
-                    "event" => $conversation->getEvent(),
-                    "messages" => $conversation->getMessages(),
-                    "association" => $conversation->getAssociation(),
-                    "users" => $conversation->getUsers(),
+                    "messages" => $messages,
+                    "association" => $association,
+                    "users" => $users,
+
                     "status" => $conversation->getStatus(),
                     "createdAt" => $conversation->getCreatedAt(),
+
+                    "numberOfParticipants" => $numberOfParticipants,
+                    "event" => [
+                        "id" => $conversation->getEvent()->getId(),
+                        "admin" => $conversation->getEvent()->getAdmin(),
+                        "type" => $conversation->getEvent()->getType(),
+                        "title" => $conversation->getEvent()->getTitle(),
+                        "description" => $conversation->getEvent()->getDescription(),
+                        "startedAt" => $conversation->getEvent()->getStartedAt(),
+                        "duration" => $conversation->getEvent()->getDuration(),
+                        "organisation" => $conversation->getEvent()->getOrganisation(),
+                        "location" => $conversation->getEvent()->getLocation(),
+                        "latitude" => $conversation->getEvent()->getlatitude(),
+                        "longitude" => $conversation->getEvent()->getLongitude(),
+                        "summary" => $summary,
+                    ],
                 ];
             }
         }

@@ -208,7 +208,7 @@ export default function App() {
               <MyInvitation />
             </Route>
 
-            <Route exact path="/espace-client/chat/:conversation">
+            <Route exact path="/espace-client/chat">
               <Helmet title="Stud'help | Chat" />
               <Chat token={token}/>
             </Route>

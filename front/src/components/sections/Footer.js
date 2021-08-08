@@ -60,7 +60,7 @@ export default function Footer(props) {
 
                     {props.token?.user && <li><a href="/espace-client/mes-evenements">Mes évènements</a></li>}
                     {props.token?.user && <li><a href="/espace-client/mes-participations">Mes Participations</a></li>}
-                    {props.token?.user && <li><a href="/espace-client/tchat">Tchat</a></li>}
+                    {props.token?.user && <li><a href="/espace-client/chat?conversation=">Tchat</a></li>}
                     {props.token?.user && <li><a href="/espace-client/mes-invitations">Mes invitations</a></li>}
 
                 </ul>

@@ -1,0 +1,43 @@
+/* |||||||||||||||||||||||     MESSAGE COMPONENT   ||||||||||||||||||| */
+.messageGreyComponent {
+    position: relative;
+    float: left;
+    text-align: left;
+    .messageGreyBlock {
+        display: inline-block;
+        font-family: "Oswald", sans-serif;
+        background-color: rgb(179, 179, 179);
+        color: white;
+        font-weight: bold;
+        border-radius: 35px;
+        padding: 10px 20px 2px 20px;
+        // border: 1px solid rgb(88, 88, 88);
+        font-size: 13px;
+    }
+    .messageGreynameContainer {
+        margin-top: 5px;
+        margin-left: 15px;
+        font-size: 12px;
+    }
+}
+.messageComponent {
+    position: relative;
+    float: right;
+    text-align: right;
+    .messageBlock {
+        display: inline-block;
+        font-family: "Oswald", sans-serif;
+        font-size: 13px;
+        background-color: rgb(0, 140, 255);
+        color: white;
+        font-weight: bold;
+        border-radius: 35px;
+        padding: 10px 20px 2px 20px;
+        // border: 1px solid rgb(88, 88, 88);
+    }
+    .messagenameContainer {
+        margin-top: 5px;
+        margin-right: 15px;
+        font-size: 12px;
+    }
+}

@@ -1,3 +1,22 @@
+import React from 'react'
+import Message from './Message';
+
+export default function MessagesPanel(props) {
+    console.log(props)
+    return (
+        <div className="row justify-content-center">
+            <div className="chatComponent col-10 col-sm-8 col-lg-8">
+                <div className="chatContainer">
+                    <div className="messagesContainer">
+                        {props.conversation.messages && props.conversation.messages.map((message) => {
+                            return <Message key={message.id} message={message} />
+                        })}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 // import React from 'react';
 // import { Message } from './Message';

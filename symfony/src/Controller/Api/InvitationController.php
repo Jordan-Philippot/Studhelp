@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
 use App\Repository\EventRepository;
 use App\Repository\InvitationRepository;
+use App\Repository\ConversationRepository;
 
 use App\Entity\Invitation;
 use App\Constant\StatusInvitation;
@@ -153,25 +154,31 @@ class InvitationController extends AbstractController
     /**
      * @Route("api/auth/removeInvitation", name="api_auth_remove_invitation")
      */
-    public function removeInvitation(Request $request, UserRepository $userRepository, EventRepository $eventRepository, InvitationRepository $invitationRepository)
+    public function removeInvitation(Request $request, UserRepository $userRepository, EventRepository $eventRepository, InvitationRepository $invitationRepository, ConversationRepository $conversationRepository)
     {
         // GET data
         $data = json_decode($request->getContent(), true);
         $user = $this->getUser();
 
         $receiveUser = $userRepository->findOneBy(['id' => $data['receiveId']]);
-        if(isset($data['senderId'])){
+        if (isset($data['senderId'])) {
             $senderUser = $userRepository->findOneBy(['id' => $data['senderId']]);
-        }else{
+        } else {
             $senderUser = $user;
         }
-        
+
+
         $event = $eventRepository->findOneBy(['id' => $data['eventId']]);
+
+        $conversation = $conversationRepository->findOneBy(['event' => $event]);
+        $conversation->removeUsers($user);
 
         $invitation = $invitationRepository->findOneBy(['event' => $event, 'receiver' => $receiveUser, 'sender' => $senderUser]);
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($invitation);
+        $em->persist($conversation);
+
         $em->flush();
         return $this->json([
             'success' => "success"
@@ -181,7 +188,7 @@ class InvitationController extends AbstractController
     /**
      * @Route("api/auth/acceptInvitation", name="api_auth_accept_invitation")
      */
-    public function acceptInvitation(Request $request, UserRepository $userRepository, EventRepository $eventRepository, InvitationRepository $invitationRepository)
+    public function acceptInvitation(Request $request, UserRepository $userRepository, EventRepository $eventRepository, InvitationRepository $invitationRepository, ConversationRepository $conversationRepository)
     {
         // GET data
         $data = json_decode($request->getContent(), true);
@@ -189,17 +196,20 @@ class InvitationController extends AbstractController
 
         $receiverUser = $userRepository->findOneBy(['id' => $data['receiveId']]);
         $senderUser = $userRepository->findOneBy(['id' => $data['senderId']]);
-     
+
         $event = $eventRepository->findOneBy(['id' => $data['eventId']]);
 
         $invitation = $invitationRepository->findOneBy(['event' => $event, 'receiver' => $receiverUser, 'sender' => $senderUser]);
-        
-        
+
+        $conversation = $conversationRepository->findOneBy(['event' => $event]);
+        $conversation->addUsers($user);
+
         $invitation->setStatus(StatusInvitation::ACCEPTED);
         $em = $this->getDoctrine()->getManager();
         $user->addParticipantsEvent($event);
         $em->persist($invitation);
         $em->persist($user);
+        $em->persist($conversation);
         $em->flush();
 
         return $this->json([
