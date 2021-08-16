@@ -39,33 +39,39 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/api/messages/{conversation_id}/post", name="get_conversation_message")
+     * @Route("/api/auth/sendMessage", name="send_message")
      */
-    public function sendMessage(Request $request, ConversationRepository $conversationRepository, $conversation_id)
+    public function sendMessage(Request $request, ConversationRepository $conversationRepository)
     {
         $data = json_decode($request->getContent(), true);
         $user = $this->getUser();
 
         $message = new Message;
-        
+
+        $conversation = $conversationRepository->findOneBy(['id' => $data['conversation']]);
+
         dump($data);
         foreach ($data as $key => $value) {
             if (empty($value)) {
                 $errors[$key] = "Veuillez remplir ce champ.";
             }
         }
+        if ($conversation === null) {
+            $errors['conversation'] = 'Conversation inexistante';
+        }
         if (!empty(htmlspecialchars(trim($data['message'])))) {
             $content = htmlspecialchars(trim($data['message']));
             if (strlen($content) > 2000)
                 $errors['message'] = 'Le message est trop long';
-        }
-        else {
+        } else {
             $errors['message'] = 'Le message est vide';
         }
+
         if (empty($errors)) {
             $message->setMessage($content);
-            $message->setSender($user->getId());
+            $message->setSender($user);
             $message->setSendAt(new DateTime());
+            $message->setConversation($conversation);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($message);

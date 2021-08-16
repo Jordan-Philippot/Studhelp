@@ -10,39 +10,41 @@
     .chatContainer {
         background-color: rgb(233, 233, 233);
         height: 60vh;
+        border-radius: 4px;
         padding: 0;
-        #modalBtn {
-            position: relative;
-            float: right;
-            width: 40px;
-        }
         .messagesContainer {
             padding: 20px;
             overflow-y: auto;
             height: 85%;
         }
         .sendContainer {
-            width: 100%;
-            background-color: rgb(95, 95, 95);
-            position: absolute;
-            bottom: 0;
-            padding: 10px 5%;
-            button {
-                border-radius: 35px;
-                background-color: rgb(75, 75, 75);
-                color: white;
-                font-size: 15px;
-                width: 17%;
-                font-weight: bold;
-            }
+            display: flex;
+            margin-bottom: -20px;
             input {
-                width: 70%;
-                border-radius: 25px;
-                margin-left: 50px;
-                padding: 5px 25px;
-                background-color: rgb(187, 187, 187);
+                border: 1px solid rgb(136, 136, 136);
+                width: 90%;
+                margin-left: 5%;
+                color: rgb(59, 59, 59);
                 &::placeholder {
-                    font-family: "Inter", sans-serif;
+                    color: rgb(59, 59, 59);
+                }
+            }
+            button {
+                margin-left: -100px;
+                background: none;
+                background-color: $blue;
+                height: 40px;
+                border: none;
+                border-radius: 20px;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                width: 100px;
+                svg {
+                    stroke: white;
+                    fill: white;
+                    width: 22px;
+                    height: auto;
+                    margin-top: -12px;
                 }
             }
         }
@@ -60,5 +62,38 @@
         font-size: 36px;
         color: $white;
         font-weight: bold;
+    }
+}
+
+@media screen and (max-width: 1199.98px) {
+    .chatComponent {
+        .chatContainer {
+            .sendContainer {
+                button {
+                    svg {
+                        margin-top: -9px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 575.98px) {
+    .chatComponent {
+        .chatContainer {
+            .sendContainer {
+                button {
+                    margin-left: -60px;
+                    width: 60px;
+                   
+                    svg {
+                        margin-top: -3px;
+                        width: 18px;
+
+                    }
+                }
+            }
+        }
     }
 }

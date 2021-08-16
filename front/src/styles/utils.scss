@@ -26,6 +26,16 @@
     border-radius: 15px;
     padding: 50px;
 }
+.notification-turquoise{
+    color: $orange;
+    font-size: 26px;
+    font-family: "Filson Pro Bold", sans-serif;
+    margin-top: 15vh;
+    background-color: $turquoise;
+    color: white;
+    border-radius: 15px;
+    padding: 50px;
+}
 
 @media screen and (max-width: 1199.98px) {
     .logo {

@@ -1,43 +1,51 @@
 /* |||||||||||||||||||||||     MESSAGE COMPONENT   ||||||||||||||||||| */
-.messageGreyComponent {
+.message {
     position: relative;
-    float: left;
-    text-align: left;
-    .messageGreyBlock {
-        display: inline-block;
-        font-family: "Oswald", sans-serif;
-        background-color: rgb(179, 179, 179);
-        color: white;
-        font-weight: bold;
-        border-radius: 35px;
-        padding: 10px 20px 2px 20px;
-        // border: 1px solid rgb(88, 88, 88);
-        font-size: 13px;
-    }
-    .messageGreynameContainer {
-        margin-top: 5px;
-        margin-left: 15px;
-        font-size: 12px;
-    }
-}
-.messageComponent {
-    position: relative;
-    float: right;
-    text-align: right;
     .messageBlock {
         display: inline-block;
         font-family: "Oswald", sans-serif;
         font-size: 13px;
-        background-color: rgb(0, 140, 255);
         color: white;
         font-weight: bold;
         border-radius: 35px;
-        padding: 10px 20px 2px 20px;
-        // border: 1px solid rgb(88, 88, 88);
+        padding: 12px 25px 2px 25px;
     }
     .messagenameContainer {
         margin-top: 5px;
-        margin-right: 15px;
+        font-family: "Filson Pro", sans-serif;
+        font-weight: 300;
         font-size: 12px;
+    }
+    .sendAt {
+        font-family: "Oswald", sans-serif;
+        font-size: 10px;
+        font-style: italic;
+        margin-bottom: -15px;
+        color: rgb(133, 133, 133);
+    }
+}
+
+.messageComponent {
+    float: right;
+    text-align: right;
+    .messageBlock {
+        background-color: rgb(0, 140, 255);
+    }
+    .messagenameContainer,
+    .sendAt {
+        margin-right: 15px;
+    }
+
+}
+
+.messageGreyComponent {
+    float: left;
+    text-align: left;
+    .messageBlock {
+        background-color: rgb(179, 179, 179);
+    }
+    .messagenameContainer,
+    .sendAt {
+        margin-left: 15px;
     }
 }
