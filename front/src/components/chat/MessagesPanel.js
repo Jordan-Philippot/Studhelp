@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import Message from './Message';
 import { SendMessage } from '../../services/tchat.js'
 import io from "socket.io-client"
 
 export default function MessagesPanel(props) {
 
+    const history = useHistory()
 
     const [responseMessage, setResponseMessage] = useState([])
     const [errorsMessage, setErrorsMessage] = useState([])
@@ -17,14 +19,22 @@ export default function MessagesPanel(props) {
         "conversation": props.conversation.id,
     }
 
-    const sendMessage = () => {
-        SendMessage(data, setResponseMessage, setErrorsMessage)
-        setMessage("")
-
+    useEffect(() => {
         // Scroll to bottom 
         var scroll = document.getElementById('messagesBlock');
         scroll.scrollTop = scroll.scrollHeight;
+    }, [])
+
+    const sendMessage = () => {
+        SendMessage(data, setResponseMessage, setErrorsMessage)
+        setMessage("")
     }
+
+    useEffect(() => {
+        if (typeof responseMessage.data !== "undefined") {
+            window.location.reload()
+        }
+    }, [responseMessage])
 
     return (
         <div className="row justify-content-center">
