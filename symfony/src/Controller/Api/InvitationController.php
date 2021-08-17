@@ -333,4 +333,37 @@ class InvitationController extends AbstractController
             'sender' => $allSender
         ]);
     }
+
+
+    /**
+     * @Route("api/auth/getNotifInvitations", name="api_auth_get_notif_invitations")
+     */
+    public function getNotifInvitations(InvitationRepository $invitationRepository)
+    {
+        $user = $this->getUser();
+        $now = new DateTime();
+
+        $receiver = $user->getReceiverInvitations();
+
+        dump($receiver);
+        $nmbInvitations = 0;
+
+        foreach ($receiver as $key) {
+           
+            if ($now > $key->getEvent()->getStartedAt()) {
+                $isPassed = true;
+            } else {
+                $isPassed = false;
+            }
+            $invitation = $invitationRepository->findOneBy(["event" => $key->getEvent(), "receiver" => $key->getReceiver(), "sender" => $key->getSender()]);
+            if ($invitation->getStatus() === "send" && $isPassed === false) {
+                $nmbInvitations++;
+            }
+        }
+
+
+        return $this->json([
+            'nmbInvitationsReceive' => $nmbInvitations,
+        ]);
+    }
 }

@@ -101,3 +101,22 @@ export async function getMyInvitations(setResponse, setLoading) {
         });
 }
 
+
+
+// Add participation for current user
+export async function CountMyInvitations(setResponse) {
+    await axios({
+        method: "GET",
+        url: url + "auth/getNotifInvitations",
+        headers: headersAuth,
+    })
+        .then((response) => {
+            if (response.data) {
+                setResponse(response.data.nmbInvitationsReceive)
+            } else {
+                setResponse(false)
+            }
+        }, (err) => {
+            setResponse(err)
+        });
+}

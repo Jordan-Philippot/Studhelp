@@ -15,7 +15,7 @@ export default function Events() {
     const [center, setCenter] = useState([])
     const [map, setMap] = useState(null)
     const [events, setEvents] = useState([])
-    const [perimeter, setPerimeter] = useState(3)
+    const [perimeter, setPerimeter] = useState(100)
     const [currentPage, setCurrentPage] = useState(0)
     const [searchBar, setSearchBar] = useState('')
     const [loading, setLoading] = useState(true)
@@ -62,6 +62,7 @@ export default function Events() {
         { value: 20, label: '20km' },
         { value: 30, label: '30km' },
         { value: 50, label: '50km' },
+        { value: 100, label: '100km' },
     ]
     const optionsOrderBy = [
         { value: "title", label: 'Titre' },
