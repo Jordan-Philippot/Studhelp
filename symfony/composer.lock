@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aea14671fde46169f49b38ad1a0d53ba",
+    "content-hash": "d8a1e476e5a8b265f755b1bead039a57",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2361,6 +2361,57 @@
                 }
             ],
             "time": "2021-02-17T22:02:40+00:00"
+        },
+        {
+            "name": "mailchimp/transactional",
+            "version": "1.0.31",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mailchimp/mailchimp-transactional-php.git",
+                "reference": "2e8721f1a72c57e47d7a8e8edd250bca1c85b14b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mailchimp/mailchimp-transactional-php/zipball/2e8721f1a72c57e47d7a8e8edd250bca1c85b14b",
+                "reference": "2e8721f1a72c57e47d7a8e8edd250bca1c85b14b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "^7.2",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.12",
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "~2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MailchimpTransactional\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Mailchimp",
+                    "homepage": "https://github.com/mailchimp/mailchimp-transactional-php"
+                }
+            ],
+            "homepage": "http://swagger.io",
+            "keywords": [
+                "api",
+                "php",
+                "sdk",
+                "swagger"
+            ],
+            "time": "2021-07-13T19:14:54+00:00"
         },
         {
             "name": "monolog/monolog",

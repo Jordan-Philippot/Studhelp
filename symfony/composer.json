@@ -16,6 +16,7 @@
         "google/apiclient": "^2.7",
         "guzzlehttp/guzzle": "^7.3",
         "lexik/jwt-authentication-bundle": "^2.11",
+        "mailchimp/transactional": "^1.0",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",

@@ -156,6 +156,9 @@
             "config/packages/lexik_jwt_authentication.yaml"
         ]
     },
+    "mailchimp/transactional": {
+        "version": "1.0.31"
+    },
     "monolog/monolog": {
         "version": "2.2.0"
     },

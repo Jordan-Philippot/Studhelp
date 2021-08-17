@@ -8,6 +8,7 @@ import Humaaans from './../../images/User/Profile/Humaaans.png'
 import Humaaans2 from './../../images/User/Profile/Humaaans2.png'
 
 import Title from '../Title'
+import GooglePlaces from './GooglePlaces';
 
 export default function NewEvent() {
     // Data
@@ -163,17 +164,11 @@ export default function NewEvent() {
                                 {errors.startedAt && <span className="text-error">{errors.startedAt}</span>}
                             </div>
 
+                           
+
                             <div className="flex-direction-column">
                                 <label htmlFor="location">Adresse de l'évènement </label>
-                                <input type="text"
-                                    name="location"
-                                    id="location"
-                                    value={location}
-                                    required
-                                    maxLength="255"
-                                    minLength="3"
-                                    onChange={(e) => setLocation(e.target.value)}
-                                />
+                                <GooglePlaces Address={location} setAddress={setLocation}/>
                                 {errors.location && <span className="text-error">{errors.location}</span>}
                             </div>
 

@@ -1,0 +1,23 @@
+.autocomplete-dropdown-container {
+    background-color: #ffffff33;
+    margin-top: 4px;
+    border-radius: 6px;
+    padding: 6px 12px;
+    .suggestion-item{
+        background: #ffffff33;
+    }
+    span {
+        font-family: "Filson Pro", sans-serif;
+        font-weight: bold;
+        background-color: #ffffff33;
+        margin-bottom: 7px;
+        font-family: "Filson Pro", sans-serif;
+        color: black;
+        font-size: 16px;
+
+    }
+    &.active {
+        box-shadow: 0 1px 1px 0px #a5a5a533;
+    }
+}
+
